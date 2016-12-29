@@ -27,8 +27,8 @@ public class ParamLogFilter implements Filter {
                       ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
       req.setCharacterEncoding("utf-8");
-      log.info("\n__[请求地址:" + req.getRequestURL()+"]\n__[queryParams:"+req.getQueryString()+"]\n__[请求方法:" + req.getMethod()
-                + "]\n__[ token: " + req.getHeader("token")+"]");
+      log.info("\n __[请求地址:" + req.getRequestURL()+"]\n __[queryParams:"+req.getQueryString()+"]\n __[请求方法:" + req.getMethod()
+                + "]\n __[ token: " + req.getHeader("token")+"]");
       int length = req.getContentLength();
       if (length > 0) {
           BufferedRequestWrapper bufferedRequest = new BufferedRequestWrapper(req, length);
@@ -48,7 +48,7 @@ public class ParamLogFilter implements Filter {
   }
 
   public void init(FilterConfig filterConfig) throws ServletException {
-      log.info("创建filter");
+      log.info("paramLogfilter init success!");
   }
 
 }

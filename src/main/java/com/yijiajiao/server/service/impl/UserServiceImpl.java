@@ -1,32 +1,29 @@
 package com.yijiajiao.server.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.eeduspace.uuims.api.OauthClient;
 import com.eeduspace.uuims.api.exception.ApiException;
 import com.eeduspace.uuims.api.model.UserModel;
+import com.eeduspace.uuims.api.request.login.LoginRequest;
+import com.eeduspace.uuims.api.request.user.ActivationUserRequest;
 import com.eeduspace.uuims.api.request.user.CreateUserRequest;
 import com.eeduspace.uuims.api.request.user.ValidateUserRequest;
+import com.eeduspace.uuims.api.response.login.LoginResponse;
+import com.eeduspace.uuims.api.response.user.ActivationUserResponse;
 import com.eeduspace.uuims.api.response.user.CreateUserResponse;
 import com.eeduspace.uuims.api.response.user.ValidateUserResponse;
 import com.eeduspace.uuims.api.util.Digest;
 import com.eeduspace.uuims.api.util.GsonUtil;
-import com.google.gson.Gson;
-import com.yijiajiao.server.bean.PlanUserBean;
-import com.yijiajiao.server.bean.RegisterBean;
-import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.SystemStatus;
-import com.yijiajiao.server.bean.user.PlanRegisterUserBean;
-import com.yijiajiao.server.bean.user.UserInfoBean;
-import com.yijiajiao.server.bean.user.UserLoginBean;
-import com.yijiajiao.server.bean.user.UserRegisterBean;
+import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.solution.EaseObUserInfoBean;
+import com.yijiajiao.server.bean.user.*;
 import com.yijiajiao.server.service.UserService;
-import com.yijiajiao.server.util.Config;
-import com.yijiajiao.server.util.OauthFactory;
-import com.yijiajiao.server.util.ServerConfig;
-import com.yijiajiao.server.util.ServerUtil;
+import com.yijiajiao.server.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
@@ -42,12 +39,10 @@ public class UserServiceImpl implements UserService{
 
     private static OauthFactory oauthFactory    = new OauthFactory();
 
-    private static OauthClient oauthClient = oauthFactory.getInteance();
-
-
     @Override
     public ResultBean validateTel(String tel) {
         ResultBean result = new ResultBean();
+        OauthClient oauthClient = oauthFactory.getInteance();
         ValidateUserRequest request = new ValidateUserRequest();
         request.setPhone(tel);
         request.setType("phone");
@@ -70,14 +65,14 @@ public class UserServiceImpl implements UserService{
     public ResultBean register(RegisterBean registerBean) {
         ResultBean result = new ResultBean();
         // 请求uuims
+        OauthClient oauthClient = oauthFactory.getInteance();
         CreateUserRequest request = new CreateUserRequest();
         request.setPhone(registerBean.getTelephone());
         request.setPassword(registerBean.getPassword());
         try {
             CreateUserResponse response = oauthClient.execute(request);
-            Gson gson = new Gson();
             if ("200".equals(response.getHttpCode())) {
-                UserModel userModel = GsonUtil.fromObjectJson(gson.toJson(response), "result", "userModel", UserModel.class);
+                UserModel userModel = GsonUtil.fromObjectJson(JSON.toJSONString(response), "result", "userModel", UserModel.class);
                 // 添加用户系统
                 log.info("正确信息： " + response.getResult().toString());
                 boolean b = registerUser(registerBean,userModel);
@@ -149,21 +144,18 @@ public class UserServiceImpl implements UserService{
     public ResultBean getPlanRegister(PlanUserBean planUserBean) {
         ResultBean result = new ResultBean();
         String path = Config.getString("user.login");
-        UserInfoBean userInfoBean = null;
-        Gson gson = new Gson();
         PlanRegisterUserBean planRegisterUserBean = null;
         try {
             //
-            if (planUserBean.getTelephone() != null && !"".equals(planUserBean.getTelephone())) {
-                UserModel userModel = null;
+            if (StringUtil.isNotEmpty(planUserBean.getTelephone())) {
                 // 登陆用户系统
                 UserLoginBean userLoginBean = new UserLoginBean();
                 userLoginBean.setUsername(planUserBean.getTelephone());
-                String response1 = ServerUtil.httpRest(user_server, path, null, userLoginBean, "POST");
-                ResultBean r1 = (ResultBean) ServerUtil.getTransObject(response1, ResultBean.class);
-                if (r1.getCode() == 200 || (r1.getCode() + "").equals("200")) {
-                    log.info("正确信息： " + (r1.getResult() == null ? null : r1.getResult().toString()));
-                    userInfoBean = gson.fromJson(gson.toJson(r1.getResult()), UserInfoBean.class);
+                String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, userLoginBean, "POST");
+                ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
+                if (resultBean.getCode() == 200) {
+                    log.info("正确信息： " + (resultBean.getResult() == null ? null : JSON.toJSONString(resultBean.getResult())));
+                    UserInfoBean userInfoBean = JSON.parseObject(JSON.toJSONString(resultBean.getResult()), UserInfoBean.class);
                     planRegisterUserBean = new PlanRegisterUserBean();
                     planRegisterUserBean.setAccd(userInfoBean.getAccid());
                     planRegisterUserBean.setImName(userInfoBean.getImName());
@@ -176,17 +168,16 @@ public class UserServiceImpl implements UserService{
                     //返回给保分计划后台
                     result.setSucResult(planRegisterUserBean);
                 } else {
-                    log.info("错误信息：" + (r1.getResult() == null ? null : r1.getResult().toString()));
-                    result.setFailMsg(500, r1.getMessage());
+                    log.info("错误信息：" + resultBean.getMessage());
+                    result.setFailMsg(500, resultBean.getMessage());
                 }
             } else {
-                if (planUserBean.getOpenId() != null && !"".equals(planUserBean.getOpenId())) {
+                if ( StringUtil.isNotEmpty(planUserBean.getOpenId())) {
                     String path1 = Config.getString("user.findteacherStore") + "userOpenId=" + planUserBean.getOpenId();
-                    log.info(user_server + path1);
-                    ResultBean r2 = null;
-                    String response = ServerUtil.httpRest(user_server, path1, null, null, "GET");
-                    r2 = (ResultBean) ServerUtil.getTransObject(response, ResultBean.class);
-                    if (r2.getCode() == 200 || (r2.getCode() + "").equals("200")) {
+                    ResultBean resultBean = null;
+                    String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path1, null, null, "GET");
+                    resultBean = (ResultBean) ServerUtil.getTransObject(response, ResultBean.class);
+                    if (resultBean.getCode() == 200 || (resultBean.getCode() + "").equals("200")) {
                         Map<String, Object> json = JSON.parseObject(response);
                         Map<String, Object> json2 = JSON.parseObject(json.get("result") + "");
                         planRegisterUserBean = new PlanRegisterUserBean();
@@ -199,8 +190,8 @@ public class UserServiceImpl implements UserService{
                         //返回给保分计划后台
                         result.setSucResult(planRegisterUserBean);
                     } else {
-                        log.info("错误信息：" + (r2.getResult() == null ? null : r2.getResult().toString()));
-                        result.setFailMsg(500, r2.getMessage());
+                        log.info("错误信息：" + (resultBean.getResult() == null ? null : resultBean.getResult().toString()));
+                        result.setFailMsg(500, resultBean.getMessage());
                     }
                 } else {
                     result.setFailMsg(500, "获取信息失败，请检查openId");
@@ -212,5 +203,247 @@ public class UserServiceImpl implements UserService{
         }
         return result;
     }
+
+    @Override
+    public ResultBean getVerifyCode(String tel, int type) {
+        ResultBean result = new ResultBean();
+        try {
+            MSMUtil msmUtil = MSMUtil.msmUtil;
+            result = msmUtil.send1(tel,type);
+            if(result.getCode()==200){
+                String code = (String) result.getResult();
+                RedisUtil.setEx(tel+type, 60, code);
+            }
+        } catch (Exception e) {
+            log.error(e.toString());
+            result.setFailMsg(SystemStatus.SEND_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultBean verifyCode(String tel, int type, String telcode) {
+        ResultBean result = new ResultBean();
+        try {
+            String code = RedisUtil.getValue(tel+type);
+            log.info("正确验证码："+code);
+            if(telcode.equals(code)){
+                result.setSucResult(true);
+            }else{
+                result.setSucResult(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFailMsg(SystemStatus.SERVER_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultBean login(LoginBean login) {
+        ResultBean resultBean = new ResultBean();
+        String path = Config.getString("user.login");
+        OauthClient client = oauthFactory.getInteance();
+        // UUIMS登录
+        LoginRequest request = new LoginRequest();
+        request.setProductType(Config.uuimsString("productType"));
+        request.setEquipmentType(TokenUtil.getClientType(login.getClient_id()));
+        request.setPhone(login.getTelephone());
+        request.setPassword(login.getPassword());
+        UserInfoResultBean userInfoResultBean = new UserInfoResultBean();
+        LoginResponse login_response = null;
+        try {
+            login_response = client.execute(request);
+        } catch (ApiException e) {
+            log.error("uuims登录异常："+e.getMessage());
+            throw new RuntimeException(e);
+        }
+        log.info("登录uuims返回值：\n __"+JSON.toJSONString(login_response));
+        // 登陆uuims成功
+        if ("200".equals(login_response.getHttpCode())) {
+            UserModel userModel = null;
+            UserInfoBean userInfoBean = null;
+            try {
+                userModel = GsonUtil.fromObjectJson(JSON.toJSONString(login_response), "result", "userModel", UserModel.class);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            userInfoResultBean.setToken(userModel.getToken());
+            userInfoResultBean.setRefreshToken(userModel.getRefreshToken());
+            userInfoResultBean.setCreateDate(userModel.getCreateDate());
+            userInfoResultBean.setExpires(userModel.getExpires());
+            userInfoResultBean.setOpenId(userModel.getOpenId());
+            userInfoResultBean.setUser_status(userModel.getStatus());
+            userInfoResultBean.setTelePhone(userModel.getPhone());
+            userInfoResultBean.setSex(userModel.getSex());
+            userInfoResultBean.setName(userModel.getRealName());
+            userInfoResultBean.setNickName(userModel.getNickName());
+            userInfoResultBean.setSessionId(userModel.getSessionId());
+            // 登陆用户系统
+            UserLoginBean userLoginBean = new UserLoginBean();
+            userLoginBean.setUsername(login.getTelephone());
+            String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, userLoginBean, "POST");
+            ResultBean userResult = JSON.parseObject(response, ResultBean.class);
+            if (userResult.getCode() == 200) {
+                userInfoBean = JSON.parseObject(JSON.toJSONString(userResult.getResult()), UserInfoBean.class);
+                userInfoResultBean.setName(userInfoBean.getName());
+                userInfoResultBean.setSex(userInfoBean.getSex());
+                userInfoResultBean.setAuthDate(userInfoBean.getAuthDate());
+                userInfoResultBean.setBackPic(userInfoBean.getBackPic());
+                userInfoResultBean.setUsername(userInfoBean.getUsername());
+                userInfoResultBean.setBirthday(userInfoBean.getBirthday());
+                userInfoResultBean.setDescription(userInfoBean.getDescription());
+                userInfoResultBean.setFrontPic(userInfoBean.getFrontPic());
+                userInfoResultBean.setGradeModel(userInfoBean.getGradeModel());
+                userInfoResultBean.setIdCard(userInfoBean.getIdCard());
+                userInfoResultBean.setIDPic(userInfoBean.getIdPic());
+                userInfoResultBean.setLastDate(userInfoBean.getLastDate());
+                userInfoResultBean.setMail(userInfoBean.getMail());
+                userInfoResultBean.setOtherPic(userInfoBean.getOtherPic());
+                userInfoResultBean.setProvinceCode(userInfoBean.getProvinceCode());
+                userInfoResultBean.setProvinceName(userInfoBean.getProvinceName());
+                userInfoResultBean.setSchool(userInfoBean.getSchool());
+                userInfoResultBean.setScoreGrade(userInfoBean.getScoreGrade());
+                userInfoResultBean.setParentName(userInfoBean.getParentName());
+                userInfoResultBean.setStageName(userInfoBean.getStageName());
+                userInfoResultBean.setStageCode(userInfoBean.getStageCode());
+                userInfoResultBean.setState(userInfoBean.getState());
+                userInfoResultBean.setStatus_st(userInfoBean.getStatus_st());
+                userInfoResultBean.setStorePic(userInfoBean.getStorePic());
+                userInfoResultBean.setSubjectName(userInfoBean.getSubjectName());
+                userInfoResultBean.setSubjectCode(userInfoBean.getSubjectCode());
+                userInfoResultBean.setTeachAge(userInfoBean.getTeachAge());
+                userInfoResultBean.setTeacher_grade(userInfoBean.getTeacher_grade());
+                userInfoResultBean.setVideo_permission(userInfoBean.getVideo_permission());
+                userInfoResultBean.setSolutionpermission(userInfoBean.getSolutionpermission());
+                userInfoResultBean.setTeacher_grade(userInfoBean.getTeacher_grade());
+                userInfoResultBean.setPic(userInfoBean.getPic());
+                userInfoResultBean.setFacingTeachPermission(userInfoBean.getFacingTeachPermission());
+                userInfoResultBean.setQualifyPic(userInfoBean.getQualifyPic());
+                userInfoResultBean.setOtherPic(userInfoBean.getOtherPic());
+                userInfoResultBean.setStoreScore(userInfoBean.getStoreScore());
+                userInfoResultBean.setCount(userInfoBean.getCount());
+                userInfoResultBean.setCityCode(userInfoBean.getCityCode());
+                userInfoResultBean.setCityName(userInfoBean.getCityName());
+                userInfoResultBean.setAreaCode(userInfoBean.getAreaCode());
+                userInfoResultBean.setAreaName(userInfoBean.getAreaName());
+                userInfoResultBean.setStoreName(userInfoBean.getStoreName());
+                userInfoResultBean.setIntroduction(userInfoBean.getIntroduction());
+                userInfoResultBean.setBrief(userInfoBean.getBrief());
+                userInfoResultBean.setLabel(userInfoBean.getLabel());
+                userInfoResultBean.setAddress(userInfoBean.getAddress());
+                userInfoResultBean.setParentPhone(userInfoBean.getParentPhone());
+                userInfoResultBean.setStoreBackPic(userInfoBean.getStoreBackPic());
+                userInfoResultBean.setCustomLabel(userInfoBean.getCustomLabel());
+                userInfoResultBean.setInvite_selfcode(userInfoBean.getInvite_selfcode());
+                userInfoResultBean.setTeachPic(userInfoBean.getTeachPic());
+                userInfoResultBean.setAccid(userInfoBean.getAccid());
+                userInfoResultBean.setImToken(userInfoBean.getImToken());
+                userInfoResultBean.setImName(userInfoBean.getImName());
+                userInfoResultBean.setIsProxyed(userInfoBean.getIsProxyed());
+                userInfoResultBean.setType(userInfoBean.getType());
+            } else {
+                // 激活账户
+                String user_exist_path = Config.getString("user.exist") + login.getTelephone();
+                String user_exist_response = ServerUtil.httpRest(ServerConfig.USER_SERVER, user_exist_path, null, null, "GET");
+                if (user_exist_response.contains("false")) {
+                    log.info(" 账户：" + login.getTelephone() + "注册时失败，激活账户!");
+                    ActivationUserRequest arequest = new ActivationUserRequest();
+                    arequest.setPhone(login.getTelephone());
+                    arequest.setPassword(login.getPassword());
+                    UserModel auserModel = null;
+                    try {
+                        ActivationUserResponse active_response = client.execute(arequest);
+                        auserModel = GsonUtil.fromObjectJson(JSON.toJSONString(active_response), "result", "userModel", UserModel.class);
+                        log.info(auserModel.getAccessKey() + "  " + auserModel.getSecretKey() + "  " + auserModel.getOpenId());
+                        log.info(active_response.toString());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    String register_path = Config.getString("user.register");
+                    UserRegisterBean userRegisterBean = new UserRegisterBean();
+                    userRegisterBean.setUsername(login.getTelephone());
+                    userRegisterBean.setInvite_code("");
+                    String selfcode = Digest.md5Digest(login.getTelephone()+new Date().getTime());
+                    userRegisterBean.setInvite_selfcode(selfcode);
+                    userRegisterBean.setVersion("1.0");
+                    userRegisterBean.setAk(auserModel.getAccessKey());
+                    userRegisterBean.setSk(auserModel.getSecretKey());
+                    userRegisterBean.setUserOpenId(auserModel.getOpenId());
+                    try {
+                        //注册用户
+                        String register_response = ServerUtil.httpRest(ServerConfig.USER_SERVER, register_path, null, userRegisterBean, "POST");
+                        ResultBean  user_result = (ResultBean) ServerUtil.getTransObject(register_response, ResultBean.class);
+                        if (user_result.getCode() == 200) {
+                            log.info("正确信息： " + user_result.getResult().toString());
+                            userInfoResultBean.setInvite_selfcode(selfcode);
+                            //注册环信
+                            registerEaseob(auserModel.getOpenId(), login.getTelephone(), login.getPassword());
+                        } else {
+                            log.info("错误信息： " + user_result.getMessage());
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            EaseObUserInfoBean euser = userGetEaseobByOpenId(userInfoBean.getUserOpenId());
+            userInfoResultBean.setEaseobPassword(euser.getPassword());
+            userInfoResultBean.setEaseobUserName(euser.getUsername());
+            resultBean.setSucResult(userInfoResultBean);
+            //缓存登录信息
+            TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id());
+
+            //保分计划部分保存登录信息保存
+            try {
+                TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id(),
+                        ServerConfig.KEEPMARK_SERVER, Config.getString("stuLogin"));
+            } catch (Exception e) {
+                log.error("调用保分计划部分保存登录信息保存出错："+e.getMessage());
+            }
+        } else {
+            resultBean.setFailMsg(SystemStatus.USERNAME_PASSWORD_IS_ERROR);
+        }
+        return resultBean;
+    }
+
+    private EaseObUserInfoBean userGetEaseobByOpenId(String openId){
+        EaseObUserInfoBean u = new EaseObUserInfoBean();
+        String  path = Config.getString("solution.userGetEaseobByOpenId")+openId;
+        log.info(ServerConfig.SOLUTION_SERVER+path);
+        try {
+            String response = ServerUtil.httpRest(ServerConfig.SOLUTION_SERVER, path, null, null, "GET");
+            ResultBean r =  (ResultBean) ServerUtil.getTransObject(response,ResultBean.class);
+            if(r.getCode()==200||(r.getCode()+"").equals("200")){
+                log.info("正确信息： "+r.getResult().toString());
+                u = JSON.parseObject(JSON.toJSONString(r.getResult()), EaseObUserInfoBean.class);
+            }else{
+                log.info("错误信息： " + r.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return u;
+    }
+
+    @Override
+    public ResultBean findteacher(int pageNo, int pageSize, String gradeCode, String subjectCode, String orderType, String orders) {
+        ResultBean result= new ResultBean();
+        String path = Config.getString("user.findteacher") + "pageNo=" + pageNo + "&pageSize=" + pageSize + "&orders="+orders+
+                (StringUtil.isEmpty(orderType)?"":("&orderType=" + orderType))+ (StringUtil.isEmpty(gradeCode)?"":("&gradeCode=" + gradeCode))
+                + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode=" + subjectCode));
+        String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, null, "GET");
+        ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
+        if (resultBean.getCode() == 200) {
+            log.info("正确信息： " + resultBean.getResult());
+            result.setSucResult(resultBean.getResult());
+        } else {
+            log.info("错误信息： " + resultBean.getMessage());
+            result.setFailMsg(resultBean.getCode(), resultBean.getMessage());
+        }
+        return result;
+    }
+
 
 }

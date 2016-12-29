@@ -1,8 +1,12 @@
 package com.yijiajiao.server.util;
 
 
+import com.eeduspace.uuims.api.enumeration.SourceEnum.EquipmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TokenUtil {
 	private static final String WEBCLIENT="E-web";
@@ -53,6 +57,16 @@ public class TokenUtil {
 	   	return b;
    	}
 
+	public static void putToken(String openId,String token,String clientId){
+		if(WEBCLIENT.equals(clientId)){
+			//表示web登录
+			RedisUtil.putRedis(openId+"0", token, webexpire);
+		}else{
+			//表示移动端登录
+			RedisUtil.putRedis(openId+"1", token, appexpire);
+		}
+	}
+
 	/**
 	 * 缓存token和refresh_token
 	 * @param openId
@@ -75,6 +89,28 @@ public class TokenUtil {
 			RedisUtil.setEx(refreshTokenKey,appexpire,refreshToken);
 		}
 
+	}
+
+	public static void putToken(String openId,String token,String clientId,String server,String url){
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("openId",openId);
+		params.put("token", token);
+		params.put("expire", webexpire);
+		params.put("clientId",clientId);
+		ServerUtil.httpRest(server, url+"?requestId="+ServerUtil.randomCode(), null, params, "POST");
+	}
+
+	public static EquipmentType getClientType(String a){
+		EquipmentType eq = null;
+		switch(a){
+			case  "E-web":
+				eq = EquipmentType.Web; break;
+			case  "E-ios":
+				eq = EquipmentType.Ios; break;
+			case  "E-android":
+				eq = EquipmentType.Android; break;
+		}
+		return eq;
 	}
 
 }

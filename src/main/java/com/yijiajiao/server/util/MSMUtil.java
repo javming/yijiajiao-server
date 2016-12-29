@@ -1,5 +1,9 @@
 package com.yijiajiao.server.util;
 
+import com.alibaba.fastjson.JSON;
+import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.ResultBean2;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,79 +11,69 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.ResultBean2;
-
 public class MSMUtil {
 
-  private static MSMUtil g;
+	public static MSMUtil msmUtil;
+	private static final String  tool_server = Config.uuimsString("tool_server");
+	private static final String  REGISTER  = "register";                       //1 注册
+	private static final String  EDITPASS  = "edit_password";                  // 2修改密码
+	private static final String  TEACHERCERTIFICATE = "teacher_certificate";   // 3老师资格认证
+	private static final String  RESETPASS  = "edit_password";                 // 4找回密码
+	private static final String  PLANREGISTER ="keepMark_resetPassword"; // 22保分计划用户注册{恭喜你已成功注册【亿家教】账号，并确认参与VIP保分计划，您的临时密码为{code},请妥善保管，为了您的账户安全，请首次登陆【亿家教】之后修改密码。{productType}}
+	private static final String  ALIPAYBINDING ="keepMark_zhiFuBao";     //23绑定支付宝
 
-  private static String   tool_server        = Config.uuimsString("tool_server");
+	static {
+		if (msmUtil == null) {
+			msmUtil = new MSMUtil();
+		}
+  	}
+  	private MSMUtil(){}
 
-  private static String   REGISTER           = "register";                       //1 注册
-  private static String   EDITPASS           = "edit_password";                  // 2修改密码
-  private static String   TEACHERCERTIFICATE = "teacher_certificate";            // 3老师资格认证
-  private static String   RESETPASS          = "edit_password";                  // 4找回密码
-  private static String  PLANREGISTER ="keepMark_resetPassword"; // 22保分计划用户注册{恭喜你已成功注册【亿家教】账号，并确认参与VIP保分计划，您的临时密码为{code},请妥善保管，为了您的账户安全，请首次登陆【亿家教】之后修改密码。{productType}}
-  private static String  ALIPAYBINDING ="keepMark_zhiFuBao";//23绑定支付宝
-  public static MSMUtil gateway() {
-    if (g == null) {
-      g = new MSMUtil();
-    }
-    return g;
-  }
-
-  // 新版短信接口
-  public  ResultBean send1(String telephone, int type) {
-    ResultBean resultBean = new ResultBean();
-    String path = Config.uuimsString("verifycodeurl");
-    ResultBean2 r = null;
-    String sendType = "";
-    StringBuilder sb = new StringBuilder();
-    switch (type) {
-	case 1:sendType = REGISTER;break;
-	case 2:sendType = EDITPASS;break;
-	case 3:sendType = TEACHERCERTIFICATE;break;
-	case 4:sendType = RESETPASS;break;
-	case 22:sendType = PLANREGISTER;break;
-	case 23:sendType= ALIPAYBINDING;break;
-	default:sendType = REGISTER;break;
+	// 新版短信接口
+	public  ResultBean send1(String telephone, int type) {
+		ResultBean resultBean = new ResultBean();
+		String path = Config.uuimsString("verifycodeurl");
+		ResultBean2 r = null;
+		String sendType = "";
+		StringBuilder sb = new StringBuilder();
+		switch (type) {
+			case 1:sendType = REGISTER;break;
+			case 2:sendType = EDITPASS;break;
+			case 3:sendType = TEACHERCERTIFICATE;break;
+			case 4:sendType = RESETPASS;break;
+			case 22:sendType = PLANREGISTER;break;
+			case 23:sendType= ALIPAYBINDING;break;
+			default:sendType = REGISTER;break;
+		}
+		sb.append("phone="+telephone);
+		sb.append("&password="+Config.uuimsString("password"));
+		sb.append("&openId="+Config.uuimsString("openId"));
+		sb.append("&sendType="+sendType);
+		try {
+			String response = ServerUtil.httpRestForm(tool_server, path, null, sb.toString());
+			r = JSON.parseObject(response, ResultBean2.class);
+			if ("200".equals(r.getHttpCode())) {
+				resultBean.setSucResult(r.getResult().getCode());
+			} else {
+				resultBean.setFailMsg(40009, "获取验证码失败");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultBean.setFailMsg(40010, "获取验证码失败");
+		}
+		return resultBean;
 	}
-    sb.append("phone="+telephone);
-    sb.append("&password="+Config.uuimsString("password"));
-    sb.append("&openId="+Config.uuimsString("openId"));
-    sb.append("&sendType="+sendType);
-    try {
-      String response = ServerUtil.httpRestForm(tool_server, path, null, sb.toString());
-      r = (ResultBean2) ServerUtil.getTransObject(response, ResultBean2.class);
-      if (r.getHttpCode().equals("200")) {
-        resultBean.setSucResult(r.getResult().getCode());
-      } else {
-        resultBean.setFailMsg(40009, "获取验证码失败");
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      resultBean.setFailMsg(40010, "获取验证码失败");
-    }
-    return resultBean;
-  }
-  
-/*  public static void main(String[] args) {
-	  ResultBean r = send1("13260404933",1);
-	  System.out.println(r.getResult());
-	// String result =  postRequest("http://218.240.38.108/uutool/sms/verificationCode?",aa);
-	// System.out.println(result);
-}*/
 
-  /**
-	 * 向指定 URL 发送POST方法的请求
-	 * 
-	 * @param url
-	 *            发送请求的 URL
-	 * @param param
-	 *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
-	 * @return 所代表远程资源的响应结果
-	 */
+
+   /**
+	* 向指定 URL 发送POST方法的请求
+	*
+	* @param url
+	*            发送请求的 URL
+	* @param paramter
+	*            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+	* @return 所代表远程资源的响应结果
+	*/
 	public static String postRequest(String url, String paramter) {
 		PrintWriter out = null;
 		BufferedReader in = null;
