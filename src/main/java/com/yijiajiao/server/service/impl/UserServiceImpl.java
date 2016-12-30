@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService{
         userloginBean.setPassword(password);
         try {
             String easemob_response = ServerUtil.httpRest(ServerConfig.SOLUTION_SERVER, easemob_path, null, userloginBean, "POST");
-            userResult = (ResultBean) ServerUtil.getTransObject(easemob_response, ResultBean.class);
+            userResult = JSON.parseObject(easemob_response, ResultBean.class);
             if (userResult.getCode() == 200 || (userResult.getCode() + "").equals("200")) {
                 log.info("正确信息： " + userResult.getResult().toString());
             } else {
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService{
         boolean b = false;
         try {
             String userResponse = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, userRegisterBean, "POST");
-            userResult = (ResultBean) ServerUtil.getTransObject(userResponse, ResultBean.class);
+            userResult = JSON.parseObject(userResponse, ResultBean.class);
             if (userResult.getCode() == 200 || (userResult.getCode() + "").equals("200")) {
                 log.info("正确信息： " + userResult.getResult().toString());
                 b=true;
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService{
                     String path1 = Config.getString("user.findteacherStore") + "userOpenId=" + planUserBean.getOpenId();
                     ResultBean resultBean = null;
                     String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path1, null, null, "GET");
-                    resultBean = (ResultBean) ServerUtil.getTransObject(response, ResultBean.class);
+                    resultBean = JSON.parseObject(response, ResultBean.class);
                     if (resultBean.getCode() == 200 || (resultBean.getCode() + "").equals("200")) {
                         Map<String, Object> json = JSON.parseObject(response);
                         Map<String, Object> json2 = JSON.parseObject(json.get("result") + "");
@@ -206,17 +206,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResultBean getVerifyCode(String tel, int type) {
-        ResultBean result = new ResultBean();
-        try {
-            MSMUtil msmUtil = MSMUtil.msmUtil;
-            result = msmUtil.send1(tel,type);
-            if(result.getCode()==200){
-                String code = (String) result.getResult();
-                RedisUtil.setEx(tel+type, 60, code);
-            }
-        } catch (Exception e) {
-            log.error(e.toString());
-            result.setFailMsg(SystemStatus.SEND_ERROR);
+        MSMUtil msmUtil = MSMUtil.msmUtil;
+        ResultBean result = msmUtil.send1(tel,type);
+        if(result.getCode()==200){
+            RedisUtil.setEx(tel+type, 60, (String) result.getResult());
         }
         return result;
     }
@@ -224,17 +217,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public ResultBean verifyCode(String tel, int type, String telcode) {
         ResultBean result = new ResultBean();
-        try {
-            String code = RedisUtil.getValue(tel+type);
-            log.info("正确验证码："+code);
-            if(telcode.equals(code)){
-                result.setSucResult(true);
-            }else{
-                result.setSucResult(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
+        String code = RedisUtil.getValue(tel+type);
+        log.info("正确验证码："+code);
+        if(telcode.equals(code)){
+            result.setSucResult(true);
+        }else{
+            result.setSucResult(false);
         }
         return result;
     }
@@ -373,7 +361,7 @@ public class UserServiceImpl implements UserService{
                     try {
                         //注册用户
                         String register_response = ServerUtil.httpRest(ServerConfig.USER_SERVER, register_path, null, userRegisterBean, "POST");
-                        ResultBean  user_result = (ResultBean) ServerUtil.getTransObject(register_response, ResultBean.class);
+                        ResultBean  user_result = JSON.parseObject(register_response, ResultBean.class);
                         if (user_result.getCode() == 200) {
                             log.info("正确信息： " + user_result.getResult().toString());
                             userInfoResultBean.setInvite_selfcode(selfcode);
@@ -411,12 +399,11 @@ public class UserServiceImpl implements UserService{
     private EaseObUserInfoBean userGetEaseobByOpenId(String openId){
         EaseObUserInfoBean u = new EaseObUserInfoBean();
         String  path = Config.getString("solution.userGetEaseobByOpenId")+openId;
-        log.info(ServerConfig.SOLUTION_SERVER+path);
         try {
             String response = ServerUtil.httpRest(ServerConfig.SOLUTION_SERVER, path, null, null, "GET");
-            ResultBean r =  (ResultBean) ServerUtil.getTransObject(response,ResultBean.class);
-            if(r.getCode()==200||(r.getCode()+"").equals("200")){
-                log.info("正确信息： "+r.getResult().toString());
+            ResultBean r =  JSON.parseObject(response,ResultBean.class);
+            if(r.getCode()==200){
+                log.info("正确信息： "+r.getResult());
                 u = JSON.parseObject(JSON.toJSONString(r.getResult()), EaseObUserInfoBean.class);
             }else{
                 log.info("错误信息： " + r.getMessage());
@@ -427,13 +414,11 @@ public class UserServiceImpl implements UserService{
         return u;
     }
 
-    @Override
-    public ResultBean findteacher(int pageNo, int pageSize, String gradeCode, String subjectCode, String orderType, String orders) {
-        ResultBean result= new ResultBean();
-        String path = Config.getString("user.findteacher") + "pageNo=" + pageNo + "&pageSize=" + pageSize + "&orders="+orders+
-                (StringUtil.isEmpty(orderType)?"":("&orderType=" + orderType))+ (StringUtil.isEmpty(gradeCode)?"":("&gradeCode=" + gradeCode))
-                + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode=" + subjectCode));
-        String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, null, "GET");
+    /**
+     *  处理其他服务器返回结果
+     */
+    private ResultBean dealResult(String response){
+        ResultBean result = new ResultBean();
         ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
         if (resultBean.getCode() == 200) {
             log.info("正确信息： " + resultBean.getResult());
@@ -443,6 +428,49 @@ public class UserServiceImpl implements UserService{
             result.setFailMsg(resultBean.getCode(), resultBean.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public ResultBean findteacher(int pageNo, int pageSize, String gradeCode, String subjectCode, String orderType, String orders) {
+        String path = Config.getString("user.findteacher") + "pageNo=" + pageNo + "&pageSize=" + pageSize + "&orders="+orders+
+                (StringUtil.isEmpty(orderType)?"":("&orderType=" + orderType))+ (StringUtil.isEmpty(gradeCode)?"":("&gradeCode=" + gradeCode))
+                + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode=" + subjectCode));
+        String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, null, "GET");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean findUserInfo(String openId) {
+        String path = Config.getString("user.finduserinfo") + "userOpenId=" + openId;
+        String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, null, "GET");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean getPermissionInfo(String openId) {
+        String path = Config.getString("user.getPermissionInfo") + "userOpenId=" + openId;
+        String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, null, "GET");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean applySolutionPermission(String subjectCode, String stageCode) {
+        String path = Config.getString("user.applysolutionpermission");
+        ApplySolutionPermissionBean applySolutionPermission = new ApplySolutionPermissionBean(subjectCode,stageCode);
+        String response = ServerUtil.httpRest(ServerConfig.TEACH_SERVER, path, null, applySolutionPermission, "POST");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean applyStatusBean(String openId) {
+        String path = Config.getString("user.applyStatusBean") + "userOpenId=" + openId;
+        String response = ServerUtil.httpRest(ServerConfig.USER_SERVER, path, null, null, "GET");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean updatePass(String token, String openId, UpdatePasswordBean updatePassBean) {
+
     }
 
 

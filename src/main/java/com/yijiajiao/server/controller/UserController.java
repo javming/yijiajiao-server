@@ -2,7 +2,9 @@ package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.service.UserService;
+import com.yijiajiao.server.service.impl.UserServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
+import com.yijiajiao.server.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -24,14 +26,9 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean validateTel(@QueryParam("tel") String tel){
-        ResultBean result = new ResultBean();
-        try {
-            result = userService.validateTel(tel);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+
+        return userService.validateTel(tel);
+
     }
 
     /**
@@ -42,14 +39,9 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean register(RegisterBean registerBean){
-        ResultBean result = new ResultBean();
-        try {
-            result = userService.register(registerBean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+
+        return userService.register(registerBean);
+
     }
 
     /**
@@ -60,14 +52,9 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean planRegister(PlanUserBean planUserBean) {
-        ResultBean result = new ResultBean();
-        try {
-            result = userService.getPlanRegister(planUserBean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+
+        return userService.getPlanRegister(planUserBean);
+
     }
 
     /**
@@ -79,14 +66,9 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getVerifyCode(@QueryParam("tel") String tel,@QueryParam("type") int type) {
-        ResultBean result = new ResultBean();
-        try {
-            result = userService.getVerifyCode(tel,type);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+
+        return userService.getVerifyCode(tel,type);
+
     }
 
     /**
@@ -97,14 +79,9 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean verifyCode(@QueryParam("tel")String tel,@QueryParam("type") int type,@QueryParam("telcode")String telcode){
-        ResultBean result = new ResultBean();
-        try {
-            result = userService.verifyCode(tel,type,telcode);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+
+        return userService.verifyCode(tel,type,telcode);
+
     }
 
     /**
@@ -124,18 +101,13 @@ public class UserController {
             result.setFailMsg(SystemStatus.PASSWORD_IS_NULL);
             return result;
         }
-        try {
-            result = userService.login(loginBean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+        return userService.login(loginBean);
+
     }
 
     /**
      * 查询教师列表
-     * @param orderType 排序条件
+     * @param orderType 排序条件 好评storeScore   人气popularity
      * @param orders 升序降序
      * @return
      */
@@ -146,16 +118,74 @@ public class UserController {
     public ResultBean findteacher(@QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize,
                                   @QueryParam("gradeCode") String gradeCode, @QueryParam("subjectCode") String subjectCode,
                                   @QueryParam("orderType") String orderType,@QueryParam("orders") String orders) {
-        ResultBean result = new ResultBean();
         if(StringUtil.isEmpty(orders)){
             orders="desc";
         }
-        try {
-            result = userService.findteacher(pageNo, pageSize, gradeCode, subjectCode, orderType,orders);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setFailMsg(SystemStatus.SERVER_ERROR);
-        }
-        return result;
+        return userService.findteacher(pageNo, pageSize, gradeCode, subjectCode, orderType,orders);
+    }
+
+    /**
+     * 查询用户个人信息
+     */
+    @GET
+    @Path("/finduserinfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findUserInfo(@QueryParam("openId") String openId) {
+
+        return userService.findUserInfo(openId);
+
+    }
+
+    /**
+     * 查询教师各种认证权限
+     */
+    @GET
+    @Path("/findteacherpermission")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean GetPermissionInfo(@HeaderParam("openId") String openId) {
+
+        return userService.getPermissionInfo(openId);
+
+    }
+
+    /**
+     * 获取答疑认证题
+     */
+    @GET
+    @Path("/applysolutionpermission")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean applySolutionPermission(@QueryParam("subjectCode") String subjectCode, @QueryParam("stageCode") String stageCode) {
+
+        return userService.applySolutionPermission(subjectCode, stageCode);
+
+    }
+
+    /**
+     * 查询用户申请成为教师的状态
+     */
+    @GET
+    @Path("/applyStatusBean")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean applyStatusBean(@HeaderParam("openId") String openId) {
+
+        return userService.applyStatusBean(openId);
+
+    }
+
+    /**
+     * 修改密码
+     */
+    @POST
+    @Path("/updatePass")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updatePass(@HeaderParam("token") String token, @HeaderParam("openId") String openId,UpdatePasswordBean updatePassBean) {
+
+        return userService.updatePass(token,openId,updatePassBean);
+
     }
 }

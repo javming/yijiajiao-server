@@ -12,7 +12,7 @@ public class LoginBean {
   private String telephone;
   private String password;
   private String client_id;
-  private String version;
+  private String version;// 1.0亿家教自用户  2.0阳光保险
 
 
   public String getTelephone() {

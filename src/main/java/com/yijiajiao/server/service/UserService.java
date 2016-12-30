@@ -1,9 +1,6 @@
 package com.yijiajiao.server.service;
 
-import com.yijiajiao.server.bean.LoginBean;
-import com.yijiajiao.server.bean.PlanUserBean;
-import com.yijiajiao.server.bean.RegisterBean;
-import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.*;
 
 /**
  * @AUTHOR zhaoming@eduspace
@@ -45,4 +42,29 @@ public interface UserService {
      * 查询教师列表
      */
     ResultBean findteacher(int pageNo, int pageSize, String gradeCode, String subjectCode, String orderType, String orders);
+
+    /**
+     * 根据openId查询用户信息
+     */
+    ResultBean findUserInfo(String openId);
+
+    /**
+     * 查询教师各种认证权限
+     */
+    ResultBean getPermissionInfo(String openId);
+
+    /**
+     * 获取答疑认证题
+     */
+    ResultBean applySolutionPermission(String subjectCode, String stageCode);
+
+    /**
+     * 查询用户申请成为教师的状态
+     */
+    ResultBean applyStatusBean(String openId);
+
+    /**
+     * 修改密码
+     */
+    ResultBean updatePass(String token, String openId, UpdatePasswordBean updatePassBean);
 }

@@ -41,7 +41,7 @@
     <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>com.yijiajiao.finance.controller</param-value>
+      <param-value>com.yijiajiao.server.controller;com.yijiajiao.server.exception</param-value>
     </init-param>
     <init-param>
       <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
