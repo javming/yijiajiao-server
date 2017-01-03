@@ -59,7 +59,7 @@ public class ServerUtil {
             response = builder.delete(ClientResponse.class);
         }
         String result = response.getEntity(String.class);
-        log.info(" 其他系统返回：<<===\n __"+result+"");
+        log.info(" 其他系统返回：<<===\n __"+result);
         return result;
     }
 

@@ -771,7 +771,7 @@ public static boolean isAlphanumericSpace(String str) {
  * </p>
  * <pre>
  * StringUtil.isNumeric(null)   = false
- * StringUtil.isNumeric("")     = true
+ * StringUtil.isNumeric("")     = false
  * StringUtil.isNumeric("  ")   = false
  * StringUtil.isNumeric("123")  = true
  * StringUtil.isNumeric("12 3") = false
@@ -785,7 +785,7 @@ public static boolean isAlphanumericSpace(String str) {
  * @return 如果字符串非<code>null</code>并且全由unicode数字组成，则返回<code>true</code>
  */
 public static boolean isNumeric(String str) {
-    if (str == null) {
+    if (isEmpty(str)) {
         return false;
     }
 

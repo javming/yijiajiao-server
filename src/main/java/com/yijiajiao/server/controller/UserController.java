@@ -1,10 +1,9 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.user.UuidBean;
 import com.yijiajiao.server.service.UserService;
-import com.yijiajiao.server.service.impl.UserServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
-import com.yijiajiao.server.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -186,6 +185,502 @@ public class UserController {
     public ResultBean updatePass(@HeaderParam("token") String token, @HeaderParam("openId") String openId,UpdatePasswordBean updatePassBean) {
 
         return userService.updatePass(token,openId,updatePassBean);
+
+    }
+
+    /**
+     * 获取邀请码邀请的好友列表
+     */
+    @GET
+    @Path("/findinviteuser")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findInviteUser(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize) {
+
+        return userService.findInviteUser(openId,pageNo,pageSize);
+
+    }
+
+    /**
+     * 验证身份证是否存在
+     */
+    @GET
+    @Path("/findUserByIdCard")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findUserByIdCard(@QueryParam("idCard") String idCard) {
+
+        if (StringUtil.isEmpty(idCard)){
+            return ResultBean.getFailResult(SystemStatus.PARAM_IS_NULL);
+        }
+
+        return userService.findUserByIdCard(idCard);
+
+    }
+
+    /**
+     * 根据openId获取面授审核记录详情
+     */
+    @GET
+    @Path("/findPermissionInfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findPermissionInfo(@HeaderParam("openId") String openId,@QueryParam("type") int type) {
+
+        return userService.findPermissionInfo(openId,type);
+
+    }
+
+    /**
+     * 收藏课程
+     */
+    @GET
+    @Path("/collect")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean collect(@HeaderParam("openId") String openId,@QueryParam("waresId") String waresId,@QueryParam("type") int type) {
+
+        return userService.collect(openId,waresId,type);
+
+    }
+
+    /**
+     * 课程是否被收藏
+     * @return
+     */
+    @GET
+    @Path("/findcollect")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findcollect(@HeaderParam("openId") String openId,@QueryParam("waresId") String waresId) {
+
+        return userService.findcollect(openId,waresId);
+
+    }
+
+    /**
+     * 学习中心我的收藏
+     */
+    @GET
+    @Path("/findCollectById")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findCollectById(@HeaderParam("openId") String openId,@QueryParam("pageNo") int  pageNo,@QueryParam("pageSize") int  pageSize,@QueryParam("type") Integer  type) {
+
+        return userService.findCollectById(openId,pageNo,pageSize,type);
+
+    }
+
+    /**
+     * 删除学习中心我的收藏
+     */
+    @GET
+    @Path("/delcollect")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean delCollect(@HeaderParam("openId") String openId,@QueryParam("ids") String  ids) {
+
+        return userService.delCollect(openId,ids);
+
+    }
+
+    /**
+     * 查询邀请验证码是否可用
+     * @return
+     */
+    @GET
+    @Path("/invitecode")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean invitecode(@QueryParam("code") String  code) {
+
+        return userService.invitecode(code);
+
+    }
+
+    /**
+     * 添加关注
+     */
+    @GET
+    @Path("/insertAttention")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean insertattention(@QueryParam("studentId") String studentId,@QueryParam("teacherId") String teacherId){
+
+        return userService.insertAttention(studentId,teacherId);
+
+    }
+
+    /**
+     * 取消关注
+     */
+    @GET
+    @Path("/cancelAttention")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean cancelAttention(@QueryParam("studentId") String studentId,@QueryParam("teacherId") String teacherId){
+
+        return userService.cancelAttention(studentId,teacherId);
+
+    }
+
+    /**
+     *  查询我关注的老师
+     */
+    @GET
+    @Path("/findAttentionTeach")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findAttentionTeach(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,
+                                         @QueryParam("pageSize") int pageSize){
+
+        return userService.findAttentionTeach(openId,pageNo,pageSize);
+
+    }
+    /**
+     *  查询关注我的学生
+     */
+    @GET
+    @Path("/findAttentionStu")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findAttentionStu(@QueryParam("teacherId") String teacherId,@QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize){
+
+        return userService.findAttentionStu(teacherId,pageNo,pageSize);
+
+    }
+
+    /**
+     *  获得唯一uuid，生成二维码
+     */
+    @GET
+    @Path("/makeqrcode")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean makeqrcode(){
+
+        return userService.makeqrcode();
+
+    }
+
+    /**
+     *	扫码登录
+     */
+    @POST
+    @Path("/qrcodeanduser")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean qrcodeanduser(UuidBean uuidBean){
+
+        return userService.qrcodeanduser(uuidBean);
+
+    }
+
+    /**
+     *	查询面试时间列表
+     */
+    @GET
+    @Path("/findroombytime")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findRoomByTime(@QueryParam("day") String day,@QueryParam("subjectCode")String subjectCode){
+
+        return userService.findRoomByTime(day,subjectCode);
+
+    }
+
+    /**
+     * 查询面授时间
+     */
+    @GET
+    @Path("/findfacingteachbytime")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findFacingTeachByTime(@HeaderParam("token") String token, @HeaderParam("openId") String openId,@QueryParam("day") String day,@QueryParam("subjectCode")String subjectCode){
+
+        return  userService.findFacingTeachByTime(day,subjectCode);
+
+    }
+
+    /**
+     *	查看面试详情
+     */
+    @GET
+    @Path("/findInterviewDetail")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findInterviewDetail(@QueryParam("openId") String userOpenId){
+
+        return userService.findInterviewDetail(userOpenId);
+
+    }
+
+    /**
+     *	查询学生是否关注过该教师
+     */
+    @GET
+    @Path("/findattentionexist")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findAttentionExist(@HeaderParam("openId") String openId,@QueryParam("teacherId") String teacherId){
+
+        return userService.findAttentionExist(openId,teacherId);
+
+    }
+
+    /**
+     *	签到
+     */
+    @GET
+    @Path("/signin")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean signIn(@HeaderParam("openId") String openId){
+
+        return userService.signIn(openId);
+
+    }
+
+    /**
+     *	查询积分明细
+     */
+    @GET
+    @Path("/findIntegralDetail")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findIntegralDetail(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize){
+
+        return userService.findIntegralDetail(openId,pageNo,pageSize);
+
+    }
+
+    /**
+     *	查询签到时间列表
+     */
+    @GET
+    @Path("/findSigninList")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findSigninList(@HeaderParam("openId") String openId,
+                                     @QueryParam("startDay")String startDay,@QueryParam("endDay")String endDay){
+        return userService.findSigninList(openId,startDay,endDay);
+
+    }
+
+    /**
+     *	三级联动加载地区列表
+     */
+    @GET
+    @Path("/findLocation")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findLocation(@QueryParam("provinceCode")String provinceCode,@QueryParam("cityCode")String cityCode){
+
+        return userService.findLocation(provinceCode,cityCode);
+
+    }
+
+    /**
+     * 获取教师数量,学生数量,关注数量,收藏数量
+     */
+    @GET
+    @Path("/getMyCountUser")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getMyCountUser(@HeaderParam("openId") String openId){
+
+        return userService.getMyCountUser(openId);
+
+    }
+
+    /**
+     *	从教研系统中查询诊断卷列表
+     */
+    @GET
+    @Path("/findDiagnosislist")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findDiagnosislist(@QueryParam("subjectCode")String subjectCode,@QueryParam("type")String type,
+                                        @QueryParam("gradeCode")String gradeCode,@QueryParam("bookType") String bookType,
+                                        @QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize,
+                                        @QueryParam("orderType") String orderType,@QueryParam("orders")String orders,
+                                        @QueryParam("paperName") String paperName){
+
+        return userService.findDiagnosislist(subjectCode,gradeCode,bookType,type,
+                pageNo,pageSize,orderType,orders,paperName);
+
+    }
+
+
+    /**
+     *	查询我的诊断列表
+     */
+    @GET
+    @Path("/getUserDiaglist")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getUserDiaglist(@HeaderParam("openId") String openId,
+                                      @QueryParam("pageNo")int pageNo,@QueryParam("pageSize") int pageSize){
+
+        return userService.getUserDiaglist(openId,pageNo,pageSize);
+
+    }
+
+    /**
+     *	通过id查询诊断卷详情
+     */
+    @GET
+    @Path("/getDiagpaperByid")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getDiagpaperByid(@QueryParam("paperId") String paperId ) {
+
+        return userService.getDiagpaperByid(paperId);
+
+    }
+
+
+    /**
+     *	获取诊断试卷基本信息
+     */
+    @GET
+    @Path("/getDiagnosisById")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getDiagnosisById(@QueryParam("paperId")String paperId){
+
+        return userService.getDiagnosisById(paperId);
+
+    }
+
+    /**
+     *  查询诊断卷分析结果
+     */
+    @GET
+    @Path("/getDiagResult")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getDiagResult( @HeaderParam("openId") String openId,
+                                    @QueryParam("paperId")String paperId){
+
+        return userService.getDiagResult(openId,paperId);
+
+    }
+
+    /**
+     *	获取个人诊断卷详情(诊断完毕后)
+     */
+    @GET
+    @Path("/getDiagResultDetail")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getDiagResultDetail( @HeaderParam("openId") String openId,
+                                          @QueryParam("paperId")String paperId){
+
+        return userService.getDiagResultDetail(openId,paperId);
+
+    }
+
+    /**
+     *  查看购买诊断享受的折扣
+     */
+    @GET
+    @Path("/getDiscountById")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getDiscountById( @HeaderParam("openId") String openId){
+
+        return userService.getDiscountById(openId);
+
+    }
+
+    /**
+     *  一级代理下的二级代理订单数量 金额等信息
+     */
+    @GET
+    @Path("/getMyProxtInfoList")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getMyProxtInfoList(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+                                         @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
+                                         @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+
+        return userService.getMyProxtInfoList(openId,pageNo,pageSize,year,month);
+
+    }
+
+    /**
+     * 查询二级代理订单
+     */
+    @GET
+    @Path("/getSecondProxyInfoList")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getSecondProxyInfoList(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+                                             @QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
+                                                     String secondProxyOpenId,
+                                             @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
+                                             @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+
+        return userService.getSecondProxyInfoList(proxyOpenId,secondProxyOpenId,pageNo,pageSize,year,month);
+
+    }
+
+
+    /**
+     *  查询一级代理订单详情
+     */
+    @GET
+    @Path("/getMyOrderInfoList")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getMyOrderInfoList(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+                                         @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
+                                         @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+
+        return userService.getMyOrderInfoList(openId,pageNo,pageSize,year,month);
+
+    }
+
+    /**
+     *  查询一级代理下二级代理的订单量 订单金额,平台分成等信息
+     */
+    @GET
+    @Path("/getMyProxyInfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getMyProxyInfo(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+                                     @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+
+        return userService.getMyProxyInfo(openId,year,month);
+
+    }
+    /**
+     *  查询二级代理下的订单量 订单金额,平台分成等信息
+     */
+    @GET
+    @Path("/getSecondProxyInfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getSecondProxyInfo(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+                                         @QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
+                                                 String secondProxyOpenId,
+                                         @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+
+        return userService.getSecondProxyInfo(proxyOpenId,secondProxyOpenId,year,month);
+
+    }
+    /**
+     *  查询一级代理自己订单量，订单金额,平台分成等信息
+     */
+    @GET
+    @Path("/getMyOrderInfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getMyOrderInfo(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+                                     @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+
+        return userService.getMyOrderInfo(openId,year,month);
 
     }
 }

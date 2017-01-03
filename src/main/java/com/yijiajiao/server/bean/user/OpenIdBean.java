@@ -4,6 +4,15 @@ package com.yijiajiao.server.bean.user;
 public class OpenIdBean{
 	private String studentId;
 	private String teacherId;
+
+	public OpenIdBean() {
+	}
+
+	public OpenIdBean(String studentId, String teacherId) {
+		this.studentId = studentId;
+		this.teacherId = teacherId;
+	}
+
 	public String getStudentId() {
 		return studentId;
 	}
@@ -16,5 +25,6 @@ public class OpenIdBean{
 	public void setTeacherId(String teacherId) {
 		this.teacherId = teacherId;
 	}
+
 	
 }
