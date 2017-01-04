@@ -4,6 +4,15 @@ public class ExitSolutionBean {
 
   private int id;
   private int grabStatus;
+
+  public ExitSolutionBean() {
+  }
+
+  public ExitSolutionBean(int id, int grabStatus) {
+    this.id = id;
+    this.grabStatus = grabStatus;
+  }
+
   public int getId() {
     return id;
   }
@@ -16,5 +25,4 @@ public class ExitSolutionBean {
   public void setGrabStatus(int grabStatus) {
     this.grabStatus = grabStatus;
   }
-  
 }

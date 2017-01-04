@@ -1,10 +1,13 @@
 package com.yijiajiao.server.exception;
 
+import com.alibaba.fastjson.JSON;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.SystemStatus;
+import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -23,10 +26,17 @@ public class ExceptionHandler implements ExceptionMapper<Exception>{
 
     @Override
     public Response toResponse(Exception e) {
-        ResultBean result = new ResultBean();
-        log.error(" **服务器运行时发生异常了: <"+e.getMessage()+">**");
+
         e.printStackTrace();
-        result.setFailMsg(SystemStatus.SERVER_ERROR);
-        return Response.ok().entity(result).build();
+        log.error("异常信息："+e.getMessage()+";异常类型："+e.getClass()+e.getLocalizedMessage());
+
+        if (StringUtil.contains(e.getMessage(),"null for uri")){
+            return Response.ok(JSON.toJSONString(ResultBean.getFailResult(404,"url not fond!")),
+                    MediaType.APPLICATION_JSON).build();
+        }else {
+            return Response.ok(JSON.toJSONString(ResultBean.getFailResult(SystemStatus.SERVER_ERROR)),
+                    MediaType.APPLICATION_JSON).build();
+        }
+
     }
 }

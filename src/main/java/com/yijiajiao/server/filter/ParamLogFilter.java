@@ -26,8 +26,7 @@ public class ParamLogFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
                       ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
-      req.setCharacterEncoding("utf-8");
-      log.info("\n __[请求地址:" + req.getRequestURL()+"]\n __[queryParams:"+req.getQueryString()+"]\n __[请求方法:" + req.getMethod()
+      log.info("\n __[请求地址:" + req.getRequestURL()+"]\n __[queryParams:?"+req.getQueryString()+"]\n __[请求方法:" + req.getMethod()
                 + "]\n __[ token: " + req.getHeader("token")+"]");
       int length = req.getContentLength();
       if (length > 0) {

@@ -601,7 +601,7 @@ public class UserController {
     @Path("/getMyProxtInfoList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getMyProxtInfoList(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+    public ResultBean getMyProxtInfoList(@HeaderParam("openId") String openId,
                                          @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
                                          @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
@@ -616,8 +616,7 @@ public class UserController {
     @Path("/getSecondProxyInfoList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getSecondProxyInfoList(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
-                                             @QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
+    public ResultBean getSecondProxyInfoList(@QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
                                                      String secondProxyOpenId,
                                              @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
                                              @QueryParam("year")Integer year,@QueryParam("month")Integer month){
@@ -626,7 +625,6 @@ public class UserController {
 
     }
 
-
     /**
      *  查询一级代理订单详情
      */
@@ -634,7 +632,7 @@ public class UserController {
     @Path("/getMyOrderInfoList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getMyOrderInfoList(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+    public ResultBean getMyOrderInfoList(@HeaderParam("openId") String openId,
                                          @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
                                          @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
@@ -649,7 +647,7 @@ public class UserController {
     @Path("/getMyProxyInfo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getMyProxyInfo(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+    public ResultBean getMyProxyInfo(@HeaderParam("openId") String openId,
                                      @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
         return userService.getMyProxyInfo(openId,year,month);
@@ -662,8 +660,7 @@ public class UserController {
     @Path("/getSecondProxyInfo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getSecondProxyInfo(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
-                                         @QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
+    public ResultBean getSecondProxyInfo(@QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
                                                  String secondProxyOpenId,
                                          @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
@@ -677,10 +674,13 @@ public class UserController {
     @Path("/getMyOrderInfo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getMyOrderInfo(@HeaderParam("token") String token, @HeaderParam("openId") String openId,
+    public ResultBean getMyOrderInfo(@HeaderParam("openId") String openId,
                                      @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
         return userService.getMyOrderInfo(openId,year,month);
 
     }
+
+
+
 }
