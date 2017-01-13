@@ -1,11 +1,9 @@
 package com.yijiajiao.server.bean.wares;
 
-/**
- * Created by ruyage on 2015/12/5.
- */
 public class WaresBean {
-private String id;
+    private String id;
     private String teacherId;
+    private String teacherName;
     private String curriculumName;
     private int curriculumType;
     private String curriculumInfo;
@@ -28,79 +26,7 @@ private String id;
     private String curriculumInfoVideo;
     private String curriculumInfoPic;
 
-    public String getCurriculumInfoAudio() {
-        return curriculumInfoAudio;
-    }
-
-    public void setCurriculumInfoAudio(String curriculumInfoAudio) {
-        this.curriculumInfoAudio = curriculumInfoAudio;
-    }
-
-    public String getCurriculumInfoVideo() {
-        return curriculumInfoVideo;
-    }
-
-    public void setCurriculumInfoVideo(String curriculumInfoVideo) {
-        this.curriculumInfoVideo = curriculumInfoVideo;
-    }
-
-    public String getCurriculumInfoPic() {
-        return curriculumInfoPic;
-    }
-
-    public void setCurriculumInfoPic(String curriculumInfoPic) {
-        this.curriculumInfoPic = curriculumInfoPic;
-    }
-
-    public String getIsYjj() {
-		return isYjj;
-	}
-
-	public void setIsYjj(String isYjj) {
-		this.isYjj = isYjj;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-
-	public String getDownTime() {
-		return downTime;
-	}
-
-	public void setDownTime(String downTime) {
-		this.downTime = downTime;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getSales() {
-		return sales;
-	}
-
-	public void setSales(String sales) {
-		this.sales = sales;
-	}
-
-	public String getId() {
+    public String getId() {
         return id;
     }
 
@@ -116,6 +42,14 @@ private String id;
         this.teacherId = teacherId;
     }
 
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
     public String getCurriculumName() {
         return curriculumName;
     }
@@ -128,17 +62,7 @@ private String id;
         return curriculumType;
     }
 
-    
-    
-    public String getUpTime() {
-		return upTime;
-	}
-
-	public void setUpTime(String upTime) {
-		this.upTime = upTime;
-	}
-
-	public void setCurriculumType(int curriculumType) {
+    public void setCurriculumType(int curriculumType) {
         this.curriculumType = curriculumType;
     }
 
@@ -182,22 +106,20 @@ private String id;
         this.price = price;
     }
 
-
-
     public int getIsDiscount() {
-      return isDiscount;
+        return isDiscount;
     }
 
     public void setIsDiscount(int isDiscount) {
-      this.isDiscount = isDiscount;
+        this.isDiscount = isDiscount;
     }
 
     public double getPriceDiscount() {
-      return priceDiscount;
+        return priceDiscount;
     }
 
     public void setPriceDiscount(double priceDiscount) {
-      this.priceDiscount = priceDiscount;
+        this.priceDiscount = priceDiscount;
     }
 
     public String getCover() {
@@ -208,12 +130,91 @@ private String id;
         this.cover = cover;
     }
 
+    public String getUpTime() {
+        return upTime;
+    }
+
+    public void setUpTime(String upTime) {
+        this.upTime = upTime;
+    }
+
     public int getPopularity() {
-      return popularity;
+        return popularity;
     }
 
     public void setPopularity(int popularity) {
-      this.popularity = popularity;
+        this.popularity = popularity;
     }
-    
+
+    public String getDownTime() {
+        return downTime;
+    }
+
+    public void setDownTime(String downTime) {
+        this.downTime = downTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSales() {
+        return sales;
+    }
+
+    public void setSales(String sales) {
+        this.sales = sales;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getIsYjj() {
+        return isYjj;
+    }
+
+    public void setIsYjj(String isYjj) {
+        this.isYjj = isYjj;
+    }
+
+    public String getCurriculumInfoAudio() {
+        return curriculumInfoAudio;
+    }
+
+    public void setCurriculumInfoAudio(String curriculumInfoAudio) {
+        this.curriculumInfoAudio = curriculumInfoAudio;
+    }
+
+    public String getCurriculumInfoVideo() {
+        return curriculumInfoVideo;
+    }
+
+    public void setCurriculumInfoVideo(String curriculumInfoVideo) {
+        this.curriculumInfoVideo = curriculumInfoVideo;
+    }
+
+    public String getCurriculumInfoPic() {
+        return curriculumInfoPic;
+    }
+
+    public void setCurriculumInfoPic(String curriculumInfoPic) {
+        this.curriculumInfoPic = curriculumInfoPic;
+    }
 }

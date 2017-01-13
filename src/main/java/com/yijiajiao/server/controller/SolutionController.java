@@ -1,11 +1,9 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.SystemStatus;
 import com.yijiajiao.server.service.SolutionService;
-import com.yijiajiao.server.service.impl.SolutionServiceImpl;
-import com.yijiajiao.server.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +13,7 @@ import javax.ws.rs.core.MediaType;
  * @CREATE 2017-01-04-15:31
  */
 @Path("/solution")
+@Controller
 public class SolutionController {
 
     @Autowired

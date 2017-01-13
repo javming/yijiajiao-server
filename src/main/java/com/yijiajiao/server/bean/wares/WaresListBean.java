@@ -9,10 +9,11 @@ import java.util.List;
 public class WaresListBean {
   
   
-  private long total;
-  private long pages;
-  private long pageNo;
-  private long pageSize;
+    private long total;
+    private long pages;
+    private long pageNo;
+    private long pageSize;
+
     private List<WaresBean> list = new ArrayList<WaresBean>();
 
     public List<WaresBean> getList() {

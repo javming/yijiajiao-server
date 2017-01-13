@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-04-15:32
@@ -143,61 +146,96 @@ public class SolutionServiceImpl extends BaseService implements SolutionService{
 
     @Override
     public ResultBean packagePutawayOrDown(String packageId, int shelfStatus) {
-        return null;
+        String path = Config.getString("solution.editPackage");
+        Map<String,String> bodyparam= new HashMap<String,String>();
+        bodyparam.put("id", packageId);
+        bodyparam.put("shelfStatus",shelfStatus+"");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, bodyparam, "POST");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getMyDoubtTeachers(String openId, int pageNo, int pageSize) {
-        return null;
+        String path = Config.getString("solution.getMyDoubtTeachers")+"openId="+openId+"&pageNo="+pageNo+"&pageSize="+pageSize;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getSolutions(String teacherId, String studentId, int pageNo, int pageSize, String isAnswer, String subjectCode) {
-        return null;
+        String path = Config.getString("solution.getSolutions")+"pageNo="+pageNo+"&pageSize="+pageSize
+                                    +(StringUtil.isEmpty(teacherId)?"":("&teaOpenId="+teacherId))
+                                    +(StringUtil.isEmpty(studentId)?"":("&stuOpenId="+studentId))
+                                    +(StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))
+                                    +(StringUtil.isEmpty(isAnswer)?"":("&isAnswer="+isAnswer));
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getRecDoubtTeachers(String openId) {
-        return null;
+        String path = Config.getString("solution.getRecDoubtTeachers")+"openId="+openId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getMyPackages(String openId, int pageNo, int pageSize) {
-        return null;
+        String path = Config.getString("solution.getMyPackages")+"openId="+openId+"&pageNo="+pageNo+"&pageSize="+pageSize;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getDetail(int id) {
-        return null;
+        String path = Config.getString("solution.getDetail")+id;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getFeedBackReasons() {
-        return null;
+        String path = Config.getString("solution.getFeedBackReasons");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getPackageByGrade(String teacherId, String gradeCode) {
-        return null;
+        String path = Config.getString("solution.getPackageByGrade")+"openId="+teacherId+"&gradeCode="+gradeCode;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getPackagesByOpenId(String openId) {
-        return null;
+        String path = Config.getString("solution.getPackagesByOpenId")+"openId="+openId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getEasemobId(String easemobId) {
-        return null;
+        String path = Config.getString("solution.getEasemobId")+"easemobId="+easemobId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getSolId(String openId, int solId) {
-        return null;
+        String path = Config.getString("solution.getSolId")+"openId="+openId+"&solId="+solId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
     }
 
     @Override
     public ResultBean getQuestionByRand(String gradeCode, String subjectCode, String knowledgeCode) {
-        return null;
+        String path = Config.getString("solution.getQuestionByRand");
+        Map<String,String> body= new HashMap<String,String>();
+        body.put("gradeCode", gradeCode);
+        body.put("subjectCode", subjectCode);
+        body.put("knowledgeCode", knowledgeCode);
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, body, "POST");
+        return dealResult(log,response);
     }
 }

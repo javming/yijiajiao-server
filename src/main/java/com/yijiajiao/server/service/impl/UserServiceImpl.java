@@ -767,4 +767,21 @@ public class UserServiceImpl extends BaseService implements UserService{
         return dealResult(log,response);
     }
 
+    @Override
+    public ResultBean finduserinfobyid(IdsBean ids) {
+        ResultBean resultBean = new ResultBean();
+        String path = Config.getString("user.finduserinfobyid");
+        String response = ServerUtil.httpRest(USER_SERVER, path, null, ids, "POST");
+        ResultBean r = JSON.parseObject(response, ResultBean.class);
+        if (r.getCode() == 200) {
+            String userInfo = JSON.toJSONString(r.getResult());
+            log.info("正确信息： " + userInfo);
+            resultBean.setSucResult(JSON.parseObject(userInfo, EasyUserListBean.class));
+        } else {
+            log.info("错误信息： " + r.getMessage());
+            resultBean.setFailMsg(Integer.parseInt(r.getCode() + ""), r.getMessage());
+        }
+        return resultBean;
+    }
+
 }

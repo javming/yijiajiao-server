@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.user.IdsBean;
 import com.yijiajiao.server.bean.user.UuidBean;
 
 /**
@@ -248,4 +249,6 @@ public interface UserService {
      *  查询一级代理自己订单量，订单金额,平台分成等信息
      */
     ResultBean getMyOrderInfo(String openId, Integer year, Integer month);
+
+    ResultBean finduserinfobyid(IdsBean ids);
 }
