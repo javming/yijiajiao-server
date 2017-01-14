@@ -2,6 +2,9 @@ package com.yijiajiao.server.service;
 
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.wares.BackUrlInfoParamBean;
+import com.yijiajiao.server.bean.wares.BackUrlListParamBean;
+import com.yijiajiao.server.bean.wares.M3JoinMtgParam;
 
 public interface WaresService {
     /**
@@ -37,4 +40,66 @@ public interface WaresService {
      * 验证教师课程时间冲突
      */
     ResultBean checkTime(String openId, String startTime, String endTime);
+
+    /**
+     * 获取教师资格认证试题
+     */
+    ResultBean teacherExamTest(String openId, String code);
+
+    /**
+     * 教师课程数量统计
+     */
+    ResultBean countWaresByteacherId(String teacherId);
+
+    ResultBean waresListByType(String teacherId, int curriculumType, Integer status, int pageNo, int pageSize, String isYjj);
+
+    ResultBean getStage();
+
+    ResultBean getGradeByStage(String stageCode);
+
+    ResultBean getSubjectByGrade(String gradeCode);
+
+    ResultBean mobilWaresListByTeacherIdAndTime(String openId, int pageNo, int pageSize, String cover, String sales, String maxNumber);
+
+    ResultBean mobilWaresListByTeacherId(String openId, int pageNo, int pageSize, int curriculumType);
+
+    ResultBean mobilWaresInfoByWaresId(String openId, int waresId, String subjectCode, String gradeCode, String bookTypeCode);
+
+    ResultBean releaseStatus(String openId, int waresId, int status);
+
+    ResultBean delVideo(int videoId);
+
+    ResultBean videoCountByStatus(String openId, int status);
+
+    ResultBean examList(String subjectCode, String gradeCode, String bookTypeCode);
+
+    ResultBean answerInfoById(int id);
+
+    ResultBean examStatistic(int id);
+
+    ResultBean popularity(int waresId, String popType);
+
+    ResultBean liveVideoPlayback(int waresId, int slaveId);
+
+    ResultBean getMyPapers(String openId, int pageNo, int pageSize, Integer useType, String gradeCode, String subjectCode);
+
+    ResultBean getPaperInfo(String paperId);
+
+    ResultBean todayCourse();
+
+    ResultBean paperCommitInfoByStudent(String openId, Integer waresId, Integer waresSlaveId, String paperId);
+
+    ResultBean paperCommitInfoByTeacher(String waresId, String waresSlaveId, String paperId);
+
+    ResultBean checkPaperCommitByStudent(String waresId, String waresSlaveId, String paperId, String openId);
+
+    ResultBean deleteWaresById(int waresId);
+
+    ResultBean liveWebUrl(M3JoinMtgParam m3JoinMtgParam);
+
+    ResultBean backUrlList(BackUrlListParamBean backUrlListParamBean);
+
+    ResultBean backUrlInfo(BackUrlInfoParamBean backUrlInfoParamBean);
+
+    ResultBean appMtgInfo(M3JoinMtgParam m3JoinMtgParam);
 }

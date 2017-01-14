@@ -6,8 +6,7 @@ import com.yijiajiao.server.bean.SystemStatus;
 import com.yijiajiao.server.bean.sale.CheckTimeBean;
 import com.yijiajiao.server.bean.user.EasyUserListBean;
 import com.yijiajiao.server.bean.user.IdsBean;
-import com.yijiajiao.server.bean.wares.WaresBean;
-import com.yijiajiao.server.bean.wares.WaresListBean;
+import com.yijiajiao.server.bean.wares.*;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.service.WaresService;
@@ -164,4 +163,216 @@ public class WaresServiceImpl extends BaseService implements WaresService {
         }
         return resultBean;
     }
+
+    @Override
+    public ResultBean teacherExamTest(String openId, String code) {
+        String path = Config.getString("ware.teacherExamTest") + "code=" + code;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean countWaresByteacherId(String teacherId) {
+        String path = Config.getString("wares.countWaresByteacherId") + "teacherId=" + teacherId;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean waresListByType(String teacherId, int curriculumType, Integer status, int pageNo, int pageSize, String isYjj) {
+        String path = Config.getString("wares.waresListByType")+"teacherId="+teacherId+"&curriculumType="+curriculumType
+                + "&status=" + status+"&pageNo="+pageNo+"&pageSize="+pageSize+ (StringUtil.isEmpty(isYjj)?"":("&isYjj="+isYjj));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getStage() {
+        String path = Config.getString("wares.getStage");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getGradeByStage(String stageCode) {
+        String path = Config.getString("wares.getGradeByStage") + stageCode;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getSubjectByGrade(String gradeCode) {
+        String path = Config.getString("wares.getSubjectByGrade") + gradeCode;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean mobilWaresListByTeacherIdAndTime(String openId, int pageNo, int pageSize, String cover, String sales, String maxNumber) {
+        String path = Config.getString("wares.mobilWaresListByTeacherIdAndTime") + "teacherId=" + openId + "&pageNo=" + pageNo + "&pageSize=" + pageSize+
+                "&cover="+cover+"&sales="+sales+"&maxNumber="+maxNumber;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean mobilWaresListByTeacherId(String openId, int pageNo, int pageSize, int curriculumType) {
+        String path = Config.getString("wares.mobilWaresListByTeacherId")+"teacherId="+openId+"&pageNo="+pageNo
+                                + "&pageSize=" + pageSize + "&curriculumType=" + curriculumType;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean mobilWaresInfoByWaresId(String openId, int waresId, String subjectCode, String gradeCode, String bookTypeCode) {
+        String path = Config.getString("wares.mobilWaresInfoByWaresId") + "waresId=" + waresId
+                            +(StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))
+                            +(StringUtil.isEmpty(gradeCode)?"":("&gradeCode=")+gradeCode)
+                            +(StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode=")+bookTypeCode);
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean releaseStatus(String openId, int waresId, int status) {
+        String path = Config.getString("wares.releaseStatus") + "waresId=" + waresId+ "&status=" + status;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "PUT");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean delVideo(int videoId) {
+        String path = Config.getString("wares.delViedoById")+ videoId;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "DELETE");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean videoCountByStatus(String openId, int status) {
+        String path = Config.getString("ware.videoCountByStatus")+"author=" + openId +"&examination="+status;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean examList(String subjectCode, String gradeCode, String bookTypeCode) {
+        String path = Config.getString("ware.ExamList")+"subjectCode="+(StringUtil.isEmpty(subjectCode)?"":subjectCode)
+                                +(StringUtil.isEmpty(gradeCode)?"":("&gradeCode="+gradeCode))
+                                +(StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode=" + bookTypeCode));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean answerInfoById(int id) {
+        String path = Config.getString("ware.answerInfoById") + id;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean examStatistic(int id) {
+        String path = Config.getString("ware.examStatistic") + id;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean popularity(int waresId, String popType) {
+        String path = Config.getString("ware.popularity");
+        PopularityBean popularityBean = new PopularityBean(popType,waresId);
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, popularityBean, "PUT");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean liveVideoPlayback(int waresId, int slaveId) {
+        String path = Config.getString("ware.liveVideoPlayback")+"waresId=" + waresId +"&slaveId="+slaveId;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getMyPapers(String openId, int pageNo, int pageSize, Integer useType, String gradeCode, String subjectCode) {
+        String path = Config.getString("wares.getMyPapers")+"teacherId="+openId +"&pageNo="+pageNo+"&pageSize="+pageSize
+                +(useType==null?"":("&useType="+useType)) +(StringUtil.isEmpty(gradeCode)?"":("&gradeCode="+gradeCode))
+                +(StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getPaperInfo(String paperId) {
+        String path = Config.getString("wares.getPaperInfo")+"paperId=" + paperId;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean todayCourse() {
+        String path = Config.getString("wares.todayCourse");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean paperCommitInfoByStudent(String openId, Integer waresId, Integer waresSlaveId, String paperId) {
+        String path = Config.getString("wares.paperCommitInfoByStudent")+"student="+openId+"&waresId="+waresId+
+                (waresSlaveId==null?"":("&waresSlaveId="+waresSlaveId))+(StringUtil.isEmpty(paperId)?"":("&paperId="+paperId));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean paperCommitInfoByTeacher(String waresId, String waresSlaveId, String paperId) {
+        String path = Config.getString("wares.paperCommitInfoByTeacher")+"waresId="+waresId
+                        +(StringUtil.isEmpty(waresSlaveId)?"":("&waresSlaveId="+waresSlaveId))
+                        +(StringUtil.isEmpty(paperId)?"":("&paperId="+paperId));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean checkPaperCommitByStudent(String waresId, String waresSlaveId, String paperId, String openId) {
+        String path = Config.getString("wares.checkPaperCommitByStudent")+"waresId="+waresId+"&openId="+openId+
+                (StringUtil.isEmpty(waresSlaveId)?"":("&waresSlaveId="+waresSlaveId))+"&paperId="+paperId;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean deleteWaresById(int waresId) {
+        String path = Config.getString("wares.deleteWaresById")+waresId;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "DELETE");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean liveWebUrl(M3JoinMtgParam m3JoinMtgParam) {
+        String path = Config.getString("wares.liveWebUrl");
+        String response = ServerUtil.httpRest(DEPENDENT_SERVER, path, null, m3JoinMtgParam, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean backUrlList(BackUrlListParamBean backUrlListParamBean) {
+        String path = Config.getString("wares.backUrlList");
+        String response = ServerUtil.httpRest(DEPENDENT_SERVER, path, null, backUrlListParamBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean backUrlInfo(BackUrlInfoParamBean backUrlInfoParamBean) {
+        String path = Config.getString("wares.backUrlInfo");
+        String response = ServerUtil.httpRest(DEPENDENT_SERVER, path, null, backUrlInfoParamBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean appMtgInfo(M3JoinMtgParam m3JoinMtgParam) {
+        String path = Config.getString("wares.appMtgInfo");
+        String response = ServerUtil.httpRest(DEPENDENT_SERVER, path, null, m3JoinMtgParam, "POST");
+        return dealResult(log,response);
+    }
+
 }
