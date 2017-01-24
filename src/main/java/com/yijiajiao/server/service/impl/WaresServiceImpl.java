@@ -375,4 +375,12 @@ public class WaresServiceImpl extends BaseService implements WaresService {
         return dealResult(log,response);
     }
 
+    @Override
+    public ResultBean homework(int commodityId, String type, String homeWorkCode) {
+        String path = Config.getString("ware.homework");
+        HomeworkParamBean hpb = new HomeworkParamBean(commodityId,type,homeWorkCode);
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, hpb, "PUT");
+        return dealResult(log,response);
+    }
+
 }

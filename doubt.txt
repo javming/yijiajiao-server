@@ -2,3 +2,4 @@
 1.保分计划接入学点云的时候，不检验登录信息；主要接口有
     /liveWebUrl、/backUrlList、/backUrlInfo、/appMtgInfo、
     m3JoinMtgParam.getType()!=null
+    type不为空时表示保分计划请求，此时不验证登录信息

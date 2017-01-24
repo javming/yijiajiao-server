@@ -102,4 +102,6 @@ public interface WaresService {
     ResultBean backUrlInfo(BackUrlInfoParamBean backUrlInfoParamBean);
 
     ResultBean appMtgInfo(M3JoinMtgParam m3JoinMtgParam);
+
+    ResultBean homework(int commodityId, String type, String homeWorkCode);
 }

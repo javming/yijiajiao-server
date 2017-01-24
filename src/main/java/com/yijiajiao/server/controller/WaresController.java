@@ -510,8 +510,7 @@ public class WaresController {
     }
 
     /**
-     * @description
-     * @return
+     * 移动端获取学点云课堂路径
      */
     @POST
     @Path("/appMtgInfo")

@@ -7,7 +7,19 @@ public class OrderQueryBean {
 	private String status;
 	private String openId;
 	private int curriculumType;
-	
+
+	public OrderQueryBean(int pageNo, int pageSize, String status, String openId, int curriculumType) {
+		this.pageNo = pageNo;
+		this.pageSize = pageSize;
+		this.status = status;
+		this.openId = openId;
+		this.curriculumType = curriculumType;
+	}
+
+	public OrderQueryBean() {
+
+	}
+
 	public int getCurriculumType() {
 		return curriculumType;
 	}

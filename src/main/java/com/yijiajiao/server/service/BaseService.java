@@ -33,7 +33,12 @@ public class BaseService {
 
     public static final String DEPENDENT_SERVER = Config.getString("dependent_server");
 
+    public static final String PROMOTION_SERVER = Config.getString("promotion_server");
+
     public static final String KEEPMARK_SERVER = Config.getString("keepmark_server");
+
+
+
 
     /**
      *  处理其他服务器返回结果

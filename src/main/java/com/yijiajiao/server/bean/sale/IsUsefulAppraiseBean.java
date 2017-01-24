@@ -4,6 +4,15 @@ public class IsUsefulAppraiseBean {
 
   private String openId;
   private int pid;
+
+  public IsUsefulAppraiseBean() {
+  }
+
+  public IsUsefulAppraiseBean(String openId, int pid) {
+    this.openId = openId;
+    this.pid = pid;
+  }
+
   public String getOpenId() {
     return openId;
   }

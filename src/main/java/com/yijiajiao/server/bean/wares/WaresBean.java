@@ -25,6 +25,15 @@ public class WaresBean {
     private String curriculumInfoAudio;
     private String curriculumInfoVideo;
     private String curriculumInfoPic;
+    private int activeStatus;
+
+    public int getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(int activeStatus) {
+        this.activeStatus = activeStatus;
+    }
 
     public String getId() {
         return id;

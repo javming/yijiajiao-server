@@ -6,6 +6,17 @@ public class MyStudentsBean {
   private int  pageNo;
   private int  pageSize;
   private int  curriculumType;
+
+  public MyStudentsBean() {
+  }
+
+  public MyStudentsBean(String teacherId, int pageNo, int pageSize, int curriculumType) {
+    this.teacherId = teacherId;
+    this.pageNo = pageNo;
+    this.pageSize = pageSize;
+    this.curriculumType = curriculumType;
+  }
+
   public String getTeacherId() {
     return teacherId;
   }
@@ -14,12 +25,12 @@ public class MyStudentsBean {
   }
 
   public int getPageNo() {
-	return pageNo;
-}
-public void setPageNo(int pageNo) {
-	this.pageNo = pageNo;
-}
-public int getPageSize() {
+    return pageNo;
+  }
+  public void setPageNo(int pageNo) {
+    this.pageNo = pageNo;
+  }
+  public int getPageSize() {
     return pageSize;
   }
   public void setPageSize(int pageSize) {

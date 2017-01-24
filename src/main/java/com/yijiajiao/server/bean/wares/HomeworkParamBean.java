@@ -5,6 +5,15 @@ public class HomeworkParamBean {
 	private String type;
 	private String paperId;
 
+	public HomeworkParamBean() {
+	}
+
+	public HomeworkParamBean(int id, String type, String paperId) {
+		this.id = id;
+		this.type = type;
+		this.paperId = paperId;
+	}
+
 	public String getPaperId() {
 		return paperId;
 	}

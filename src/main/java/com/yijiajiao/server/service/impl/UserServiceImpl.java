@@ -390,7 +390,7 @@ public class UserServiceImpl extends BaseService implements UserService{
             //保分计划部分保存登录信息保存
             try {
                 TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id(),
-                        ServerConfig.KEEPMARK_SERVER, Config.getString("stuLogin"));
+                        KEEPMARK_SERVER, Config.getString("stuLogin"));
             } catch (Exception e) {
                 log.error("调用保分计划部分保存登录信息保存出错："+e.getMessage());
             }
