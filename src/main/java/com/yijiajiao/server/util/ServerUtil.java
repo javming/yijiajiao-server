@@ -38,8 +38,8 @@ public class ServerUtil {
         Client c = Client.create(config);
         c.setConnectTimeout(300*1000);
         WebResource webResource = c.resource("http://"+server + url);
-        log.info(" 请求其它系统路径：===>>\n __[http://"+server + url+"]\n"+
-                (bodyParam==null?"": (" __[bodyParams]:"+JSON.toJSONString(bodyParam))));
+        log.info(" 请求其它系统路径：===>>\n __[http://"+server + url+"]"+
+                (bodyParam==null?"": ("\n __[bodyParams]:"+JSON.toJSONString(bodyParam))));
         Builder builder = webResource.header("Content-Type", MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
         ClientResponse response = null;
         if (headParams != null) {

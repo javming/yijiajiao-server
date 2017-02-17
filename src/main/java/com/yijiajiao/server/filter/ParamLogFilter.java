@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 
 
 /**
@@ -28,6 +29,11 @@ public class ParamLogFilter implements Filter {
       HttpServletRequest req = (HttpServletRequest) request;
       log.info("\n __[请求地址:" + req.getRequestURL()+"]\n __[queryParams:?"+req.getQueryString()+"]\n __[请求方法:" + req.getMethod()
                 + "]\n __[ token: " + req.getHeader("token")+"]");
+      Enumeration<String> headerNames = req.getHeaderNames();
+      while (headerNames.hasMoreElements()){
+          String next = headerNames.nextElement();
+          System.out.println(" __[header:"+next+"="+req.getHeader(next)+"]");
+      }
       int length = req.getContentLength();
       if (length > 0) {
           BufferedRequestWrapper bufferedRequest = new BufferedRequestWrapper(req, length);

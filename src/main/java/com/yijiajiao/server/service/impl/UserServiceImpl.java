@@ -385,7 +385,8 @@ public class UserServiceImpl extends BaseService implements UserService{
             userInfoResultBean.setEaseobUserName(euser.getUsername());
             resultBean.setSucResult(userInfoResultBean);
             //缓存登录信息
-            TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id());
+            TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id(),
+                    userInfoResultBean.getRefreshToken());
 
             //保分计划部分保存登录信息保存
             try {

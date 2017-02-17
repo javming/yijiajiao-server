@@ -31,7 +31,7 @@ public class RedisUtil {
 		log.info("jedis-pool init success!");
     }
 
-	/**
+	/**á
 	 * 获取jedis
 	 */
     public static Jedis getJedis(){
