@@ -1,6 +1,7 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.UuidBean;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.StringUtil;
@@ -678,6 +679,80 @@ public class UserController {
                                      @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
         return userService.getMyOrderInfo(openId,year,month);
+
+    }
+
+    /**
+     * 申请面授
+     */
+    @POST
+    @Path("/applyPermission")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean applyPermission(ApplyPermissionBean applyPermissionBean){
+
+        return userService.applyPermission(applyPermissionBean);
+
+    }
+    /**
+     * 提交基础测试
+     */
+    @POST
+    @Path("/passTest")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean passTest(PassTestBean passTestBean){
+
+        return userService.passTest(passTestBean);
+
+    }
+    /**
+     * 答疑提交申请
+     */
+    @POST
+    @Path("/insertAnswerPermission")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean){
+
+        return userService.insertAnswerPermission(updateanswerpermissionBean);
+
+    }
+    /**
+     *  申请免试时间
+     */
+    @POST
+    @Path("/applyInterviewTime")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean){
+
+        return userService.applyInterviewTime(applyinterviewtimeBean);
+
+    }
+    /**
+     * 申请面授时间
+     */
+    @POST
+    @Path("/applyFacingTeachTime")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean){
+
+        return userService.applyFacingTeachTime(applyfacingteachtimeBean);
+
+    }
+
+    /**
+     *  诊断试卷提交答案
+     */
+    @POST
+    @Path("/diagnoseAnswerSubmit")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+
+        return userService.diagnoseAnswerSubmit(diagnoseAnswerSubmitBean);
 
     }
 

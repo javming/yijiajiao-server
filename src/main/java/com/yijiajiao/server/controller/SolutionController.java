@@ -1,6 +1,7 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.service.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -384,4 +385,124 @@ public class SolutionController {
         return solutionService.getQuestionByRand(gradeCode,subjectCode,knowledgeCode);
 
     }
+
+
+    /**
+     * （学生端）提交答疑
+     */
+    @POST
+    @Path("/ask")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updateAsk(UpdateAskBean updateAskBean){
+
+        return solutionService.updateAsk(updateAskBean);
+
+    }
+
+    /**
+     *（教师端）回传解析
+     */
+    @POST
+    @Path("/answer")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updateAnswer(UpdateAnswerBean updateAnswerBean){
+
+        return solutionService.updateAnswer(updateAnswerBean);
+
+    }
+
+    /**
+     * Web提交教师答疑介绍信息
+     */
+    @POST
+    @Path("/addDoubt")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean addDoubt(AddDoubtBean addDoubtBean){
+
+        return solutionService.addDoubt(addDoubtBean);
+
+    }
+
+    /**
+     * Web编辑教师答疑介绍信息
+     */
+    @POST
+    @Path("/updateDoubt")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updateDoubt(AddDoubtBean addDoubtBean){
+
+        return solutionService.updateDoubt(addDoubtBean);
+
+    }
+
+    /**
+     * （学生端）提交答疑投诉
+     */
+    @POST
+    @Path("/addComplain")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean addComplain(AddComplainBean addComplainBean){
+
+        return solutionService.addComplain(addComplainBean);
+
+    }
+
+    /**
+     * （教师端）回复评价
+     */
+    @POST
+    @Path("/reBackComplain")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean reBackComplain(ReBackComplainBean reBackComplainBean){
+
+        return solutionService.reBackComplain(reBackComplainBean);
+
+    }
+
+    /**
+     * Web端教师添加时长
+     */
+    @POST
+    @Path("/addTimePakage")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean addTimePakage(AddTimePakageBean addTimePakageBean){
+
+        return solutionService.addTimePakage(addTimePakageBean);
+
+    }
+
+    /**
+     * 学生评价教师答疑
+     */
+    @POST
+    @Path("/solutionAppraise")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean solutionAppraise(AppraiseSolutionBean appraiseSolutionBean){
+
+        return solutionService.solutionAppraise(appraiseSolutionBean);
+
+    }
+
+    /**
+     * 教师添加答疑反馈
+     */
+    @POST
+    @Path("/solutionFeedBack")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean solutionFeedBack(SolutionFeedBackBean solutionFeedBackBean){
+
+        return solutionService.solutionFeedBack(solutionFeedBackBean);
+
+    }
+
+
 }

@@ -1,6 +1,10 @@
 package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.AddActivityBean;
+import com.yijiajiao.server.bean.post.AddCouponBean;
+import com.yijiajiao.server.bean.post.UpdateActivityBean;
+import com.yijiajiao.server.bean.post.UpdateCouponBean;
 
 /**
  * @AUTHOR zhaoming@eduspace
@@ -96,4 +100,12 @@ public interface PromotionService {
      * 首页抢红包
      */
     ResultBean grabRedEnvelope(String openId);
+
+    ResultBean updateActivity(UpdateActivityBean updateActivityBean);
+
+    ResultBean addActivity(AddActivityBean activityBean);
+
+    ResultBean updateCoupon(UpdateCouponBean updateCouponBean);
+
+    ResultBean addCoupon(AddCouponBean addCouponBean);
 }

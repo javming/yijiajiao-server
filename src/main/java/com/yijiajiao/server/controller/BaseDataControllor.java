@@ -1,6 +1,7 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.service.BaseDataService;
 import com.yijiajiao.server.service.OSSService;
 import com.yijiajiao.server.util.StringUtil;
@@ -114,5 +115,61 @@ public class BaseDataControllor {
         return baseDataService.nowledgeByGradeSubjectBooktype(gradeCode,subjectCode,bookTypeCode);
 
     }
+
+    /**
+     * 手动组卷添加卷头
+     */
+    @POST
+    @Path("/createExam")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean createExamHead(CreateExamBean createExamBean){
+        return baseDataService.createExamHead(createExamBean);
+    }
+
+    /**
+     * 手动组卷详情
+     */
+    @POST
+    @Path("/createExamDetail")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean){
+        return baseDataService.createExamDetail(createExamDetailBean);
+    }
+
+    /**
+     * 智能组卷
+     */
+    @POST
+    @Path("/smartCreateExam")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean smartCreateExam(SmartCreateExamBean smartCreateExamBean){
+        return baseDataService.smartCreateExam(smartCreateExamBean);
+    }
+
+    /**
+     * 手动组卷添加试题
+     */
+    @POST
+    @Path("/addQuestions")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean addQuestions(AddQuestionsBean addQuestionsBean){
+        return baseDataService.addQuestions(addQuestionsBean);
+    }
+    /**
+     * 学生交卷
+     */
+    @POST
+    @Path("/markingPaper")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+        return baseDataService.markingPaper(diagnoseAnswerSubmitBean);
+    }
+
+
 
 }

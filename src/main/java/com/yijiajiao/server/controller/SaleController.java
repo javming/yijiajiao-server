@@ -1,6 +1,10 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.CreateOrderBean;
+import com.yijiajiao.server.bean.post.CreateRefundBean;
+import com.yijiajiao.server.bean.post.UpdateAppraiseBean;
+import com.yijiajiao.server.bean.post.UpdateAppraiseRebackBean;
 import com.yijiajiao.server.service.SaleService;
 import com.yijiajiao.server.service.WaresService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -456,5 +460,54 @@ public class SaleController {
         return saleService.myStudentsByCurriculumType(openId,curriculumType,pageNo,pageSize);
 
     }
+
+    /**
+     *
+     */
+    @POST
+    @Path("/updateAppraise")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean){
+
+        return saleService.updateAppraise(updateAppraiseBean);
+    }
+
+    /**
+     * 提交订单
+     */
+    @POST
+    @Path("/createOrder")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean createOrder(CreateOrderBean createOrderBean){
+
+        return saleService.createOrder(createOrderBean);
+    }
+
+    /**
+     *
+     */
+    @POST
+    @Path("/updateAppraiseReback")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean){
+
+        return saleService.updateAppraiseReback(updateAppraiseRebackBean);
+    }
+
+    /**
+     * 退款
+     */
+    @POST
+    @Path("/createRefund")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean createRefund(CreateRefundBean createRefundBean){
+
+        return saleService.createRefund(createRefundBean);
+    }
+
 
 }

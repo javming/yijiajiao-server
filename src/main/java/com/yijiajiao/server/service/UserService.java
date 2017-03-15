@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.IdsBean;
 import com.yijiajiao.server.bean.user.UuidBean;
 
@@ -251,4 +252,16 @@ public interface UserService {
     ResultBean getMyOrderInfo(String openId, Integer year, Integer month);
 
     ResultBean finduserinfobyid(IdsBean ids);
+
+    ResultBean applyPermission(ApplyPermissionBean applyPermissionBean);
+
+    ResultBean passTest(PassTestBean passTestBean);
+
+    ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean);
+
+    ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean);
+
+    ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean);
+
+    ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
 }

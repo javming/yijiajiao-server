@@ -2,6 +2,7 @@ package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.IdBean;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.SetMsgBean;
 import com.yijiajiao.server.service.MsgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -128,6 +129,19 @@ public class MsgControllor {
     public ResultBean getMsgStation(@HeaderParam("openId") String openId,@QueryParam("openId")String userOpenId,@QueryParam("isTeacher")int isTeacher){
 
         return msgService.getMsgStation(userOpenId,isTeacher);
+
+    }
+
+    /**
+     *
+     */
+    @POST
+    @Path("/setMsg")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean setMsg(SetMsgBean setMsgBean){
+
+        return msgService.setMsg(setMsgBean);
 
     }
 }

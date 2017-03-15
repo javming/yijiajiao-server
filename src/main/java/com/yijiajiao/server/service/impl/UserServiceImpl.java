@@ -17,6 +17,9 @@ import com.eeduspace.uuims.api.response.user.ValidateUserResponse;
 import com.eeduspace.uuims.api.util.Digest;
 import com.eeduspace.uuims.api.util.GsonUtil;
 import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.post.*;
+import com.yijiajiao.server.bean.post.ApplyfacingteachtimeBean;
+import com.yijiajiao.server.bean.post.ApplyinterviewtimeBean;
 import com.yijiajiao.server.bean.solution.EaseObUserInfoBean;
 import com.yijiajiao.server.bean.user.*;
 import com.yijiajiao.server.bean.wares.CollectQueryBean;
@@ -783,6 +786,36 @@ public class UserServiceImpl extends BaseService implements UserService{
             resultBean.setFailMsg(Integer.parseInt(r.getCode() + ""), r.getMessage());
         }
         return resultBean;
+    }
+
+    @Override
+    public ResultBean applyPermission(ApplyPermissionBean applyPermissionBean) {
+        return null;
+    }
+
+    @Override
+    public ResultBean passTest(PassTestBean passTestBean) {
+        return null;
+    }
+
+    @Override
+    public ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean) {
+        return null;
+    }
+
+    @Override
+    public ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean) {
+        return null;
+    }
+
+    @Override
+    public ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean) {
+        return null;
+    }
+
+    @Override
+    public ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+        return null;
     }
 
 }

@@ -2,6 +2,7 @@ package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.IdBean;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.SetMsgBean;
 
 
 public interface MsgService {
@@ -45,4 +46,6 @@ public interface MsgService {
      *	获取未读站内信数量
      */
     ResultBean getMsgStation(String userOpenId, int isTeacher);
+
+    ResultBean setMsg(SetMsgBean setMsgBean);
 }

@@ -2,6 +2,7 @@ package com.yijiajiao.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.EasyUserListBean;
 import com.yijiajiao.server.bean.user.IdsBean;
 import com.yijiajiao.server.bean.wares.WaresBean;
@@ -121,5 +122,51 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
         return dealResult(log,response);
     }
 
+    @Override
+    public ResultBean createExamHead(CreateExamBean createExamBean) {
+        String path = Config.getString("wares.createExam");
+        String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean) {
+        String path = Config.getString("wares.CreateExamDetail");
+        String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamDetailBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean smartCreateExam(SmartCreateExamBean smartCreateExamBean) {
+        String path = Config.getString("wares.SmartCreateExam");
+        String response = ServerUtil.httpRest(WARES_SERVER,path,null,smartCreateExamBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean addQuestions(AddQuestionsBean addQuestionsBean) {
+        String path = Config.getString("wares.AddQuestions");
+        String response = ServerUtil.httpRest(WARES_SERVER,path,null,addQuestionsBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+        String markingPaper = Config.getString("wares.markingPaper");
+        String res = ServerUtil.httpRest(WARES_SERVER, markingPaper, null, diagnoseAnswerSubmitBean, "POST");
+        log.info("markingPaper  return is " + res);
+        ResultBean result = JSON.parseObject(res, ResultBean.class);
+        if(result.getCode()!=200){
+            return result;
+        }
+        if (diagnoseAnswerSubmitBean.getSubmitType()==null){
+            System.out.println("修改ishomework为 2");
+            String updateIsHomework=Config.getString("sale.updateIsHomework")+"openId="+diagnoseAnswerSubmitBean.getOpenId()+
+                    "&commodityId="+diagnoseAnswerSubmitBean.getWaresId()+"&slaveId="+
+                    (diagnoseAnswerSubmitBean.getWaresSlaveId()==null||"".equals(diagnoseAnswerSubmitBean.getWaresSlaveId())?-1:diagnoseAnswerSubmitBean.getWaresSlaveId());
+            ServerUtil.httpRest(SALE_SERVER,updateIsHomework,null,null,"PUT");
+        }
+        return result;
+    }
 
 }

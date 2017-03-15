@@ -2,6 +2,7 @@ package com.yijiajiao.server.service.impl;
 
 import com.yijiajiao.server.bean.IdBean;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.SetMsgBean;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.MsgService;
 import com.yijiajiao.server.util.Config;
@@ -73,6 +74,13 @@ public class MsgServiceImpl extends BaseService implements MsgService{
     public ResultBean getMsgStation(String openId, int isTeacher) {
         String path =Config.getString("msg.getMsgStation")+ "openId=" + openId + "&isTeacher=" + isTeacher ;
         String response = ServerUtil.httpRest(MSG_SERVER,path,null,null,"GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean setMsg(SetMsgBean setMsgBean) {
+        String path =Config.getString("msg.setMsg");
+        String response = ServerUtil.httpRest(MSG_SERVER,path,null,setMsgBean,"POST");
         return dealResult(log,response);
     }
 }

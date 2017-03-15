@@ -2,6 +2,7 @@ package com.yijiajiao.server.service.impl;
 
 import com.yijiajiao.server.bean.BaofenUserBean;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.FeedBackBean;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.OSSService;
 import com.yijiajiao.server.util.Config;
@@ -67,5 +68,12 @@ public class OSSServiceImpl extends BaseService implements OSSService {
         String path =Config.getString("oss.hotSearch")+"searchName="+searchName+"&type="+type;
         String response = ServerUtil.httpRest(OSS_SERVER,path,null,null,"GET");
         dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean feedBack(FeedBackBean feedBackBean) {
+        String path =Config.getString("oss.feedBack");
+        String response = ServerUtil.httpRest(OSS_SERVER,path,null,feedBackBean,"POST");
+        return dealResult(log,response);
     }
 }

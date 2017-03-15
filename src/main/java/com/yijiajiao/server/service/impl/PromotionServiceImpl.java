@@ -2,6 +2,10 @@ package com.yijiajiao.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.AddActivityBean;
+import com.yijiajiao.server.bean.post.AddCouponBean;
+import com.yijiajiao.server.bean.post.UpdateActivityBean;
+import com.yijiajiao.server.bean.post.UpdateCouponBean;
 import com.yijiajiao.server.bean.promotion.PromotionWare;
 import com.yijiajiao.server.bean.promotion.PromotionWareList;
 import com.yijiajiao.server.bean.wares.WaresBean;
@@ -225,6 +229,34 @@ public class PromotionServiceImpl extends BaseService implements PromotionServic
     public ResultBean grabRedEnvelope(String openId) {
         String path = Config.getString("promotion.grabRedEnvelope")+"openId="+openId;
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, null, "GET");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean updateActivity(UpdateActivityBean updateActivityBean) {
+        String path = Config.getString("promotion.updateActivity");
+        String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateActivityBean, "POST");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean addActivity(AddActivityBean activityBean) {
+        String path = Config.getString("promotion.addActivity");
+        String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, activityBean, "POST");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean updateCoupon(UpdateCouponBean updateCouponBean) {
+        String path = Config.getString("promotion.updateCoupon");
+        String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateCouponBean, "POST");
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean addCoupon(AddCouponBean addCouponBean) {
+        String path = Config.getString("promotion.addCoupon");
+        String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, addCouponBean, "POST");
         return dealResult(response);
     }
 }

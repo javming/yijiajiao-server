@@ -2,6 +2,7 @@ package com.yijiajiao.server.service;
 
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 
 public interface BaseDataService {
 
@@ -33,4 +34,13 @@ public interface BaseDataService {
     ResultBean nowledgeByGradeSubjectBooktype(String gradeCode, String subjectCode, String bookTypeCode);
 
 
+    ResultBean createExamHead(CreateExamBean createExamBean);
+
+    ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean);
+
+    ResultBean smartCreateExam(SmartCreateExamBean createExamDetailBean);
+
+    ResultBean addQuestions(AddQuestionsBean createExamDetailBean);
+
+    ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
 }

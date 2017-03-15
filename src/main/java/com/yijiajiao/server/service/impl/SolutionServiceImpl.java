@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service.impl;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.solution.CountTimeBean;
 import com.yijiajiao.server.bean.solution.ExitGrabBean;
 import com.yijiajiao.server.bean.solution.ExitSolutionBean;
@@ -236,6 +237,69 @@ public class SolutionServiceImpl extends BaseService implements SolutionService{
         body.put("subjectCode", subjectCode);
         body.put("knowledgeCode", knowledgeCode);
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, body, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean updateAsk(UpdateAskBean updateAskBean) {
+        String path = Config.getString("solution.updateAsk");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, updateAskBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean updateAnswer(UpdateAnswerBean updateAnswerBean) {
+        String path = Config.getString("solution.updateAnswer");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, updateAnswerBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean addDoubt(AddDoubtBean addDoubtBean) {
+        String path = Config.getString("solution.addDoubt");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addDoubtBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean updateDoubt(AddDoubtBean addDoubtBean) {
+        String path = Config.getString("solution.updateDoubt");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addDoubtBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean addComplain(AddComplainBean addComplainBean) {
+        String path = Config.getString("solution.addComplain");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addComplainBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean reBackComplain(ReBackComplainBean reBackComplainBean) {
+        String path = Config.getString("solution.reBackComplain");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, reBackComplainBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean addTimePakage(AddTimePakageBean addTimePakageBean) {
+        String path = Config.getString("solution.addtimepakage");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addTimePakageBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean solutionAppraise(AppraiseSolutionBean appraiseSolutionBean) {
+        String path = Config.getString("solution.solutionAppraise");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, appraiseSolutionBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean solutionFeedBack(SolutionFeedBackBean solutionFeedBackBean) {
+        String path = Config.getString("solution.solutionFeedBack");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solutionFeedBackBean, "POST");
         return dealResult(log,response);
     }
 }

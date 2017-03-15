@@ -2,6 +2,7 @@ package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.BaofenUserBean;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.FeedBackBean;
 import com.yijiajiao.server.service.OSSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -100,4 +101,18 @@ public class OSSController {
         return ossService.baofenUserAdd(baoUserBean);
 
     }
+    /**
+     *
+     */
+    @POST
+    @Path("/feedBack")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean feedBack(FeedBackBean feedBackBean){
+
+        return ossService.feedBack(feedBackBean);
+
+    }
+
+
 }

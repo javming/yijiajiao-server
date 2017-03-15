@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service.impl;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.BindAliPayBean;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.FinanceService;
 import com.yijiajiao.server.util.Config;
@@ -41,5 +42,11 @@ public class FinanceServiceImpl extends BaseService implements FinanceService{
         return dealResult(log ,response);
     }
 
+    @Override
+    public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
+        String  path = Config.getString("bindAliPay");
+        String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, bindAliPayBean, "POST");
+        return dealResult(log ,response);
+    }
 
 }

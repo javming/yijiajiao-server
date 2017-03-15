@@ -1,6 +1,7 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.BindAliPayBean;
 import com.yijiajiao.server.service.FinanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,4 +60,20 @@ public class FinanceController {
         return financeService.delAlipayByOpenId(openId);
 
     }
+
+    /**
+     * 绑定支付宝账号
+     */
+    @POST
+    @Path("/bindAliPay")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
+
+        return financeService.bindAliPay(bindAliPayBean);
+
+    }
+
+
+
 }

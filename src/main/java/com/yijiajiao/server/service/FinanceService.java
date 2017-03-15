@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.BindAliPayBean;
 
 public interface FinanceService {
 
@@ -18,4 +19,6 @@ public interface FinanceService {
      * 账户解绑支付宝账号
      */
     ResultBean delAlipayByOpenId(String openId);
+
+    ResultBean bindAliPay(BindAliPayBean bindAliPayBean);
 }

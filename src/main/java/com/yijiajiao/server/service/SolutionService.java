@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 
 
 public interface SolutionService {
@@ -139,4 +140,22 @@ public interface SolutionService {
      *	获取答疑近似题
      */
     ResultBean getQuestionByRand(String gradeCode, String subjectCode, String knowledgeCode);
+
+    ResultBean updateAsk(UpdateAskBean updateAskBean);
+
+    ResultBean updateAnswer(UpdateAnswerBean updateAnswerBean);
+
+    ResultBean addDoubt(AddDoubtBean addDoubtBean);
+
+    ResultBean updateDoubt(AddDoubtBean addDoubtBean);
+
+    ResultBean addComplain(AddComplainBean addComplainBean);
+
+    ResultBean reBackComplain(ReBackComplainBean reBackComplainBean);
+
+    ResultBean addTimePakage(AddTimePakageBean addTimePakageBean);
+
+    ResultBean solutionAppraise(AppraiseSolutionBean appraiseSolutionBean);
+
+    ResultBean solutionFeedBack(SolutionFeedBackBean solutionFeedBackBean);
 }

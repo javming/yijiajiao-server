@@ -3,6 +3,10 @@ package com.yijiajiao.server.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.SystemStatus;
+import com.yijiajiao.server.bean.post.CreateOrderBean;
+import com.yijiajiao.server.bean.post.CreateRefundBean;
+import com.yijiajiao.server.bean.post.UpdateAppraiseBean;
+import com.yijiajiao.server.bean.post.UpdateAppraiseRebackBean;
 import com.yijiajiao.server.bean.sale.*;
 import com.yijiajiao.server.bean.solution.CountBean;
 import com.yijiajiao.server.service.BaseService;
@@ -310,6 +314,34 @@ public class SaleServiceImpl extends BaseService implements com.yijiajiao.server
         String path = Config.getString("sale.myStudentsByCurriculumType")+"teacherId="+openId+"&curriculumType="+curriculumType
                 +"&pageNo="+pageNo+"&pageSize="+pageSize;
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,null,"GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean) {
+        String path = Config.getString("sale.updateAppraise");
+        String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean createOrder(CreateOrderBean createOrderBean) {
+        String path = Config.getString("sale.createOrder");
+        String response = ServerUtil.httpRest(SALE_SERVER,path,null,createOrderBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean) {
+        String path = Config.getString("sale.updateAppraiseReback");
+        String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseRebackBean,"POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean createRefund(CreateRefundBean createRefundBean) {
+        String path = Config.getString("sale.createRefund");
+        String response = ServerUtil.httpRest(SALE_SERVER,path,null,createRefundBean,"POST");
         return dealResult(log,response);
     }
 }

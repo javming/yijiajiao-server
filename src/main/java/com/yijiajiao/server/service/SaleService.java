@@ -1,6 +1,10 @@
 package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.CreateOrderBean;
+import com.yijiajiao.server.bean.post.CreateRefundBean;
+import com.yijiajiao.server.bean.post.UpdateAppraiseBean;
+import com.yijiajiao.server.bean.post.UpdateAppraiseRebackBean;
 
 
 public interface SaleService {
@@ -66,4 +70,12 @@ public interface SaleService {
     ResultBean checkTime(String openId, String startTime, String endTime);
 
     ResultBean myStudentsByCurriculumType(String openId, Integer curriculumType, int pageNo, int pageSize);
+
+    ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean);
+
+    ResultBean createOrder(CreateOrderBean createOrderBean);
+
+    ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean);
+
+    ResultBean createRefund(CreateRefundBean createRefundBean);
 }

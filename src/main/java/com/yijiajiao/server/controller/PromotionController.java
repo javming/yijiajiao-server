@@ -1,10 +1,12 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.SystemStatus;
+import com.yijiajiao.server.bean.post.AddActivityBean;
+import com.yijiajiao.server.bean.post.AddCouponBean;
+import com.yijiajiao.server.bean.post.UpdateActivityBean;
+import com.yijiajiao.server.bean.post.UpdateCouponBean;
 import com.yijiajiao.server.service.PromotionService;
 import com.yijiajiao.server.service.impl.PromotionServiceImpl;
-import com.yijiajiao.server.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -29,13 +31,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean operateCouponState(@HeaderParam("token")String token,@HeaderParam("openId")String openId,
-                                   @QueryParam("couponId") int couponId,@QueryParam("state")String state){
+    public ResultBean operateCouponState(@HeaderParam("openId")String openId, @QueryParam("couponId") int couponId,
+                                         @QueryParam("state")String state){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.operateCouponState(couponId,state);
 
     }
@@ -47,13 +45,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean pageShowCoupon(@HeaderParam("token")String token,@HeaderParam("openId")String openId,
-                                     @QueryParam("couponId") int couponId,@QueryParam("display") String display){
+    public ResultBean pageShowCoupon(@HeaderParam("openId")String openId, @QueryParam("couponId") int couponId,
+                                     @QueryParam("display") String display){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.pageShowCoupon(couponId,display);
 
     }
@@ -66,13 +60,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean sendCouponCode2Stu(@HeaderParam("token")String token,@HeaderParam("openId")String openId,
-                                         @QueryParam("couponId")int couponId,@QueryParam("stuOpenids")String stuOpenids){
+    public ResultBean sendCouponCode2Stu(@HeaderParam("openId")String openId, @QueryParam("couponId")int couponId,
+                                         @QueryParam("stuOpenids")String stuOpenids){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.sendCouponCode2Stu(couponId,stuOpenids);
 
     }
@@ -84,13 +74,8 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean acquireCouponCodeSelf(@HeaderParam("token")String token,@HeaderParam("openId")String openId,
-                                            @QueryParam("couponId")int couponId){
+    public ResultBean acquireCouponCodeSelf(@HeaderParam("openId")String openId, @QueryParam("couponId")int couponId){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.acquireCouponCodeSelf(couponId,openId);
 
     }
@@ -102,14 +87,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean checkInputCouponCode(@HeaderParam("token")String token,@HeaderParam("openId")String openId,
-                                           @QueryParam("couponCode")String couponCode,@QueryParam("wareId")Integer wareId,
-                                           @QueryParam("teacherId")String teacherId){
+    public ResultBean checkInputCouponCode(@HeaderParam("openId")String openId, @QueryParam("couponCode")String couponCode,
+                                           @QueryParam("wareId")Integer wareId, @QueryParam("teacherId")String teacherId){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.checkInputCouponCode(openId,couponCode,wareId,teacherId);
     }
 
@@ -133,14 +113,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean myCoupons4Teacher(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
-                                 @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,@QueryParam("state")int state,
+    public ResultBean myCoupons4Teacher(@HeaderParam("openId")String openId, @QueryParam("pageNo") int pageNo,
+                                        @QueryParam("pageSize")int pageSize,@QueryParam("state")int state,
                                  @QueryParam("minValue")Double minValue,@QueryParam("maxValue")Double maxValue){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.myCoupons4Teacher(openId,pageNo,pageSize,state,minValue,maxValue);
     }
 
@@ -165,14 +141,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean couponCodePageForShop(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean couponCodePageForShop(@HeaderParam("openId")String openId,
                                         @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
                                         @QueryParam("couponId") int couponId,@QueryParam("type") int type){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.couponCodePageForShop(couponId,pageNo,pageSize,type);
     }
 
@@ -183,14 +155,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean couponCodePageForStu(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean couponCodePageForStu(@HeaderParam("openId")String openId,
                                         @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
                                         @QueryParam("state") Integer state){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.couponCodePageForStu(openId,pageNo,pageSize,state);
     }
 
@@ -201,13 +169,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean couponCodeListForStuOrder(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean couponCodeListForStuOrder(@HeaderParam("openId")String openId,
                                         @QueryParam("teacherId") String teacherId,@QueryParam("wareId") String wareId){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.couponCodeListForStuOrder(openId,teacherId,wareId);
     }
 
@@ -231,13 +195,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addActivityCourse(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean addActivityCourse(@HeaderParam("openId")String openId,
                                         @QueryParam("activityId") int activityId,@QueryParam("courseIds")String courseIds){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.addActivityCourse(activityId,courseIds);
     }
 
@@ -248,13 +208,9 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean setActivityState(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean setActivityState( @HeaderParam("openId")String openId,
                                         @QueryParam("activityId") int activityId,@QueryParam("state")String state){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.setActivityState(activityId,state);
     }
 
@@ -265,14 +221,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean activities(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean activities(@HeaderParam("openId")String openId,
                                  @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
                                  @QueryParam("state")int state){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.activities(openId,pageNo,pageSize,state);
     }
 
@@ -284,14 +236,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean activityWareList(@HeaderParam("token")String token, @HeaderParam("openId")String openId,
+    public ResultBean activityWareList( @HeaderParam("openId")String openId,
                                        @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
                                        @QueryParam("activityId") int activityId,@QueryParam("activeStatus") Integer activeStatus){
 
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
         return promotionService.activityWareList(openId,pageNo,pageSize,activityId,activeStatus);
     }
 
@@ -303,12 +251,58 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean grabRedEnvelope(@HeaderParam("token")String token, @HeaderParam("openId")String openId){
-        if (!TokenUtil.verifyToken(token,openId)){
-            return ResultBean.getFailResult(SystemStatus.TOKEN_TIME_OUT);
-        }
-        promotionService = new PromotionServiceImpl();
+    public ResultBean grabRedEnvelope(@HeaderParam("openId")String openId){
+
         return promotionService.grabRedEnvelope(openId);
     }
+
+    /**
+     * 添加优惠券
+     */
+    @POST
+    @Path("/addCoupon")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean addCoupon(AddCouponBean addCouponBean){
+
+        return promotionService.addCoupon(addCouponBean);
+    }
+
+    /**
+     * 修改优惠券信息
+     */
+    @POST
+    @Path("/updateCoupon")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean updateCoupon(UpdateCouponBean updateCouponBean){
+
+        return promotionService.updateCoupon(updateCouponBean);
+    }
+
+    /**
+     * 创建活动
+     */
+    @POST
+    @Path("/addActivity")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean addActivity(AddActivityBean activityBean){
+
+        return promotionService.addActivity(activityBean);
+    }
+
+    /**
+     * 修改活动信息
+     */
+    @POST
+    @Path("/updateActivity")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean updateActivity(UpdateActivityBean updateActivityBean){
+
+        return promotionService.updateActivity(updateActivityBean);
+    }
+
 
 }

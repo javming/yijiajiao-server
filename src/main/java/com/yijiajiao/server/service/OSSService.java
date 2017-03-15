@@ -2,6 +2,7 @@ package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.BaofenUserBean;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.FeedBackBean;
 
 public interface OSSService {
 
@@ -39,4 +40,6 @@ public interface OSSService {
      *  增加热搜词
      */
     void hotSearch(String searchName,int type);
+
+    ResultBean feedBack(FeedBackBean feedBackBean);
 }
