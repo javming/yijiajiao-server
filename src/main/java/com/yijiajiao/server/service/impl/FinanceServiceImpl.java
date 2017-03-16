@@ -1,5 +1,6 @@
 package com.yijiajiao.server.service.impl;
 
+import com.yijiajiao.server.bean.IOSMoneyBean;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.BindAliPayBean;
 import com.yijiajiao.server.service.BaseService;
@@ -44,9 +45,40 @@ public class FinanceServiceImpl extends BaseService implements FinanceService{
 
     @Override
     public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
-        String  path = Config.getString("bindAliPay");
+        String  path = Config.getString("finance.bindAliPay");
         String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, bindAliPayBean, "POST");
         return dealResult(log ,response);
+    }
+
+    @Override
+    public ResultBean remainIOSMoney(String openId) {
+        String  path = Config.getString("finance.remainIOSMoney")+"openId="+openId;
+        String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean addIOSMoney(IOSMoneyBean iosMoneyBean) {
+        String  path = Config.getString("finance.addIOSMoney");
+        String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, iosMoneyBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean consumeIOSMoney(IOSMoneyBean iosMoneyBean) {
+        String  path = Config.getString("finance.consumeIOSMoney");
+        String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, iosMoneyBean, "POST");
+        ResultBean result = dealResult(log,response);
+        if (result == null || result.getCode()!= 200){
+            log.info("IOS内购账户扣款失败，删除当前订单！！");
+            String s = Config.getString("sale.updateOrderStatus") + "orderNumber=" + iosMoneyBean.getTransactionId()
+                    + "&status=" + 9 +"&payType="+4;
+            ResultBean put = dealResult(log,ServerUtil.httpRest(SALE_SERVER, s, null, null, "PUT"));
+            if (put == null || put.getCode()!=200){
+                return put;
+            }
+        }
+        return result;
     }
 
 }

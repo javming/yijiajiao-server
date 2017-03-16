@@ -1,5 +1,6 @@
 package com.yijiajiao.server.controller;
 
+import com.yijiajiao.server.bean.IOSMoneyBean;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.BindAliPayBean;
 import com.yijiajiao.server.service.FinanceService;
@@ -72,6 +73,42 @@ public class FinanceController {
 
         return financeService.bindAliPay(bindAliPayBean);
 
+    }
+
+    /**
+     * 查询iOS内购账户余额
+     */
+    @GET
+    @Path("/remainIOSMoney")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean remainIOSMoney(@HeaderParam("openId")String openId){
+
+        return financeService.remainIOSMoney(openId);
+    }
+
+    /**
+     * IOS内购账户充值
+     */
+    @POST
+    @Path("/addIOSMoney")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean addIOSMoney(@HeaderParam("openId")String openId, IOSMoneyBean iosMoneyBean){
+
+        return financeService.addIOSMoney(iosMoneyBean);
+    }
+
+    /**
+     * IOS内购余额消费
+     */
+    @POST
+    @Path("/consumeIOSMoney")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean consumeIOSMoney(@HeaderParam("openId")String openId, IOSMoneyBean iosMoneyBean){
+
+        return financeService.consumeIOSMoney(iosMoneyBean);
     }
 
 

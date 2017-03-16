@@ -2,60 +2,54 @@ package com.yijiajiao.server.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class Config {
-  private static final ResourceBundle baseConfig = ResourceBundle.getBundle("config");
+    private static final ResourceBundle baseConfig = ResourceBundle.getBundle("config");
+    private static final Properties config = new Properties();
+    private static final Properties uuims_config = new Properties();
 
-  private static Locale locale=Locale.getDefault();
-
-  private static final Properties config = new Properties();
-  private static final Properties uuims_config = new Properties();
-
-  static {
-    try {
-      config.load(new FileInputStream(baseConfig.getString("localConfig")));
-      uuims_config.load(new FileInputStream(baseConfig.getString("uuimsConfig")));
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
+    static {
+        try {
+            config.load(new FileInputStream(baseConfig.getString("localConfig")));
+            uuims_config.load(new FileInputStream(baseConfig.getString("uuimsConfig")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
-  }
 
-  private Config() {}
+    private Config() {}
 
-  public static String getString(String key) {
-    return config.getProperty(key);
-  }
+    public static String getString(String key) {
+        return config.getProperty(key);
+    }
 
-  public static Integer getInt(String key) {
-    return Integer.parseInt(config.getProperty(key));
-  }
+    public static Integer getInt(String key) {
+        return Integer.parseInt(config.getProperty(key));
+    }
 
-  public static String getBaseString(String key){
-    return baseConfig.getString(key);
-  }
+    public static String getBaseString(String key){
+        return baseConfig.getString(key);
+    }
 
-  /**
-   * uuims配置文件
-   * @param key
-   * @return
-   */
-  public static String uuimsString(String key) {
-    return uuims_config.getProperty(key);
-  }
+    /**
+     * uuims配置文件
+     */
+    public static String uuimsString(String key) {
+        return uuims_config.getProperty(key);
+    }
 
-  public static int uuimsInt(String key) {
-    String temp = uuims_config.getProperty(key);
-    return Integer.parseInt(temp);
+    public static int uuimsInt(String key) {
+        String temp = uuims_config.getProperty(key);
+        return Integer.parseInt(temp);
 
-  }
+    }
 
-  public static void main(String[] args) {
-    String user = Config.getString("user_server");
-    System.out.println(user);
-  }
- 
+    public static void main(String[] args) {
+        String user = Config.getString("user_server");
+        System.out.println(user);
+    }
+
 }

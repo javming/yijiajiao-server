@@ -1,9 +1,11 @@
 package com.yijiajiao.server.controller;
 
+import com.yijiajiao.server.bean.RedisParam;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.service.BaseDataService;
 import com.yijiajiao.server.service.OSSService;
+import com.yijiajiao.server.service.impl.BaseDataServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,6 +119,153 @@ public class BaseDataControllor {
     }
 
     /**
+     *@description		小课列表
+     *@date 2016-8-9
+     */
+    @GET
+    @Path("/smallList")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean smallList(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode") String subjectCode,
+                                @QueryParam("bookType") String bookType,@QueryParam("categoriesCode") String categoriesCode){
+
+        return baseDataService.getSmallList(gradeCode,subjectCode,bookType,categoriesCode);
+
+    }
+
+    /**
+     *@description		模块列表
+     *@date 2016-8-9
+     */
+    @GET
+    @Path("/moduleListBySmall")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean moduleListBySmall(@QueryParam("small") String small){
+
+        return baseDataService.moduleListBySmall(small);
+
+    }
+
+    /**
+     *@description		模块详情
+     *@date 2016-8-9
+     */
+    @GET
+    @Path("/moduleInfoByCode")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean moduleInfoByCode(@QueryParam("code") String code){
+
+        return baseDataService.moduleInfoByCode(code);
+
+    }
+
+    @GET
+    @Path("/baseCourseAndStage")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean baseCourseAndStage(){
+
+        return baseDataService.baseCourseAndStage();
+
+    }
+
+    /**
+     *	通过学科获取试题类型
+     */
+    @GET
+    @Path("/questionTypeBySubject")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean questionTypeBySubject(@QueryParam("subjectCode") String subjectCode){
+
+        return baseDataService.questionTypeBySubject(subjectCode);
+
+    }
+
+    /**
+     *	获取试题
+     */
+    @GET
+    @Path("/questions")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean questions(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode") String subjectCode,
+                                @QueryParam("knowledgeCode") String knowledgeCode,@QueryParam("type") String type,@QueryParam("pageNo") int pageNo,
+                                @QueryParam("pageSize") int pageSize){
+
+        return baseDataService.questions(gradeCode,subjectCode,knowledgeCode,type,pageNo,pageSize);
+
+    }
+    /**
+     * 获取知识点
+     */
+    @GET
+    @Path("/knowledgesNew")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean knowledgesNew(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode")String subjectCode,
+                                    @QueryParam("bookTypeCode") String bookTypeCode){
+
+        return baseDataService.knowledgesNew(gradeCode,subjectCode,bookTypeCode);
+
+    }
+
+    /**
+     * 批量获取试题详情
+     */
+    @GET
+    @Path("/questionsinfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean questionsinfo(@QueryParam("ids") String ids,@QueryParam("subjectCode") String subjectCode){
+
+        return baseDataService.questionsinfo(ids,subjectCode);
+
+    }
+
+    /**
+     *	获取教师名家开奖课数量和答疑包数量
+     */
+    @GET
+    @Path("/getMyFameCourseAndSolutionCount")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getMyFameCourseAndSolutionCount(@QueryParam("teacherId") String teacherId){
+
+        return baseDataService.getMyFameCourseAndSolutionCount(teacherId);
+
+    }
+    /**
+     *教师工作室获取易教体系试卷列表
+     */
+    @GET
+    @Path("/papersOnYjj")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean papersOnYjj(@QueryParam("paperId")String paperId,@QueryParam("moduleId")String moduleId,@QueryParam("slaveId") String slaveId,
+                                  @QueryParam("type")String type){
+
+        return baseDataService.papersOnYjj(paperId,moduleId,slaveId,type);
+
+    }
+
+    /**
+     * 根据学科获取学年
+     */
+    @GET
+    @Path("/gradeBySubject")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean gradeBySubject(@QueryParam("subjectCode")String subjectCode){
+
+        return baseDataService.gradeBySubject(subjectCode);
+
+    }
+
+
+    /**
      * 手动组卷添加卷头
      */
     @POST
@@ -159,6 +308,8 @@ public class BaseDataControllor {
     public ResultBean addQuestions(AddQuestionsBean addQuestionsBean){
         return baseDataService.addQuestions(addQuestionsBean);
     }
+
+
     /**
      * 学生交卷
      */
@@ -171,5 +322,42 @@ public class BaseDataControllor {
     }
 
 
+    /**
+     * @return
+     */
+    @POST
+    @Path("/getFromRedis")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getFromRedis(RedisParam redisParam){
+        baseDataService = new BaseDataServiceImpl();
+        return baseDataService.getFromRedis(redisParam);
 
+    }
+
+    /**
+     *
+     * @param key 获取web-token：key=openId+0  app-token：key=openId+1
+     * @param dbNum 数据库编号
+     * @return
+    {
+    "requestId": "6f011247e7c845f6974ee06896916f42",
+    "httpCode": "",
+    "code": 200,
+    "message": "success",
+    "result":
+    {
+    "token": "TK002CD4C26504F470",
+    "ttl": 7178（秒）
+    }
+    }
+     */
+    @GET
+    @Path("/getToken")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean getToken(@QueryParam("key") String key,@QueryParam("dbNum") int dbNum){
+        baseDataService = new BaseDataServiceImpl();
+        return baseDataService.getToken(key,dbNum);
+    }
 }

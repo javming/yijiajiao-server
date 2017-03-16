@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service;
 
 
+import com.yijiajiao.server.bean.RedisParam;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
 
@@ -43,4 +44,30 @@ public interface BaseDataService {
     ResultBean addQuestions(AddQuestionsBean createExamDetailBean);
 
     ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
+
+    ResultBean getFromRedis(RedisParam redisParam);
+
+    ResultBean getToken(String key, int dbNum);
+
+    ResultBean getSmallList(String gradeCode, String subjectCode, String bookType, String categoriesCode);
+
+    ResultBean moduleListBySmall(String small);
+
+    ResultBean moduleInfoByCode(String code);
+
+    ResultBean baseCourseAndStage();
+
+    ResultBean questionTypeBySubject(String subjectCode);
+
+    ResultBean questions(String gradeCode, String subjectCode, String knowledgeCode, String type, int pageNo, int pageSize);
+
+    ResultBean knowledgesNew(String gradeCode, String subjectCode, String bookTypeCode);
+
+    ResultBean questionsinfo(String ids, String subjectCode);
+
+    ResultBean getMyFameCourseAndSolutionCount(String teacherId);
+
+    ResultBean papersOnYjj(String paperId, String moduleId, String slaveId, String type);
+
+    ResultBean gradeBySubject(String subjectCode);
 }

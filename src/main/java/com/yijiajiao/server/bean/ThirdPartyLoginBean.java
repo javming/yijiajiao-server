@@ -13,7 +13,16 @@ public class ThirdPartyLoginBean {
     private String client_id;
     private String version;// 1.0 亿家教自用户  2.0阳光保险用户
     private String thirdPartyUserCode;//第三方用户code
+    public ThirdPartyLoginBean() {
+    }
 
+    public ThirdPartyLoginBean(String telephone, String password, String client_id, String version, String thirdPartyUserCode) {
+        this.telephone = telephone;
+        this.password = password;
+        this.client_id = client_id;
+        this.version = version;
+        this.thirdPartyUserCode = thirdPartyUserCode;
+    }
     public String getTelephone() {
         return telephone;
     }

@@ -590,4 +590,17 @@ public class WaresController {
         return waresService.updateWaresLive(wareLiveBean);
     }
 
+    /**
+     * 检验学生是否交过卷
+     */
+    @GET
+    @Path("/checkPaperCommitByStudent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean checkPaperCommitByStudent(@HeaderParam("openId")String openId,
+                                                @QueryParam("waresId") String waresId,@QueryParam("paperId")String paperId,
+                                                @QueryParam("waresSlaveId")String waresSlaveId){
+
+        return waresService.checkPaperCommitByStudent(waresId,waresSlaveId,paperId,openId);
+    }
 }

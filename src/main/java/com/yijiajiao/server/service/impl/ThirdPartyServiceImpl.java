@@ -1,6 +1,7 @@
 package com.yijiajiao.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.eeduspace.uuims.api.OauthClient;
 import com.eeduspace.uuims.api.model.UserModel;
 import com.eeduspace.uuims.api.request.user.DescribeUserByPhoneRequest;
@@ -8,17 +9,14 @@ import com.eeduspace.uuims.api.response.user.DescribeUserByPhoneResponse;
 import com.eeduspace.uuims.api.util.Digest;
 import com.eeduspace.uuims.api.util.GsonUtil;
 import com.google.gson.Gson;
-import com.yijiajiao.server.bean.LoginBean;
-import com.yijiajiao.server.bean.RegisterBean;
-import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.ThirdPartyLoginBean;
+import com.yijiajiao.server.bean.*;
+import com.yijiajiao.server.bean.post.CreateOrderBean;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.ThirdPartyService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -31,10 +29,11 @@ import java.util.Map;
 
 @Service("thirdPartyService")
 public class ThirdPartyServiceImpl extends BaseService implements ThirdPartyService {
-    @Autowired
-    private UserService userService;
     private static final Logger log = LoggerFactory.getLogger(ThirdPartyServiceImpl.class);
     private static OauthFactory oauthFactory    = new OauthFactory();
+    private UserService userService = new UserServiceImpl();
+    private static final String user_server = Config.getString("user_server");
+    private static final String sale_server = Config.getString("sale_server");
     private static final String YJKJ_SCREATKEY=Config.getString("sun_yjkj_screatKey");
 
     @Override
@@ -70,7 +69,7 @@ public class ThirdPartyServiceImpl extends BaseService implements ThirdPartyServ
         body.put("phone",tdLoginBean.getTelephone());
         body.put("sunShineUserCode",tdLoginBean.getThirdPartyUserCode());
         try {
-            String response = ServerUtil.httpRest(USER_SERVER, path, null, body, "POST");
+            String response = ServerUtil.httpRest(user_server, path, null, body, "POST");
             ResultBean resultBean = JSON.parseObject(response,ResultBean.class);
             if(resultBean.getCode()!=200){
                 log.error("保存第三方code时出错："+resultBean.getMessage());
@@ -78,10 +77,9 @@ public class ThirdPartyServiceImpl extends BaseService implements ThirdPartyServ
         } catch (Exception e) {
             log.error("保存第三方code时出错："+e.getMessage());
         }
-        return userService.login(loginBean);
+        return  userService.login(loginBean);
 
     }
-
 
     /**
      * 检验手机号是否存在
@@ -105,5 +103,68 @@ public class ThirdPartyServiceImpl extends BaseService implements ThirdPartyServ
             e.printStackTrace();
         }
         return user;
+    }
+
+    @Override
+    public ResultBean syncOrderInfo(SyncOrderInfo syncOrderInfo) {
+        log.info("syncOrderInfo_params:\n  "+syncOrderInfo);
+        //根据第三方用户code获得亿家教用户openId
+        String path = Config.getString("user.thirdUserInfo")+"sunShineCode="+syncOrderInfo.getUserCode();
+        String userResponse = ServerUtil.httpRest(user_server, path, null, null, "GET");
+        ResultBean resultBean = JSON.parseObject(userResponse, ResultBean.class);
+        if (resultBean.getCode()!=200){
+            return ResultBean.getFailResult(400001,"用户code异常!");
+        }else if (null == resultBean.getResult()){
+            String phone = DESEncode.encode(syncOrderInfo.getUserCode(),YJKJ_SCREATKEY);
+            String version = "1.0";
+            if (syncOrderInfo.getOrderSource()==1) version = "2.0";
+            else if (syncOrderInfo.getOrderSource()==2) version = "3.0";
+            ThirdPartyLoginBean tdLoginBean = new ThirdPartyLoginBean(phone,null,"E-web",version,phone);
+            ResultBean loginResult = loginOrRegister(tdLoginBean);
+            if (loginResult.getCode() != 200){
+                return loginResult;
+            }else {
+                resultBean.setSucResult(loginResult.getResult());
+            }
+        }
+        String openId = JSON.parseObject(JSON.toJSONString(resultBean.getResult())).getString("openId");
+        //同步订单信息
+        CreateOrderBean createOrderBean = new CreateOrderBean();
+        createOrderBean.setOrder_number(syncOrderInfo.getOrderNum());
+        createOrderBean.setCommodity_id(syncOrderInfo.getCommodityId());
+        createOrderBean.setOpen_id(openId);
+        createOrderBean.setOrder_price(syncOrderInfo.getOrderPrice());
+        createOrderBean.setCommodityType(syncOrderInfo.getCommodityType());
+        createOrderBean.setDiagnosisGoodsDetailCode(syncOrderInfo.getDiagnosisGoodsDetailCode());
+        createOrderBean.setDiagnosisGoodsCode(syncOrderInfo.getDiagnosisGoodsCode());
+        createOrderBean.setDiagnosticRecordsName(syncOrderInfo.getDiagnosticRecordsName());
+        createOrderBean.setMultiPaperCode(syncOrderInfo.getMultiPaperCode());
+        createOrderBean.setUsed(syncOrderInfo.getUsed());
+        createOrderBean.setDiscountPrice(null==syncOrderInfo.getDiscountPrice()?syncOrderInfo.getOrderPrice():syncOrderInfo.getDiscountPrice());
+        createOrderBean.setExamStartDate(syncOrderInfo.getExamStartDate());
+        createOrderBean.setExamEndDate(syncOrderInfo.getExamEndDate());
+        createOrderBean.setDiscountYard(syncOrderInfo.getDiscountYard());
+        createOrderBean.setPrice(syncOrderInfo.getPrice());
+        createOrderBean.setSunshine(syncOrderInfo.getOrderSource());
+        createOrderBean.setTeacherId(syncOrderInfo.getTeacherId());
+        JSONObject bodyParam = JSON.parseObject(JSON.toJSONString(createOrderBean));
+        String path2 = Config.getString("sale.createOrder");
+        String saleResponse = ServerUtil.httpRest(sale_server, path2, null, bodyParam, "POST");
+        ResultBean bean = JSON.parseObject(saleResponse, ResultBean.class);
+        if (bean.getCode()!= 200){
+            return ResultBean.getFailResult(bean.getCode(),bean.getMessage());
+        }
+        return ResultBean.getSucResult("syncOrderInfo success!");
+    }
+
+    @Override
+    public ResultBean updateOrderStatus(String orderNumber, int status) {
+        String path = Config.getString("sale.updateOrderStatus")+"orderNumber="+orderNumber+"&status="+status;
+        String response = ServerUtil.httpRest(sale_server, path, null, null, "PUT");
+        ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
+        if (resultBean.getCode()!=200){
+            return ResultBean.getFailResult(resultBean.getCode(),resultBean.getMessage());
+        }
+        return ResultBean.getSucResult("updateOrderStatus success!");
     }
 }

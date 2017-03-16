@@ -3,6 +3,7 @@ package com.yijiajiao.server.bean.post;
 import java.util.List;
 
 public class CreateOrderBean {
+	private String order_number;
 	private String commodity_id;
 	private double order_price;
 	private String open_id;
@@ -20,6 +21,14 @@ public class CreateOrderBean {
 	private String price;//原价
 	private int sunshine;//1阳光 0易家教
 	private String teacherId;
+
+	public String getOrder_number() {
+		return order_number;
+	}
+
+	public void setOrder_number(String order_number) {
+		this.order_number = order_number;
+	}
 
 	public String getTeacherId() {
 		return teacherId;

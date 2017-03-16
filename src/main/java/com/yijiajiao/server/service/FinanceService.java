@@ -1,5 +1,6 @@
 package com.yijiajiao.server.service;
 
+import com.yijiajiao.server.bean.IOSMoneyBean;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.BindAliPayBean;
 
@@ -21,4 +22,10 @@ public interface FinanceService {
     ResultBean delAlipayByOpenId(String openId);
 
     ResultBean bindAliPay(BindAliPayBean bindAliPayBean);
+
+    ResultBean remainIOSMoney(String openId);
+
+    ResultBean addIOSMoney(IOSMoneyBean iosMoneyBean);
+
+    ResultBean consumeIOSMoney(IOSMoneyBean iosMoneyBean);
 }

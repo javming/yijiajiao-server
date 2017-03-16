@@ -1,7 +1,9 @@
 package com.yijiajiao.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yijiajiao.server.bean.RedisParam;
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.SystemStatus;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.EasyUserListBean;
 import com.yijiajiao.server.bean.user.IdsBean;
@@ -11,12 +13,16 @@ import com.yijiajiao.server.service.BaseDataService;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.Config;
+import com.yijiajiao.server.util.RedisUtil;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @AUTHOR zhaoming@eduspace
@@ -123,6 +129,105 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
     }
 
     @Override
+    public ResultBean getSmallList(String gradeCode, String subjectCode, String bookType, String categoriesCode) {
+        String path = Config.getString("wares.smallList")+"gradeCode="+(StringUtil.isEmpty(gradeCode)?"":gradeCode)
+                +(StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))
+                +(StringUtil.isEmpty(bookType)?"":("&bookType="+bookType))
+                +(StringUtil.isEmpty(categoriesCode)?"":("&categoriesCode="+categoriesCode));
+        String response = ServerUtil.httpRest(WARES_SERVER,path,null,null,"GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean moduleListBySmall(String small) {
+        String path = Config.getString("wares.moduleListBySmall")+small;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean moduleInfoByCode(String code) {
+        String path = Config.getString("wares.moduleInfoByCode")+code;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean baseCourseAndStage() {
+        String path = Config.getString("wares.baseCourseAndStage");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean questionTypeBySubject(String subjectCode) {
+        String path = Config.getString("wares.questionTypeBySubject")+subjectCode;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean questions(String gradeCode,String subjectCode,String knowledgeCode,String type,int pageNo,int pageSize) {
+        String path = Config.getString("wares.questions") +"pageNo="+pageNo+"&pageSize="+pageSize
+                +(StringUtil.isEmpty(gradeCode)?"":("&gradeCode="+gradeCode)) +(StringUtil.isEmpty(type)?"":("&type="+type))
+                +(StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))
+                +(StringUtil.isEmpty(knowledgeCode)?"":("&knowledgeCode="+knowledgeCode));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+    @Override
+    public ResultBean knowledgesNew(String gradeCode, String subjectCode, String bookTypeCode) {
+        ResultBean resultBean = new ResultBean();
+        String path = Config.getString("wares.knowledgesNew")+"gradeCode="+(StringUtil.isEmpty(gradeCode)?"":gradeCode)
+                +(StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))
+                +(StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode="+bookTypeCode));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean questionsinfo(String ids, String subjectCode) {
+        String path = Config.getString("wares.questionsinfo")+"ids="+ids+"&subjectCode="+subjectCode;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getMyFameCourseAndSolutionCount(String openId) {
+        ResultBean resultBean = new ResultBean();
+        String path= Config.getString("solution.getPackageCount")+"openId="+openId;
+        Map<String,Object> counts = new HashMap<String,Object>();
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        ResultBean r = JSON.parseObject(response, ResultBean.class);
+        if (r.getCode() == 200) {
+            log.info("请求答疑包数量正确信息： " + r.getResult());
+            counts.put("packageCount", r.getResult());
+        } else {
+            log.info("请求答疑包数量错误信息： " + r.getMessage());
+            counts.put("packageCount", 0);
+        }
+        resultBean.setSucResult(counts);
+        return resultBean;
+    }
+
+    @Override
+    public ResultBean papersOnYjj(String paperId, String moduleId,String slaveId,String type) {
+        String path = Config.getString("wares.papersOnYjj")+"moduleId="+moduleId
+                                        +(StringUtil.isEmpty(paperId)?"":("&paperId="+paperId))
+                                        +(StringUtil.isEmpty(slaveId)?"":("&slaveId="+slaveId))
+                                        +(StringUtil.isEmpty(type)?"":("&type="+type));
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean gradeBySubject(String subjectCode) {
+        String path = Config.getString("wares.gradeBySubject")+subjectCode;
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
+        return dealResult(log,response);
+    }
+
+    @Override
     public ResultBean createExamHead(CreateExamBean createExamBean) {
         String path = Config.getString("wares.createExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamBean,"POST");
@@ -169,4 +274,31 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
         return result;
     }
 
+    @Override
+    public ResultBean getFromRedis(RedisParam redisParam) {
+        ResultBean result = new ResultBean();
+        log.info("key =="+redisParam.getKey()+", dbNum=="+redisParam.getDbNum());
+        try {
+            String value = RedisUtil.getValue(redisParam.getKey(), redisParam.getDbNum());
+            log.info("the retuning of redis is :"+value);
+            //JSONObject jsonObject = JSONObject.fromObject(value);
+            Object jsonObject = JSON.parse(value);
+            result.setSucResult(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFailMsg(SystemStatus.SERVER_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultBean getToken(String key, int dbNum) {
+        String value = RedisUtil.getValue(key, dbNum);
+        long ttl = RedisUtil.ttl(key);
+        log.info("{token="+value+",ttl="+ttl+"}");
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("token",value);
+        result.put("ttl",ttl);
+        return ResultBean.getSucResult(result);
+    }
 }
