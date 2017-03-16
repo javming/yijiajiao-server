@@ -264,4 +264,10 @@ public interface UserService {
     ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean);
 
     ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
+
+    ResultBean applyTeacher(ApplyTeacherBean applyTeacherBean);
+
+    ResultBean setStore(SetStoreBean setStoreBean);
+
+    ResultBean complete(CompleteInfoBean completeInfoBean);
 }

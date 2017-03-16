@@ -28,15 +28,16 @@ public class ExceptionHandler implements ExceptionMapper<Exception>{
     public Response toResponse(Exception e) {
 
         e.printStackTrace();
-        log.error("异常信息："+e.getMessage()+";异常类型："+e.getClass()+e.getLocalizedMessage());
-
-        if (StringUtil.contains(e.getMessage(),"null for uri")){
-            return Response.ok(JSON.toJSONString(ResultBean.getFailResult(404,"url not fond!")),
-                    MediaType.APPLICATION_JSON).build();
+        log.error("[异常信息：<"+e.getMessage()+">]");
+        ResultBean result = new ResultBean();
+        if (StringUtil.contains(e.getMessage(),"NumberFormatException")){
+            result.setFailMsg(SystemStatus.UNAUTHORIZED);
+        }else if (StringUtil.contains(e.getMessage(),"null for uri")){
+            result.setFailMsg(404,"url not fond!");
         }else {
-            return Response.ok(JSON.toJSONString(ResultBean.getFailResult(SystemStatus.SERVER_ERROR)),
-                    MediaType.APPLICATION_JSON).build();
+            result.setFailMsg(SystemStatus.SERVER_ERROR);
         }
+        return Response.ok(JSON.toJSONString(result),MediaType.APPLICATION_JSON).build();
 
     }
 }

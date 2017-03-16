@@ -3,6 +3,7 @@ package com.yijiajiao.server.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.SystemStatus;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.sale.CheckTimeBean;
 import com.yijiajiao.server.bean.user.EasyUserListBean;
 import com.yijiajiao.server.bean.user.IdsBean;
@@ -380,6 +381,48 @@ public class WaresServiceImpl extends BaseService implements WaresService {
         String path = Config.getString("ware.homework");
         HomeworkParamBean hpb = new HomeworkParamBean(commodityId,type,homeWorkCode);
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, hpb, "PUT");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean) {
+        String path = Config.getString("wares.uploadvideo");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null,uploadVideoParamBean , "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean wareLive(WareLiveBean wareLiveBean) {
+        String path = Config.getString("wares.warelive");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean wareVideo(WareVideoBean wareVideoBean) {
+        String path = Config.getString("wares.warevideo");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareVideoBean , "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean) {
+        String path = Config.getString("wares.wareOne2One");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, wareOne2OneBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean commitExam(CommitExamBean commitExamBean) {
+        String path = Config.getString("wares.commitExam");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null, commitExamBean, "POST");
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean updateWaresLive(WareLiveBean wareLiveBean) {
+        String path = Config.getString("wares.updateWaresLive");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
         return dealResult(log,response);
     }
 

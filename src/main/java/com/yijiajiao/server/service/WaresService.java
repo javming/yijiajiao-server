@@ -2,6 +2,7 @@ package com.yijiajiao.server.service;
 
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.wares.BackUrlInfoParamBean;
 import com.yijiajiao.server.bean.wares.BackUrlListParamBean;
 import com.yijiajiao.server.bean.wares.M3JoinMtgParam;
@@ -104,4 +105,16 @@ public interface WaresService {
     ResultBean appMtgInfo(M3JoinMtgParam m3JoinMtgParam);
 
     ResultBean homework(int commodityId, String type, String homeWorkCode);
+
+    ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean);
+
+    ResultBean wareLive(WareLiveBean wareLiveBean);
+
+    ResultBean wareVideo(WareVideoBean wareVideoBean);
+
+    ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean);
+
+    ResultBean commitExam(CommitExamBean commitExamBean);
+
+    ResultBean updateWaresLive(WareLiveBean wareLiveBean);
 }

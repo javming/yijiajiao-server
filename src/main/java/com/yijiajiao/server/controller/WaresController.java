@@ -1,6 +1,7 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
+import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.wares.BackUrlInfoParamBean;
 import com.yijiajiao.server.bean.wares.BackUrlListParamBean;
 import com.yijiajiao.server.bean.wares.M3JoinMtgParam;
@@ -522,4 +523,71 @@ public class WaresController {
         return waresService.appMtgInfo(m3JoinMtgParam);
 
     }
+
+    /**
+     *  上传视频
+     */
+    @POST
+    @Path("/uploadVideo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean){
+        return waresService.uploadVideo(uploadVideoParamBean);
+    }
+
+    /**
+     *  创建直播课
+     */
+    @POST
+    @Path("/wareLive")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean wareLive(WareLiveBean wareLiveBean){
+        return waresService.wareLive(wareLiveBean);
+    }
+
+    /**
+     *  创建视频课
+     */
+    @POST
+    @Path("/wareVideo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean wareVideo(WareVideoBean wareVideoBean){
+        return waresService.wareVideo(wareVideoBean);
+    }
+
+    /**
+     * 创建一对一课
+     */
+    @POST
+    @Path("/wareOne2One")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean){
+        return waresService.wareOne2One(wareOne2OneBean);
+    }
+
+    /**
+     *  提交诊断报告
+     */
+    @POST
+    @Path("/commitExam")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean commitExam(CommitExamBean commitExamBean){
+        return waresService.commitExam(commitExamBean);
+    }
+
+    /**
+     *  修改课程
+     */
+    @POST
+    @Path("/updateWaresLive")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean updateWaresLive(WareLiveBean wareLiveBean){
+        return waresService.updateWaresLive(wareLiveBean);
+    }
+
 }

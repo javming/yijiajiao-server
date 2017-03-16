@@ -756,6 +756,41 @@ public class UserController {
 
     }
 
+    /**
+     *  申请教师
+     */
+    @POST
+    @Path("/applyTeacher")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean applyTeacher(ApplyTeacherBean applyTeacherBean){
 
+        return userService.applyTeacher(applyTeacherBean);
+
+    }
+    /**
+     *  工作室设置
+     */
+    @POST
+    @Path("/setStore")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean setStore(SetStoreBean setStoreBean){
+
+        return userService.setStore(setStoreBean);
+
+    }
+    /**
+     *  完善个人信息
+     */
+    @POST
+    @Path("/complete")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean complete(CompleteInfoBean completeInfoBean){
+
+        return userService.complete(completeInfoBean);
+
+    }
 
 }
