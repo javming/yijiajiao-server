@@ -139,9 +139,9 @@ public class MsgControllor {
     @Path("/setMsg")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean setMsg(SetMsgBean setMsgBean){
+    public ResultBean setMsg(@HeaderParam("tag")String tag,SetMsgBean setMsgBean){
 
-        return msgService.setMsg(setMsgBean);
+        return msgService.setMsg(tag,setMsgBean);
 
     }
 }

@@ -141,21 +141,21 @@ public interface SolutionService {
      */
     ResultBean getQuestionByRand(String gradeCode, String subjectCode, String knowledgeCode);
 
-    ResultBean updateAsk(UpdateAskBean updateAskBean);
+    ResultBean updateAsk(String tag, UpdateAskBean updateAskBean);
 
-    ResultBean updateAnswer(UpdateAnswerBean updateAnswerBean);
+    ResultBean updateAnswer(String tag, UpdateAnswerBean updateAnswerBean);
 
-    ResultBean addDoubt(AddDoubtBean addDoubtBean);
+    ResultBean addDoubt(String tag, AddDoubtBean addDoubtBean);
 
-    ResultBean updateDoubt(AddDoubtBean addDoubtBean);
+    ResultBean updateDoubt(String tag, AddDoubtBean addDoubtBean);
 
-    ResultBean addComplain(AddComplainBean addComplainBean);
+    ResultBean addComplain(String tag, AddComplainBean addComplainBean);
 
-    ResultBean reBackComplain(ReBackComplainBean reBackComplainBean);
+    ResultBean reBackComplain(String tag, ReBackComplainBean reBackComplainBean);
 
-    ResultBean addTimePakage(AddTimePakageBean addTimePakageBean);
+    ResultBean addTimePakage(String tag, AddTimePakageBean addTimePakageBean);
 
-    ResultBean solutionAppraise(AppraiseSolutionBean appraiseSolutionBean);
+    ResultBean solutionAppraise(String tag, AppraiseSolutionBean appraiseSolutionBean);
 
-    ResultBean solutionFeedBack(SolutionFeedBackBean solutionFeedBackBean);
+    ResultBean solutionFeedBack(String tag, SolutionFeedBackBean solutionFeedBackBean);
 }

@@ -47,5 +47,5 @@ public interface MsgService {
      */
     ResultBean getMsgStation(String userOpenId, int isTeacher);
 
-    ResultBean setMsg(SetMsgBean setMsgBean);
+    ResultBean setMsg(String tag, SetMsgBean setMsgBean);
 }

@@ -26,8 +26,10 @@ import com.yijiajiao.server.bean.wares.CollectQueryBean;
 import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -43,6 +45,9 @@ import java.util.Map;
 public class UserServiceImpl extends BaseService implements UserService{
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private MemcachedClient memcachedClient;
 
     private static OauthFactory oauthFactory    = new OauthFactory();
 
@@ -789,65 +794,81 @@ public class UserServiceImpl extends BaseService implements UserService{
     }
 
     @Override
-    public ResultBean applyPermission(ApplyPermissionBean applyPermissionBean) {
+    public ResultBean applyPermission(String tag, ApplyPermissionBean applyPermissionBean) {
         String path = Config.getString("user.applyPermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyPermissionBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean passTest(PassTestBean passTestBean) {
+    public ResultBean passTest(String tag, PassTestBean passTestBean) {
         String path = Config.getString("user.passTest");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,passTestBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean) {
+    public ResultBean insertAnswerPermission(String tag, UpdateanswerpermissionBean updateanswerpermissionBean) {
         String path = Config.getString("user.insertanswerpermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,updateanswerpermissionBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean) {
+    public ResultBean applyInterviewTime(String tag, ApplyinterviewtimeBean applyinterviewtimeBean) {
         String path = Config.getString("user.applyinterviewtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyinterviewtimeBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean) {
+    public ResultBean applyFacingTeachTime(String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean) {
         String path = Config.getString("user.applyfacingteachtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyfacingteachtimeBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+    public ResultBean diagnoseAnswerSubmit(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
         String path = Config.getString("user.diagnoseAnswerSubmit");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,diagnoseAnswerSubmitBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean applyTeacher(ApplyTeacherBean applyTeacherBean) {
+    public ResultBean applyTeacher(String tag, ApplyTeacherBean applyTeacherBean) {
         String path = Config.getString("user.applyteacher");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,applyTeacherBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean setStore(SetStoreBean setStoreBean) {
+    public ResultBean setStore(String tag, SetStoreBean setStoreBean) {
         String path = Config.getString("user.setStore");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,setStoreBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean complete(CompleteInfoBean completeInfoBean) {
+    public ResultBean complete(String tag, CompleteInfoBean completeInfoBean) {
         String path = Config.getString("user.complete");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,completeInfoBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean findteacherStore(String teacherId) {
+        String path = Config.getString("user.findteacherStore") + "userOpenId=" + teacherId;
+        String response = ServerUtil.httpRest(USER_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
 

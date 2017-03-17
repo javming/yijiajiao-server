@@ -35,15 +35,15 @@ public interface BaseDataService {
     ResultBean nowledgeByGradeSubjectBooktype(String gradeCode, String subjectCode, String bookTypeCode);
 
 
-    ResultBean createExamHead(CreateExamBean createExamBean);
+    ResultBean createExamHead(String tag, CreateExamBean createExamBean);
 
-    ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean);
+    ResultBean createExamDetail(String tag, CreateExamDetailBean createExamDetailBean);
 
-    ResultBean smartCreateExam(SmartCreateExamBean createExamDetailBean);
+    ResultBean smartCreateExam(String tag, SmartCreateExamBean createExamDetailBean);
 
-    ResultBean addQuestions(AddQuestionsBean createExamDetailBean);
+    ResultBean addQuestions(String tag, AddQuestionsBean createExamDetailBean);
 
-    ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
+    ResultBean markingPaper(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
 
     ResultBean getFromRedis(RedisParam redisParam);
 

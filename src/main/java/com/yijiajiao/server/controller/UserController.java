@@ -4,6 +4,7 @@ import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.UuidBean;
 import com.yijiajiao.server.service.UserService;
+import com.yijiajiao.server.service.impl.UserServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -122,6 +123,21 @@ public class UserController {
             orders="desc";
         }
         return userService.findteacher(pageNo, pageSize, gradeCode, subjectCode, orderType,orders);
+    }
+
+    /**
+     * 查询教师店铺信息
+     * @param teacherId
+     * @return
+     */
+    @GET
+    @Path("/findteacherstore")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean findteacherStore(@QueryParam("teacherId") String teacherId) {
+
+         return userService.findteacherStore(teacherId);
+
     }
 
     /**
@@ -689,9 +705,9 @@ public class UserController {
     @Path("/applyPermission")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyPermission(ApplyPermissionBean applyPermissionBean){
+    public ResultBean applyPermission(@HeaderParam("tag")String tag, ApplyPermissionBean applyPermissionBean){
 
-        return userService.applyPermission(applyPermissionBean);
+        return userService.applyPermission(tag,applyPermissionBean);
 
     }
     /**
@@ -701,9 +717,9 @@ public class UserController {
     @Path("/passTest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean passTest(PassTestBean passTestBean){
+    public ResultBean passTest(@HeaderParam("tag")String tag, PassTestBean passTestBean){
 
-        return userService.passTest(passTestBean);
+        return userService.passTest(tag,passTestBean);
 
     }
     /**
@@ -713,9 +729,9 @@ public class UserController {
     @Path("/insertAnswerPermission")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean){
+    public ResultBean insertAnswerPermission(@HeaderParam("tag")String tag, UpdateanswerpermissionBean updateanswerpermissionBean){
 
-        return userService.insertAnswerPermission(updateanswerpermissionBean);
+        return userService.insertAnswerPermission(tag,updateanswerpermissionBean);
 
     }
     /**
@@ -725,9 +741,9 @@ public class UserController {
     @Path("/applyInterviewTime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean){
+    public ResultBean applyInterviewTime(@HeaderParam("tag")String tag, ApplyinterviewtimeBean applyinterviewtimeBean){
 
-        return userService.applyInterviewTime(applyinterviewtimeBean);
+        return userService.applyInterviewTime(tag,applyinterviewtimeBean);
 
     }
     /**
@@ -737,9 +753,9 @@ public class UserController {
     @Path("/applyFacingTeachTime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean){
+    public ResultBean applyFacingTeachTime(@HeaderParam("tag")String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean){
 
-        return userService.applyFacingTeachTime(applyfacingteachtimeBean);
+        return userService.applyFacingTeachTime(tag,applyfacingteachtimeBean);
 
     }
 
@@ -750,9 +766,9 @@ public class UserController {
     @Path("/diagnoseAnswerSubmit")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+    public ResultBean diagnoseAnswerSubmit(@HeaderParam("tag")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
 
-        return userService.diagnoseAnswerSubmit(diagnoseAnswerSubmitBean);
+        return userService.diagnoseAnswerSubmit(tag,diagnoseAnswerSubmitBean);
 
     }
 
@@ -763,9 +779,9 @@ public class UserController {
     @Path("/applyTeacher")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyTeacher(ApplyTeacherBean applyTeacherBean){
+    public ResultBean applyTeacher(@HeaderParam("tag")String tag, ApplyTeacherBean applyTeacherBean){
 
-        return userService.applyTeacher(applyTeacherBean);
+        return userService.applyTeacher(tag,applyTeacherBean);
 
     }
     /**
@@ -775,9 +791,9 @@ public class UserController {
     @Path("/setStore")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean setStore(SetStoreBean setStoreBean){
+    public ResultBean setStore(@HeaderParam("tag")String tag,SetStoreBean setStoreBean){
 
-        return userService.setStore(setStoreBean);
+        return userService.setStore(tag,setStoreBean);
 
     }
     /**
@@ -787,9 +803,9 @@ public class UserController {
     @Path("/complete")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean complete(CompleteInfoBean completeInfoBean){
+    public ResultBean complete(@HeaderParam("tag")String tag,CompleteInfoBean completeInfoBean){
 
-        return userService.complete(completeInfoBean);
+        return userService.complete(tag,completeInfoBean);
 
     }
 

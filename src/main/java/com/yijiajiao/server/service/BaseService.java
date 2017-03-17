@@ -3,6 +3,7 @@ package com.yijiajiao.server.service;
 import com.alibaba.fastjson.JSON;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.util.Config;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 
 /**
@@ -37,7 +38,7 @@ public class BaseService {
 
     public static final String KEEPMARK_SERVER = Config.getString("keepmark_server");
 
-
+    protected static final int IF_MEM = Config.getInt("if_mem");
 
 
     /**
@@ -54,5 +55,18 @@ public class BaseService {
             result.setFailMsg(resultBean.getCode(), resultBean.getMessage());
         }
         return result;
+    }
+
+    protected void setMemcached(String tag, String value, MemcachedClient memcachedClient,Logger log) {
+
+        try {
+            boolean flag = memcachedClient.set(tag, 0, value);
+            if (flag) {
+                log.info("set memcached result is :    " + tag + " = " + value);
+            }
+        } catch (Exception e) {
+            log.error("set MemcachedClient failed!!");
+            e.printStackTrace();
+        }
     }
 }

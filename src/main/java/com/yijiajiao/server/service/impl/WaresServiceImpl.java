@@ -14,6 +14,7 @@ import com.yijiajiao.server.service.WaresService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class WaresServiceImpl extends BaseService implements WaresService {
     private static final Logger log = LoggerFactory.getLogger(WaresServiceImpl.class);
     @Autowired
     private UserService userService;
+    @Autowired
+    private MemcachedClient memcachedClient;
 
     @Override
     public ResultBean timeTable(String startDate, String endDate, String openId) {
@@ -385,44 +388,50 @@ public class WaresServiceImpl extends BaseService implements WaresService {
     }
 
     @Override
-    public ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean) {
+    public ResultBean uploadVideo(String tag, UploadVideoParamBean uploadVideoParamBean) {
         String path = Config.getString("wares.uploadvideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,uploadVideoParamBean , "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean wareLive(WareLiveBean wareLiveBean) {
+    public ResultBean wareLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.warelive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean wareVideo(WareVideoBean wareVideoBean) {
+    public ResultBean wareVideo(String tag, WareVideoBean wareVideoBean) {
         String path = Config.getString("wares.warevideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareVideoBean , "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean) {
+    public ResultBean wareOne2One(String tag, WareOne2OneBean wareOne2OneBean) {
         String path = Config.getString("wares.wareOne2One");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, wareOne2OneBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean commitExam(CommitExamBean commitExamBean) {
+    public ResultBean commitExam(String tag, CommitExamBean commitExamBean) {
         String path = Config.getString("wares.commitExam");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, commitExamBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean updateWaresLive(WareLiveBean wareLiveBean) {
+    public ResultBean updateWaresLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.updateWaresLive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 

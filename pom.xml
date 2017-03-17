@@ -123,6 +123,11 @@
       <artifactId>fastjson</artifactId>
       <version>1.2.8</version>
     </dependency>
+    <dependency>
+      <groupId>com.googlecode.xmemcached</groupId>
+      <artifactId>xmemcached</artifactId>
+      <version>2.3.1</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>yijiajiao-server</finalName>

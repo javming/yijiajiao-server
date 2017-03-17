@@ -272,8 +272,8 @@ public class BaseDataControllor {
     @Path("/createExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createExamHead(CreateExamBean createExamBean){
-        return baseDataService.createExamHead(createExamBean);
+    public ResultBean createExamHead(@HeaderParam("tage")String tag, CreateExamBean createExamBean){
+        return baseDataService.createExamHead(tag,createExamBean);
     }
 
     /**
@@ -283,8 +283,8 @@ public class BaseDataControllor {
     @Path("/createExamDetail")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean){
-        return baseDataService.createExamDetail(createExamDetailBean);
+    public ResultBean createExamDetail(@HeaderParam("tage")String tag, CreateExamDetailBean createExamDetailBean){
+        return baseDataService.createExamDetail(tag,createExamDetailBean);
     }
 
     /**
@@ -294,8 +294,8 @@ public class BaseDataControllor {
     @Path("/smartCreateExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean smartCreateExam(SmartCreateExamBean smartCreateExamBean){
-        return baseDataService.smartCreateExam(smartCreateExamBean);
+    public ResultBean smartCreateExam(@HeaderParam("tage")String tag, SmartCreateExamBean smartCreateExamBean){
+        return baseDataService.smartCreateExam(tag,smartCreateExamBean);
     }
 
     /**
@@ -305,8 +305,8 @@ public class BaseDataControllor {
     @Path("/addQuestions")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean addQuestions(AddQuestionsBean addQuestionsBean){
-        return baseDataService.addQuestions(addQuestionsBean);
+    public ResultBean addQuestions(@HeaderParam("tage")String tag, AddQuestionsBean addQuestionsBean){
+        return baseDataService.addQuestions(tag,addQuestionsBean);
     }
 
 
@@ -317,8 +317,8 @@ public class BaseDataControllor {
     @Path("/markingPaper")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
-        return baseDataService.markingPaper(diagnoseAnswerSubmitBean);
+    public ResultBean markingPaper(@HeaderParam("tage")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+        return baseDataService.markingPaper(tag,diagnoseAnswerSubmitBean);
     }
 
 

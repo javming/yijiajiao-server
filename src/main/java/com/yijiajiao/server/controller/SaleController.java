@@ -468,9 +468,9 @@ public class SaleController {
     @Path("/updateAppraise")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean){
+    public ResultBean updateAppraise(@HeaderParam("tag") String tag, UpdateAppraiseBean updateAppraiseBean){
 
-        return saleService.updateAppraise(updateAppraiseBean);
+        return saleService.updateAppraise(tag,updateAppraiseBean);
     }
 
     /**
@@ -480,9 +480,9 @@ public class SaleController {
     @Path("/createOrder")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createOrder(CreateOrderBean createOrderBean){
+    public ResultBean createOrder(@HeaderParam("tag") String tag,CreateOrderBean createOrderBean){
 
-        return saleService.createOrder(createOrderBean);
+        return saleService.createOrder(tag,createOrderBean);
     }
 
     /**
@@ -492,9 +492,9 @@ public class SaleController {
     @Path("/updateAppraiseReback")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean){
+    public ResultBean updateAppraiseReback(@HeaderParam("tag") String tag,UpdateAppraiseRebackBean updateAppraiseRebackBean){
 
-        return saleService.updateAppraiseReback(updateAppraiseRebackBean);
+        return saleService.updateAppraiseReback(tag,updateAppraiseRebackBean);
     }
 
     /**
@@ -504,9 +504,9 @@ public class SaleController {
     @Path("/createRefund")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createRefund(CreateRefundBean createRefundBean){
+    public ResultBean createRefund(@HeaderParam("tag") String tag,CreateRefundBean createRefundBean){
 
-        return saleService.createRefund(createRefundBean);
+        return saleService.createRefund(tag,createRefundBean);
     }
 
 

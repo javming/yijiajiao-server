@@ -7,8 +7,10 @@ import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.FinanceService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class FinanceServiceImpl extends BaseService implements FinanceService{
 
     private static final Logger log = LoggerFactory.getLogger(FinanceServiceImpl.class);
+    @Autowired
+    private MemcachedClient memcachedClient;
 
     @Override
     public ResultBean getRemainAnswerTime(String studentId, String teacherId, String gradeCode) {
@@ -44,9 +48,10 @@ public class FinanceServiceImpl extends BaseService implements FinanceService{
     }
 
     @Override
-    public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
+    public ResultBean bindAliPay(String tag, BindAliPayBean bindAliPayBean) {
         String  path = Config.getString("finance.bindAliPay");
         String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, bindAliPayBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
         return dealResult(log ,response);
     }
 

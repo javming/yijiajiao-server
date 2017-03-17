@@ -10,8 +10,10 @@ import com.yijiajiao.server.service.SolutionService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -26,7 +28,8 @@ import java.util.Map;
 public class SolutionServiceImpl extends BaseService implements SolutionService{
 
     private static final Logger log = LoggerFactory.getLogger(SolutionServiceImpl.class);
-
+    @Autowired
+    private MemcachedClient memcachedClient;
     @Override
     public ResultBean getAnswering(String openId, int pageNo, int pageSize, String subjectCode, String gradeCodes) {
         String  path = Config.getString("solution.getAnswering")+"pageNo="+pageNo+"&pageSize="+pageSize
@@ -241,65 +244,74 @@ public class SolutionServiceImpl extends BaseService implements SolutionService{
     }
 
     @Override
-    public ResultBean updateAsk(UpdateAskBean updateAskBean) {
+    public ResultBean updateAsk(String tag, UpdateAskBean updateAskBean) {
         String path = Config.getString("solution.updateAsk");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, updateAskBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean updateAnswer(UpdateAnswerBean updateAnswerBean) {
+    public ResultBean updateAnswer(String tag, UpdateAnswerBean updateAnswerBean) {
         String path = Config.getString("solution.updateAnswer");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, updateAnswerBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean addDoubt(AddDoubtBean addDoubtBean) {
+    public ResultBean addDoubt(String tag, AddDoubtBean addDoubtBean) {
         String path = Config.getString("solution.addDoubt");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addDoubtBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean updateDoubt(AddDoubtBean addDoubtBean) {
+    public ResultBean updateDoubt(String tag, AddDoubtBean addDoubtBean) {
         String path = Config.getString("solution.updateDoubt");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addDoubtBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean addComplain(AddComplainBean addComplainBean) {
+    public ResultBean addComplain(String tag, AddComplainBean addComplainBean) {
         String path = Config.getString("solution.addComplain");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addComplainBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean reBackComplain(ReBackComplainBean reBackComplainBean) {
+    public ResultBean reBackComplain(String tag, ReBackComplainBean reBackComplainBean) {
         String path = Config.getString("solution.reBackComplain");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, reBackComplainBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean addTimePakage(AddTimePakageBean addTimePakageBean) {
+    public ResultBean addTimePakage(String tag, AddTimePakageBean addTimePakageBean) {
         String path = Config.getString("solution.addtimepakage");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addTimePakageBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean solutionAppraise(AppraiseSolutionBean appraiseSolutionBean) {
+    public ResultBean solutionAppraise(String tag, AppraiseSolutionBean appraiseSolutionBean) {
         String path = Config.getString("solution.solutionAppraise");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, appraiseSolutionBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean solutionFeedBack(SolutionFeedBackBean solutionFeedBackBean) {
+    public ResultBean solutionFeedBack(String tag, SolutionFeedBackBean solutionFeedBackBean) {
         String path = Config.getString("solution.solutionFeedBack");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solutionFeedBackBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 }

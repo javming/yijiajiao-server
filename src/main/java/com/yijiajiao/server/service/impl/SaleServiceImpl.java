@@ -13,8 +13,10 @@ import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URLDecoder;
@@ -29,7 +31,8 @@ import java.util.Date;
 public class SaleServiceImpl extends BaseService implements com.yijiajiao.server.service.SaleService {
 
     private static final Logger log = LoggerFactory.getLogger(SaleServiceImpl.class);
-
+    @Autowired
+    private MemcachedClient memcachedClient;
     @Override
     public ResultBean getOrderSign(String openId, String orderNo, String payType, int payMent, String returnWapUrl) {
         String  path=Config.getString("sale.getsign")+"orderNumber="+orderNo+"&payType="+payType+"&payMent="+payMent
@@ -318,30 +321,34 @@ public class SaleServiceImpl extends BaseService implements com.yijiajiao.server
     }
 
     @Override
-    public ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean) {
+    public ResultBean updateAppraise(String tag, UpdateAppraiseBean updateAppraiseBean) {
         String path = Config.getString("sale.updateAppraise");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean createOrder(CreateOrderBean createOrderBean) {
+    public ResultBean createOrder(String tag, CreateOrderBean createOrderBean) {
         String path = Config.getString("sale.createOrder");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createOrderBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean) {
+    public ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean) {
         String path = Config.getString("sale.updateAppraiseReback");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseRebackBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean createRefund(CreateRefundBean createRefundBean) {
+    public ResultBean createRefund(String tag, CreateRefundBean createRefundBean) {
         String path = Config.getString("sale.createRefund");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createRefundBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }
 }

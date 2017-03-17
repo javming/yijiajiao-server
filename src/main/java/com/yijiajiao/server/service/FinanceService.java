@@ -21,7 +21,7 @@ public interface FinanceService {
      */
     ResultBean delAlipayByOpenId(String openId);
 
-    ResultBean bindAliPay(BindAliPayBean bindAliPayBean);
+    ResultBean bindAliPay(String tag, BindAliPayBean bindAliPayBean);
 
     ResultBean remainIOSMoney(String openId);
 

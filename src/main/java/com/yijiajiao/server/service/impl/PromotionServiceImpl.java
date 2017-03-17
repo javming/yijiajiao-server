@@ -15,8 +15,10 @@ import com.yijiajiao.server.service.PromotionService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -29,7 +31,8 @@ import java.util.List;
 @Service("promotionService")
 public class PromotionServiceImpl extends BaseService implements PromotionService {
     private static final Logger log = LoggerFactory.getLogger(PromotionService.class);
-
+    @Autowired
+    private MemcachedClient memcachedClient;
     public String getGradeByStage(int stageCode){
         String path = Config.getString("wares.getGradeByStage") + stageCode;
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
@@ -233,30 +236,34 @@ public class PromotionServiceImpl extends BaseService implements PromotionServic
     }
 
     @Override
-    public ResultBean updateActivity(UpdateActivityBean updateActivityBean) {
+    public ResultBean updateActivity(String tag, UpdateActivityBean updateActivityBean) {
         String path = Config.getString("promotion.updateActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateActivityBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(response);
     }
 
     @Override
-    public ResultBean addActivity(AddActivityBean activityBean) {
+    public ResultBean addActivity(String tag, AddActivityBean activityBean) {
         String path = Config.getString("promotion.addActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, activityBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(response);
     }
 
     @Override
-    public ResultBean updateCoupon(UpdateCouponBean updateCouponBean) {
+    public ResultBean updateCoupon(String tag, UpdateCouponBean updateCouponBean) {
         String path = Config.getString("promotion.updateCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateCouponBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(response);
     }
 
     @Override
-    public ResultBean addCoupon(AddCouponBean addCouponBean) {
+    public ResultBean addCoupon(String tag, AddCouponBean addCouponBean) {
         String path = Config.getString("promotion.addCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, addCouponBean, "POST");
+        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(response);
     }
 }

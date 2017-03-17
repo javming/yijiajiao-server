@@ -71,11 +71,11 @@ public interface SaleService {
 
     ResultBean myStudentsByCurriculumType(String openId, Integer curriculumType, int pageNo, int pageSize);
 
-    ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean);
+    ResultBean updateAppraise(String tag, UpdateAppraiseBean updateAppraiseBean);
 
-    ResultBean createOrder(CreateOrderBean createOrderBean);
+    ResultBean createOrder(String tag, CreateOrderBean createOrderBean);
 
-    ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean);
+    ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean);
 
-    ResultBean createRefund(CreateRefundBean createRefundBean);
+    ResultBean createRefund(String tag, CreateRefundBean createRefundBean);
 }

@@ -16,6 +16,7 @@ import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.RedisUtil;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
     private static final Logger log = LoggerFactory.getLogger(BaseDataServiceImpl.class);
     @Autowired
     private UserService userService;
+    @Autowired
+    private MemcachedClient memcachedClient;
 
     @Override
     public ResultBean knowledges(String subjectCode, String gradeCode, String bookTypeCode) {
@@ -228,35 +231,39 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
     }
 
     @Override
-    public ResultBean createExamHead(CreateExamBean createExamBean) {
+    public ResultBean createExamHead(String tag, CreateExamBean createExamBean) {
         String path = Config.getString("wares.createExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean) {
+    public ResultBean createExamDetail(String tag, CreateExamDetailBean createExamDetailBean) {
         String path = Config.getString("wares.CreateExamDetail");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamDetailBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean smartCreateExam(SmartCreateExamBean smartCreateExamBean) {
+    public ResultBean smartCreateExam(String tag, SmartCreateExamBean smartCreateExamBean) {
         String path = Config.getString("wares.SmartCreateExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,smartCreateExamBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean addQuestions(AddQuestionsBean addQuestionsBean) {
+    public ResultBean addQuestions(String tag, AddQuestionsBean addQuestionsBean) {
         String path = Config.getString("wares.AddQuestions");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,addQuestionsBean,"POST");
+        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+    public ResultBean markingPaper(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
         String markingPaper = Config.getString("wares.markingPaper");
         String res = ServerUtil.httpRest(WARES_SERVER, markingPaper, null, diagnoseAnswerSubmitBean, "POST");
         log.info("markingPaper  return is " + res);
@@ -270,6 +277,10 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
                     "&commodityId="+diagnoseAnswerSubmitBean.getWaresId()+"&slaveId="+
                     (diagnoseAnswerSubmitBean.getWaresSlaveId()==null||"".equals(diagnoseAnswerSubmitBean.getWaresSlaveId())?-1:diagnoseAnswerSubmitBean.getWaresSlaveId());
             ServerUtil.httpRest(SALE_SERVER,updateIsHomework,null,null,"PUT");
+        }
+        if (IF_MEM==1) {
+            RedisUtil.putRedis(tag, res, 36000);
+            setMemcached(tag,JSON.toJSONString(ResultBean.getSucResult(tag)),memcachedClient,log);
         }
         return result;
     }

@@ -263,9 +263,9 @@ public class PromotionController {
     @Path("/addCoupon")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addCoupon(AddCouponBean addCouponBean){
+    public ResultBean addCoupon(@HeaderParam("tag")String tag,AddCouponBean addCouponBean){
 
-        return promotionService.addCoupon(addCouponBean);
+        return promotionService.addCoupon(tag,addCouponBean);
     }
 
     /**
@@ -275,9 +275,9 @@ public class PromotionController {
     @Path("/updateCoupon")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean updateCoupon(UpdateCouponBean updateCouponBean){
+    public ResultBean updateCoupon(@HeaderParam("tag")String tag,UpdateCouponBean updateCouponBean){
 
-        return promotionService.updateCoupon(updateCouponBean);
+        return promotionService.updateCoupon(tag,updateCouponBean);
     }
 
     /**
@@ -287,9 +287,9 @@ public class PromotionController {
     @Path("/addActivity")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addActivity(AddActivityBean activityBean){
+    public ResultBean addActivity(@HeaderParam("tag")String tag,AddActivityBean activityBean){
 
-        return promotionService.addActivity(activityBean);
+        return promotionService.addActivity(tag,activityBean);
     }
 
     /**
@@ -299,9 +299,9 @@ public class PromotionController {
     @Path("/updateActivity")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean updateActivity(UpdateActivityBean updateActivityBean){
+    public ResultBean updateActivity(@HeaderParam("tag")String tag,UpdateActivityBean updateActivityBean){
 
-        return promotionService.updateActivity(updateActivityBean);
+        return promotionService.updateActivity(tag,updateActivityBean);
     }
 
 

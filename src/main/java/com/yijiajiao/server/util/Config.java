@@ -48,8 +48,7 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        String user = Config.getString("user_server");
-        System.out.println(user);
+
     }
 
 }

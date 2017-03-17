@@ -531,8 +531,8 @@ public class WaresController {
     @Path("/uploadVideo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean){
-        return waresService.uploadVideo(uploadVideoParamBean);
+    public ResultBean uploadVideo(@HeaderParam("tag")String tag, UploadVideoParamBean uploadVideoParamBean){
+        return waresService.uploadVideo(tag,uploadVideoParamBean);
     }
 
     /**
@@ -542,8 +542,8 @@ public class WaresController {
     @Path("/wareLive")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareLive(WareLiveBean wareLiveBean){
-        return waresService.wareLive(wareLiveBean);
+    public ResultBean wareLive(@HeaderParam("tag")String tag,WareLiveBean wareLiveBean){
+        return waresService.wareLive(tag,wareLiveBean);
     }
 
     /**
@@ -553,8 +553,8 @@ public class WaresController {
     @Path("/wareVideo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareVideo(WareVideoBean wareVideoBean){
-        return waresService.wareVideo(wareVideoBean);
+    public ResultBean wareVideo(@HeaderParam("tag")String tag,WareVideoBean wareVideoBean){
+        return waresService.wareVideo(tag,wareVideoBean);
     }
 
     /**
@@ -564,8 +564,8 @@ public class WaresController {
     @Path("/wareOne2One")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean){
-        return waresService.wareOne2One(wareOne2OneBean);
+    public ResultBean wareOne2One(@HeaderParam("tag")String tag,WareOne2OneBean wareOne2OneBean){
+        return waresService.wareOne2One(tag,wareOne2OneBean);
     }
 
     /**
@@ -575,8 +575,8 @@ public class WaresController {
     @Path("/commitExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean commitExam(CommitExamBean commitExamBean){
-        return waresService.commitExam(commitExamBean);
+    public ResultBean commitExam(@HeaderParam("tag")String tag,CommitExamBean commitExamBean){
+        return waresService.commitExam(tag,commitExamBean);
     }
 
     /**
@@ -586,8 +586,8 @@ public class WaresController {
     @Path("/updateWaresLive")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateWaresLive(WareLiveBean wareLiveBean){
-        return waresService.updateWaresLive(wareLiveBean);
+    public ResultBean updateWaresLive(@HeaderParam("tag")String tag,WareLiveBean wareLiveBean){
+        return waresService.updateWaresLive(tag,wareLiveBean);
     }
 
     /**

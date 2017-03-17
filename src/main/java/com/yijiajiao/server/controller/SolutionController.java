@@ -394,9 +394,9 @@ public class SolutionController {
     @Path("/ask")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateAsk(UpdateAskBean updateAskBean){
+    public ResultBean updateAsk(@HeaderParam("tag")String tag, UpdateAskBean updateAskBean){
 
-        return solutionService.updateAsk(updateAskBean);
+        return solutionService.updateAsk(tag,updateAskBean);
 
     }
 
@@ -407,9 +407,9 @@ public class SolutionController {
     @Path("/answer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateAnswer(UpdateAnswerBean updateAnswerBean){
+    public ResultBean updateAnswer(@HeaderParam("tag")String tag,UpdateAnswerBean updateAnswerBean){
 
-        return solutionService.updateAnswer(updateAnswerBean);
+        return solutionService.updateAnswer(tag,updateAnswerBean);
 
     }
 
@@ -420,9 +420,9 @@ public class SolutionController {
     @Path("/addDoubt")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean addDoubt(AddDoubtBean addDoubtBean){
+    public ResultBean addDoubt(@HeaderParam("tag")String tag,AddDoubtBean addDoubtBean){
 
-        return solutionService.addDoubt(addDoubtBean);
+        return solutionService.addDoubt(tag,addDoubtBean);
 
     }
 
@@ -433,9 +433,9 @@ public class SolutionController {
     @Path("/updateDoubt")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateDoubt(AddDoubtBean addDoubtBean){
+    public ResultBean updateDoubt(@HeaderParam("tag")String tag,AddDoubtBean addDoubtBean){
 
-        return solutionService.updateDoubt(addDoubtBean);
+        return solutionService.updateDoubt(tag,addDoubtBean);
 
     }
 
@@ -446,9 +446,9 @@ public class SolutionController {
     @Path("/addComplain")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean addComplain(AddComplainBean addComplainBean){
+    public ResultBean addComplain(@HeaderParam("tag")String tag,AddComplainBean addComplainBean){
 
-        return solutionService.addComplain(addComplainBean);
+        return solutionService.addComplain(tag,addComplainBean);
 
     }
 
@@ -459,9 +459,9 @@ public class SolutionController {
     @Path("/reBackComplain")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean reBackComplain(ReBackComplainBean reBackComplainBean){
+    public ResultBean reBackComplain(@HeaderParam("tag")String tag,ReBackComplainBean reBackComplainBean){
 
-        return solutionService.reBackComplain(reBackComplainBean);
+        return solutionService.reBackComplain(tag,reBackComplainBean);
 
     }
 
@@ -472,9 +472,9 @@ public class SolutionController {
     @Path("/addTimePakage")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean addTimePakage(AddTimePakageBean addTimePakageBean){
+    public ResultBean addTimePakage(@HeaderParam("tag")String tag, AddTimePakageBean addTimePakageBean){
 
-        return solutionService.addTimePakage(addTimePakageBean);
+        return solutionService.addTimePakage(tag, addTimePakageBean);
 
     }
 
@@ -485,9 +485,9 @@ public class SolutionController {
     @Path("/solutionAppraise")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean solutionAppraise(AppraiseSolutionBean appraiseSolutionBean){
+    public ResultBean solutionAppraise(@HeaderParam("tag")String tag,AppraiseSolutionBean appraiseSolutionBean){
 
-        return solutionService.solutionAppraise(appraiseSolutionBean);
+        return solutionService.solutionAppraise(tag,appraiseSolutionBean);
 
     }
 
@@ -498,9 +498,9 @@ public class SolutionController {
     @Path("/solutionFeedBack")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean solutionFeedBack(SolutionFeedBackBean solutionFeedBackBean){
+    public ResultBean solutionFeedBack(@HeaderParam("tag")String tag,SolutionFeedBackBean solutionFeedBackBean){
 
-        return solutionService.solutionFeedBack(solutionFeedBackBean);
+        return solutionService.solutionFeedBack(tag,solutionFeedBackBean);
 
     }
 

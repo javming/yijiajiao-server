@@ -69,9 +69,9 @@ public class FinanceController {
     @Path("/bindAliPay")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
+    public ResultBean bindAliPay(@HeaderParam("tag")String tag, BindAliPayBean bindAliPayBean) {
 
-        return financeService.bindAliPay(bindAliPayBean);
+        return financeService.bindAliPay(tag,bindAliPayBean);
 
     }
 

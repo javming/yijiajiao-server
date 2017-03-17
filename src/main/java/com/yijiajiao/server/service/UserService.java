@@ -253,21 +253,23 @@ public interface UserService {
 
     ResultBean finduserinfobyid(IdsBean ids);
 
-    ResultBean applyPermission(ApplyPermissionBean applyPermissionBean);
+    ResultBean applyPermission(String tag, ApplyPermissionBean applyPermissionBean);
 
-    ResultBean passTest(PassTestBean passTestBean);
+    ResultBean passTest(String tag, PassTestBean passTestBean);
 
-    ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean);
+    ResultBean insertAnswerPermission(String tag, UpdateanswerpermissionBean updateanswerpermissionBean);
 
-    ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean);
+    ResultBean applyInterviewTime(String tag, ApplyinterviewtimeBean applyinterviewtimeBean);
 
-    ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean);
+    ResultBean applyFacingTeachTime(String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean);
 
-    ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
+    ResultBean diagnoseAnswerSubmit(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
 
-    ResultBean applyTeacher(ApplyTeacherBean applyTeacherBean);
+    ResultBean applyTeacher(String tag, ApplyTeacherBean applyTeacherBean);
 
-    ResultBean setStore(SetStoreBean setStoreBean);
+    ResultBean setStore(String tag, SetStoreBean setStoreBean);
 
-    ResultBean complete(CompleteInfoBean completeInfoBean);
+    ResultBean complete(String tag, CompleteInfoBean completeInfoBean);
+
+    ResultBean findteacherStore(String teacherId);
 }
