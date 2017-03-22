@@ -123,7 +123,7 @@ public class MsgControllor {
      *	获取未读站内信数量
      */
     @GET
-    @Path("/getStationCount")
+    @Path("/getMsgStation")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getMsgStation(@HeaderParam("openId") String openId,@QueryParam("openId")String userOpenId,@QueryParam("isTeacher")int isTeacher){

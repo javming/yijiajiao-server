@@ -1,12 +1,12 @@
 package com.yijiajiao.server.filter;
 
+import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Enumeration;
 
 
@@ -27,27 +27,17 @@ public class ParamLogFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
                       ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
-      log.info("\n __[请求地址:" + req.getRequestURL()+"]\n __[queryParams:?"+req.getQueryString()+"]\n __[请求方法:" + req.getMethod()
-                + "]\n __[ token: " + req.getHeader("token")+"]");
+      ServletRequest requestWrapper = new BufferedRequestWrapper(req);
+      String body = FilterHelper.getBodyString(requestWrapper);
+      log.info("\n __[请求地址:" + req.getRequestURL() + "]\n __[queryParams:?"+req.getQueryString()
+              + "]\n __[请求方法:" + req.getMethod() + "]" + (StringUtil.isEmpty(body)?"":("\n __[bodyParams:"+body)));
       Enumeration<String> headerNames = req.getHeaderNames();
       while (headerNames.hasMoreElements()){
           String next = headerNames.nextElement();
           System.out.println(" __[header:"+next+"="+req.getHeader(next)+"]");
       }
-      int length = req.getContentLength();
-      if (length > 0) {
-          BufferedRequestWrapper bufferedRequest = new BufferedRequestWrapper(req, length);
-          InputStream is = bufferedRequest.getInputStream();
-          byte[] content = new byte[length];
-          int pad = 0;
-          while (pad < length) {
-            pad += is.read(content, pad, length);
-          }
-          log.info("bodyParams:\n" + new String(content, "utf-8"));
-          request = bufferedRequest;
-      }
       long bef = System.currentTimeMillis();
-      chain.doFilter(request, response);
+      chain.doFilter(requestWrapper, response);
       long aft = System.currentTimeMillis();
       log.info(" Request to " + req.getRequestURI() + "  use: " + (aft - bef)+ " ms");
   }

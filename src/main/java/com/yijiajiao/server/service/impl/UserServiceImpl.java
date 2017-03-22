@@ -393,16 +393,23 @@ public class UserServiceImpl extends BaseService implements UserService{
             userInfoResultBean.setEaseobUserName(euser.getUsername());
             resultBean.setSucResult(userInfoResultBean);
             //缓存登录信息
-            TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id(),
-                    userInfoResultBean.getRefreshToken());
+            TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id());
 
             //保分计划部分保存登录信息保存
-            try {
-                TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id(),
-                        KEEPMARK_SERVER, Config.getString("stuLogin"));
-            } catch (Exception e) {
-                log.error("调用保分计划部分保存登录信息保存出错："+e.getMessage());
-            }
+            final String openId =  userInfoResultBean.getOpenId();
+            final String token = userInfoResultBean.getToken();
+            final String clientId = login.getClient_id();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        TokenUtil.putToken(openId, token,clientId, KEEPMARK_SERVER, Config.getString("stuLogin"));
+                    } catch (Exception e) {
+                        log.error("调用保分计划部分保存登录信息保存出错："+e.getMessage());
+                    }
+                }
+            }).start();
+
         } else {
             resultBean.setFailMsg(SystemStatus.USERNAME_PASSWORD_IS_ERROR);
         }

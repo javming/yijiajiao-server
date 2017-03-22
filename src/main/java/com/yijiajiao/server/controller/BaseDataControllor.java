@@ -272,7 +272,7 @@ public class BaseDataControllor {
     @Path("/createExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createExamHead(@HeaderParam("tage")String tag, CreateExamBean createExamBean){
+    public ResultBean createExamHead(@HeaderParam("tag")String tag, CreateExamBean createExamBean){
         return baseDataService.createExamHead(tag,createExamBean);
     }
 
@@ -283,7 +283,7 @@ public class BaseDataControllor {
     @Path("/createExamDetail")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createExamDetail(@HeaderParam("tage")String tag, CreateExamDetailBean createExamDetailBean){
+    public ResultBean createExamDetail(@HeaderParam("tag")String tag, CreateExamDetailBean createExamDetailBean){
         return baseDataService.createExamDetail(tag,createExamDetailBean);
     }
 
@@ -294,7 +294,7 @@ public class BaseDataControllor {
     @Path("/smartCreateExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean smartCreateExam(@HeaderParam("tage")String tag, SmartCreateExamBean smartCreateExamBean){
+    public ResultBean smartCreateExam(@HeaderParam("tag")String tag, SmartCreateExamBean smartCreateExamBean){
         return baseDataService.smartCreateExam(tag,smartCreateExamBean);
     }
 
@@ -305,7 +305,7 @@ public class BaseDataControllor {
     @Path("/addQuestions")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean addQuestions(@HeaderParam("tage")String tag, AddQuestionsBean addQuestionsBean){
+    public ResultBean addQuestions(@HeaderParam("tag")String tag, AddQuestionsBean addQuestionsBean){
         return baseDataService.addQuestions(tag,addQuestionsBean);
     }
 
@@ -317,7 +317,7 @@ public class BaseDataControllor {
     @Path("/markingPaper")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean markingPaper(@HeaderParam("tage")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+    public ResultBean markingPaper(@HeaderParam("tag")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
         return baseDataService.markingPaper(tag,diagnoseAnswerSubmitBean);
     }
 

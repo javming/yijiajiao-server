@@ -430,7 +430,7 @@ public class WaresServiceImpl extends BaseService implements WaresService {
     @Override
     public ResultBean updateWaresLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.updateWaresLive");
-        String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
+        String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "PUT");
         if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }

@@ -339,7 +339,7 @@ public class SaleServiceImpl extends BaseService implements com.yijiajiao.server
     @Override
     public ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean) {
         String path = Config.getString("sale.updateAppraiseReback");
-        String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseRebackBean,"POST");
+        String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseRebackBean,"PUT");
         if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
         return dealResult(log,response);
     }

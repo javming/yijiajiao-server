@@ -10,7 +10,7 @@
         <constructor-arg>
             <list>
                 <bean class="java.net.InetSocketAddress">
-                    <constructor-arg value="211.157.179.221"/>
+                    <constructor-arg value="127.0.0.1"/>
                     <constructor-arg value="11211"/>
                 </bean>
             </list>

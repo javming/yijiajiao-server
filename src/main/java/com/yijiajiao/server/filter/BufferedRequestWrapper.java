@@ -3,32 +3,51 @@ package com.yijiajiao.server.filter;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Enumeration;
 
 public class BufferedRequestWrapper extends HttpServletRequestWrapper {
-    private ByteArrayInputStream       bais;
-    private BufferedServletInputStream bsis;
-    private byte[]  buffer;
+    private final byte[] body;
 
-    public BufferedRequestWrapper(HttpServletRequest req, int length) throws IOException {
-        super(req);
-        InputStream is = req.getInputStream();
-        buffer = new byte[length];
-        int pad = 0;
-        while (pad < length) {
-            pad += is.read(buffer, pad, length);
-        }
+    public BufferedRequestWrapper(HttpServletRequest request) throws IOException {
+        super(request);
+        body = FilterHelper.getBodyString(request).getBytes(Charset.forName("UTF-8"));
     }
 
-    public ServletInputStream getInputStream() {
-        try {
-            bais = new ByteArrayInputStream(buffer);
-            bsis = new BufferedServletInputStream(bais);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return bsis;
+    @Override
+    public BufferedReader getReader() throws IOException {
+        return new BufferedReader(new InputStreamReader(getInputStream()));
+    }
+
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(body);
+
+        return new ServletInputStream() {
+            @Override
+            public int read() throws IOException {
+                return bais.read();
+            }
+        };
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return super.getHeader(name);
+    }
+
+    @Override
+    public Enumeration<String> getHeaderNames() {
+        return super.getHeaderNames();
+    }
+
+    @Override
+    public Enumeration<String> getHeaders(String name) {
+        return super.getHeaders(name);
     }
 }

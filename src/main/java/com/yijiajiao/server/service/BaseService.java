@@ -60,10 +60,9 @@ public class BaseService {
     protected void setMemcached(String tag, String value, MemcachedClient memcachedClient,Logger log) {
 
         try {
+            log.info("set memcached result is :    " + tag + " = " + value);
             boolean flag = memcachedClient.set(tag, 0, value);
-            if (flag) {
-                log.info("set memcached result is :    " + tag + " = " + value);
-            }
+            if (flag) log.info("set memcached success!");
         } catch (Exception e) {
             log.error("set MemcachedClient failed!!");
             e.printStackTrace();

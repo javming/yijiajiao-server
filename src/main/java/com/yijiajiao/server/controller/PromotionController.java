@@ -257,6 +257,18 @@ public class PromotionController {
     }
 
     /**
+     * 根据商品id查看所参加的活动
+     */
+    @Path("/activitiesByCommodityId")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean activitiesByCommodityId(@QueryParam("commodityId") String commodityId){
+
+        return promotionService.getActivitiesByCommodityId(commodityId);
+    }
+
+    /**
      * 添加优惠券
      */
     @POST

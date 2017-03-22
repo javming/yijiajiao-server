@@ -108,4 +108,6 @@ public interface PromotionService {
     ResultBean updateCoupon(String tag, UpdateCouponBean updateCouponBean);
 
     ResultBean addCoupon(String tag, AddCouponBean addCouponBean);
+
+    ResultBean getActivitiesByCommodityId(String commodityId);
 }

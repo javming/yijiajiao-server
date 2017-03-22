@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.yijiajiao.server.util.ServerUtil.httpRest;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-05-14:40
@@ -264,6 +266,13 @@ public class PromotionServiceImpl extends BaseService implements PromotionServic
         String path = Config.getString("promotion.addCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, addCouponBean, "POST");
         if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        return dealResult(response);
+    }
+
+    @Override
+    public ResultBean getActivitiesByCommodityId(String commodityId) {
+        String path = Config.getString("promotion.getActivitiesByCommodityId")+"courseId="+commodityId;
+        String response = httpRest(PROMOTION_SERVER,path,null,null,"GET");
         return dealResult(response);
     }
 }

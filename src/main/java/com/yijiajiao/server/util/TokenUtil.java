@@ -11,8 +11,8 @@ import java.util.Map;
 public class TokenUtil {
 	private static final String WEBCLIENT="E-web";
 	private static final Logger  log  = LoggerFactory.getLogger(TokenUtil.class.getName());
-	public static final int webexpire = Config.getInt("redis.webexpire");
-	public static final int appexpire = Config.getInt("redis.appexpire");
+	public static final int WEB_EXPIRE = Config.getInt("redis.webexpire");
+	public static final int APP_EXPIRE = Config.getInt("redis.appexpire");
 
 	/**
 	 * 验证token
@@ -35,22 +35,22 @@ public class TokenUtil {
 			String value0 = RedisUtil.getValue(key0);
 			String value1 = RedisUtil.getValue(key1);
 			if(token.equals(value0)){
-				RedisUtil.expire(key0+"r", webexpire);
+				RedisUtil.expire(key0+"r", WEB_EXPIRE);
 				b= true;
 			}else if(token.equals(value1)){
-				RedisUtil.expire(key1+"r", appexpire);
+				RedisUtil.expire(key1+"r", APP_EXPIRE);
 				b= true;
 			}
 		}else if(flag0){
 			String value = RedisUtil.getValue(key0);
 			if(token.equals(value)){
-				RedisUtil.expire(key0+"r", webexpire);
+				RedisUtil.expire(key0+"r", WEB_EXPIRE);
 				b= true;
 			}
 		}else if(flag1){
 			String value = RedisUtil.getValue(key1);
 			if(token.equals(value)){
-				RedisUtil.expire(key1+"r", appexpire);
+				RedisUtil.expire(key1+"r", APP_EXPIRE);
 				b= true;
 			}
 		}
@@ -60,10 +60,10 @@ public class TokenUtil {
 	public static void putToken(String openId,String token,String clientId){
 		if(WEBCLIENT.equals(clientId)){
 			//表示web登录
-			RedisUtil.putRedis(openId+"0", token, webexpire);
+			RedisUtil.putRedis(openId+"0", token, WEB_EXPIRE);
 		}else{
 			//表示移动端登录
-			RedisUtil.putRedis(openId+"1", token, appexpire);
+			RedisUtil.putRedis(openId+"1", token, APP_EXPIRE);
 		}
 	}
 
@@ -80,13 +80,13 @@ public class TokenUtil {
 		if (WEBCLIENT.equals(clientId)){
 			tokenKey = openId+0;
 			refreshTokenKey = openId+"0r";
-			RedisUtil.setEx(tokenKey,webexpire,token);
-			RedisUtil.setEx(refreshTokenKey,webexpire,refreshToken);
+			RedisUtil.setEx(tokenKey,WEB_EXPIRE,token);
+			RedisUtil.setEx(refreshTokenKey,WEB_EXPIRE,refreshToken);
 		}else {
 			tokenKey = openId+1;
 			refreshTokenKey = openId+"1r";
-			RedisUtil.setEx(tokenKey,appexpire,token);
-			RedisUtil.setEx(refreshTokenKey,appexpire,refreshToken);
+			RedisUtil.setEx(tokenKey,APP_EXPIRE,token);
+			RedisUtil.setEx(refreshTokenKey,APP_EXPIRE,refreshToken);
 		}
 
 	}
@@ -95,9 +95,14 @@ public class TokenUtil {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("openId",openId);
 		params.put("token", token);
-		params.put("expire", webexpire);
+		if ("E-web".equals(clientId)) {
+			params.put("expire", WEB_EXPIRE);
+		} else {
+			params.put("expire",APP_EXPIRE);
+		}
 		params.put("clientId",clientId);
-		ServerUtil.httpRest(server, url+"?requestId="+ServerUtil.randomCode(), null, params, "POST");
+		String httpRest = ServerUtil.httpRest(server, url+"?requestId="+ServerUtil.randomCode(), null, params, "POST");
+		System.out.println("请求保分项目返回："+httpRest);
 	}
 
 	public static EquipmentType getClientType(String a){
