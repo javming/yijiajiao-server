@@ -19,9 +19,9 @@ import com.yijiajiao.server.util.StringUtil;
 import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +34,9 @@ import java.util.Map;
 public class BaseDataServiceImpl extends BaseService implements BaseDataService {
 
     private static final Logger log = LoggerFactory.getLogger(BaseDataServiceImpl.class);
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private MemcachedClient memcachedClient;
 
     @Override
@@ -275,7 +275,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
             System.out.println("修改ishomework为 2");
             String updateIsHomework=Config.getString("sale.updateIsHomework")+"openId="+diagnoseAnswerSubmitBean.getOpenId()+
                     "&commodityId="+diagnoseAnswerSubmitBean.getWaresId()+"&slaveId="+
-                    (diagnoseAnswerSubmitBean.getWaresSlaveId()==null||"".equals(diagnoseAnswerSubmitBean.getWaresSlaveId())?-1:diagnoseAnswerSubmitBean.getWaresSlaveId());
+                    (StringUtil.isEmpty(diagnoseAnswerSubmitBean.getWaresSlaveId())?-1:diagnoseAnswerSubmitBean.getWaresSlaveId());
             ServerUtil.httpRest(SALE_SERVER,updateIsHomework,null,null,"PUT");
         }
         if (IF_MEM==1) {
