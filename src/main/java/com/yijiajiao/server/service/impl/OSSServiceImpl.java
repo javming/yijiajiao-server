@@ -3,7 +3,6 @@ package com.yijiajiao.server.service.impl;
 import com.yijiajiao.server.bean.BaofenUserBean;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.FeedBackBean;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.OSSService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
@@ -13,13 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.yijiajiao.server.util.ServerUtil.*;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-04-15:01
  */
 
 @Service("ossService")
-public class OSSServiceImpl extends BaseService implements OSSService {
+public class OSSServiceImpl implements OSSService {
 
     private static final Logger log = LoggerFactory.getLogger(OSSServiceImpl.class);
     @Autowired

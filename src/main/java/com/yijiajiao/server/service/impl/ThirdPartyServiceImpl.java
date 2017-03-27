@@ -11,7 +11,6 @@ import com.eeduspace.uuims.api.util.GsonUtil;
 import com.google.gson.Gson;
 import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.bean.post.CreateOrderBean;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.ThirdPartyService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
@@ -28,7 +27,7 @@ import java.util.Map;
  */
 
 @Service("thirdPartyService")
-public class ThirdPartyServiceImpl extends BaseService implements ThirdPartyService {
+public class ThirdPartyServiceImpl implements ThirdPartyService {
     private static final Logger log = LoggerFactory.getLogger(ThirdPartyServiceImpl.class);
     private static OauthFactory oauthFactory    = new OauthFactory();
     private UserService userService = new UserServiceImpl();
@@ -159,7 +158,8 @@ public class ThirdPartyServiceImpl extends BaseService implements ThirdPartyServ
 
     @Override
     public ResultBean updateOrderStatus(String orderNumber, int status) {
-        String path = Config.getString("sale.updateOrderStatus")+"orderNumber="+orderNumber+"&status="+status;
+        String path = Config.getString("sale.updateOrderStatus")+"orderNumber="+orderNumber+"&status="+status
+                        +"&payType=" +5;
         String response = ServerUtil.httpRest(sale_server, path, null, null, "PUT");
         ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
         if (resultBean.getCode()!=200){

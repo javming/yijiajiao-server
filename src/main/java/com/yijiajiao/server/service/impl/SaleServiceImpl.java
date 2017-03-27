@@ -9,7 +9,6 @@ import com.yijiajiao.server.bean.post.UpdateAppraiseBean;
 import com.yijiajiao.server.bean.post.UpdateAppraiseRebackBean;
 import com.yijiajiao.server.bean.sale.*;
 import com.yijiajiao.server.bean.solution.CountBean;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
@@ -23,12 +22,14 @@ import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.yijiajiao.server.util.ServerUtil.*;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-16-9:44
  */
 @Service("saleService")
-public class SaleServiceImpl extends BaseService implements com.yijiajiao.server.service.SaleService {
+public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService {
 
     private static final Logger log = LoggerFactory.getLogger(SaleServiceImpl.class);
     @Autowired

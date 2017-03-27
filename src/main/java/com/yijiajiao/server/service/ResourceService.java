@@ -5,7 +5,7 @@ import com.yijiajiao.server.bean.RedisParam;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
 
-public interface BaseDataService {
+public interface ResourceService {
 
     /**
      * 按照学科，学年，教材版本获取知识树

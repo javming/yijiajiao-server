@@ -9,8 +9,7 @@ import com.yijiajiao.server.bean.user.EasyUserListBean;
 import com.yijiajiao.server.bean.user.IdsBean;
 import com.yijiajiao.server.bean.wares.WaresBean;
 import com.yijiajiao.server.bean.wares.WaresListBean;
-import com.yijiajiao.server.service.BaseDataService;
-import com.yijiajiao.server.service.BaseService;
+import com.yijiajiao.server.service.ResourceService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.RedisUtil;
@@ -19,25 +18,34 @@ import com.yijiajiao.server.util.StringUtil;
 import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.yijiajiao.server.util.ServerUtil.*;
 
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-05-10:21
  */
 
-@Service("baseDataService")
-public class BaseDataServiceImpl extends BaseService implements BaseDataService {
+@Service("resourceService")
+public class ResourceServiceImpl implements ResourceService, ApplicationContextAware {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseDataServiceImpl.class);
-    @Resource
-    private UserService userService;
-    @Resource
+    private static final Logger log = LoggerFactory.getLogger(ResourceServiceImpl.class);
+
+    @Autowired
     private MemcachedClient memcachedClient;
+
+    @Autowired
+    private UserService userService;
+
+    private ApplicationContext applicationContext;
 
     @Override
     public ResultBean knowledges(String subjectCode, String gradeCode, String bookTypeCode) {
@@ -104,7 +112,15 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
                     stb.append(waresBean.getTeacherId() + ",");
                 }
                 IdsBean ids = new IdsBean(stb.toString().substring(0, stb.toString().length()));
+
+                System.out.println(ids);
+                System.out.println(userService);
+                System.out.println("hashCode: "+hashCode());
+                System.out.println("userService.hashCode() : "+userService.hashCode());
+
+
                 // 查询到教师的名称
+//                UserService userService = new UserServiceImpl();
                 ResultBean ur = userService.finduserinfobyid(ids);
                 EasyUserListBean list_user = (EasyUserListBean) ur.getResult();
                 for (int i = 0; i < waresListBean.getList().size(); i++) {
@@ -311,5 +327,10 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
         result.put("token",value);
         result.put("ttl",ttl);
         return ResultBean.getSucResult(result);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

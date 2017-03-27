@@ -5,7 +5,6 @@ import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.solution.CountTimeBean;
 import com.yijiajiao.server.bean.solution.ExitGrabBean;
 import com.yijiajiao.server.bean.solution.ExitSolutionBean;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.SolutionService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
@@ -19,13 +18,15 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.yijiajiao.server.util.ServerUtil.*;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-04-15:32
  */
 
 @Service("solutionService")
-public class SolutionServiceImpl extends BaseService implements SolutionService{
+public class SolutionServiceImpl implements SolutionService{
 
     private static final Logger log = LoggerFactory.getLogger(SolutionServiceImpl.class);
     @Autowired

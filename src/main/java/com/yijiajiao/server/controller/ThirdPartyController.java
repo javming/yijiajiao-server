@@ -5,7 +5,6 @@ import com.yijiajiao.server.bean.SyncOrderInfo;
 import com.yijiajiao.server.bean.SystemStatus;
 import com.yijiajiao.server.bean.ThirdPartyLoginBean;
 import com.yijiajiao.server.service.ThirdPartyService;
-import com.yijiajiao.server.service.impl.ThirdPartyServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,6 @@ public class ThirdPartyController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean syncOrderInfo(SyncOrderInfo syncOrderInfo){
-        thirdPartyService = new ThirdPartyServiceImpl();
         return thirdPartyService.syncOrderInfo(syncOrderInfo);
 
     }
@@ -63,7 +61,6 @@ public class ThirdPartyController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean updateOrderStatus(@QueryParam("orderNumber") String orderNumber,@QueryParam("status")int status){
-        thirdPartyService = new ThirdPartyServiceImpl();
         return thirdPartyService.updateOrderStatus(orderNumber,status);
     }
 }

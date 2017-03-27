@@ -4,16 +4,15 @@ import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.UuidBean;
 import com.yijiajiao.server.service.UserService;
-import com.yijiajiao.server.service.impl.UserServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/user")
-@Controller
+@Component
 public class UserController {
 
     @Autowired
@@ -350,6 +349,12 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean findAttentionTeach(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,
                                          @QueryParam("pageSize") int pageSize){
+
+
+        System.out.println("userService: " + userService);
+        System.out.println("userController.hashCode() : " + hashCode());
+        System.out.println("userService.hashCode : " + userService.hashCode());
+
 
         return userService.findAttentionTeach(openId,pageNo,pageSize);
 

@@ -8,7 +8,6 @@ import com.yijiajiao.server.bean.sale.CheckTimeBean;
 import com.yijiajiao.server.bean.user.EasyUserListBean;
 import com.yijiajiao.server.bean.user.IdsBean;
 import com.yijiajiao.server.bean.wares.*;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.service.WaresService;
 import com.yijiajiao.server.util.Config;
@@ -23,12 +22,14 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.yijiajiao.server.util.ServerUtil.*;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-12-15:06
  */
 @Service("waresService")
-public class WaresServiceImpl extends BaseService implements WaresService {
+public class WaresServiceImpl implements WaresService {
 
     private static final Logger log = LoggerFactory.getLogger(WaresServiceImpl.class);
     @Autowired

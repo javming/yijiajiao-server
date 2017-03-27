@@ -32,6 +32,15 @@ public class WareLiveBean {
 	private Double insertPrice;
 	private List<SlaveBean> slaves;
 	private Integer maxNumber;
+	private String isHomework;
+
+	public String getIsHomework() {
+		return isHomework;
+	}
+
+	public void setIsHomework(String isHomework) {
+		this.isHomework = isHomework;
+	}
 
 	public Integer getId() {
 		return id;

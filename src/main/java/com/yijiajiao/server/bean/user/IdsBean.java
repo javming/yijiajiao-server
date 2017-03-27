@@ -21,4 +21,9 @@ public class IdsBean {
     public void setIds(String ids) {
         this.ids = ids;
     }
+
+    @Override
+    public String toString(){
+        return "ids : ["+ids+"]";
+    }
 }

@@ -3,14 +3,14 @@ package com.yijiajiao.server.controller;
 import com.yijiajiao.server.bean.RedisParam;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
-import com.yijiajiao.server.service.BaseDataService;
 import com.yijiajiao.server.service.OSSService;
-import com.yijiajiao.server.service.impl.BaseDataServiceImpl;
+import com.yijiajiao.server.service.ResourceService;
+import com.yijiajiao.server.service.impl.ResourceServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,13 +22,13 @@ import java.net.URLEncoder;
  */
 
 @Path("/resource")
-@Controller
-public class BaseDataControllor {
+@Component
+public class ResourceController {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseDataControllor.class);
+    private static final Logger log = LoggerFactory.getLogger(ResourceController.class);
 
     @Autowired
-    private BaseDataService baseDataService;
+    private ResourceService resourceService;
     @Autowired
     private OSSService ossService;
 
@@ -42,7 +42,7 @@ public class BaseDataControllor {
     public ResultBean knowledges(@QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode,
                                  @QueryParam("bookTypeCode") String bookTypeCode) {
 
-        return baseDataService.knowledges(subjectCode, gradeCode, bookTypeCode);
+        return resourceService.knowledges(subjectCode, gradeCode, bookTypeCode);
 
     }
 
@@ -57,7 +57,7 @@ public class BaseDataControllor {
                                  @QueryParam("knowledge") String knowledge, @QueryParam("pageNo") int pageNo,
                                  @QueryParam("pageSize") int pageSize) {
 
-        return baseDataService.questionByKnowledge(subject, grade, knowledge,pageNo,pageSize);
+        return resourceService.questionByKnowledge(subject, grade, knowledge,pageNo,pageSize);
 
     }
     /**
@@ -71,7 +71,7 @@ public class BaseDataControllor {
                                @QueryParam("subjectCode") String subjectName, @QueryParam("bookTypeCode ") String bookTypeName,
                                @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize ){
 
-        return baseDataService.examList(openId,gradeName,subjectName,bookTypeName,11,pageNo,pageSize);
+        return resourceService.examList(openId,gradeName,subjectName,bookTypeName,11,pageNo,pageSize);
 
     }
 
@@ -98,9 +98,9 @@ public class BaseDataControllor {
         }
 
         if(searchType==1){
-            return baseDataService.searchTeacher(pageNo,pageSize,order,orderType,keyword);
+            return resourceService.searchTeacher(pageNo,pageSize,order,orderType,keyword);
         }else{
-            return baseDataService.searchWares(pageNo,pageSize,subjectCode,gradeCode,bookTypeCode,curriculumType,keyword,
+            return resourceService.searchWares(pageNo,pageSize,subjectCode,gradeCode,bookTypeCode,curriculumType,keyword,
                     order,orderType,reservePrice,peakPrice);
         }
 
@@ -114,7 +114,7 @@ public class BaseDataControllor {
     public ResultBean nowledgeByGradeSubjectBooktype(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode")
                                                 String subjectCode,@QueryParam("bookTypeCode")String bookTypeCode){
 
-        return baseDataService.nowledgeByGradeSubjectBooktype(gradeCode,subjectCode,bookTypeCode);
+        return resourceService.nowledgeByGradeSubjectBooktype(gradeCode,subjectCode,bookTypeCode);
 
     }
 
@@ -129,7 +129,7 @@ public class BaseDataControllor {
     public ResultBean smallList(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode") String subjectCode,
                                 @QueryParam("bookType") String bookType,@QueryParam("categoriesCode") String categoriesCode){
 
-        return baseDataService.getSmallList(gradeCode,subjectCode,bookType,categoriesCode);
+        return resourceService.getSmallList(gradeCode,subjectCode,bookType,categoriesCode);
 
     }
 
@@ -143,7 +143,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean moduleListBySmall(@QueryParam("small") String small){
 
-        return baseDataService.moduleListBySmall(small);
+        return resourceService.moduleListBySmall(small);
 
     }
 
@@ -157,7 +157,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean moduleInfoByCode(@QueryParam("code") String code){
 
-        return baseDataService.moduleInfoByCode(code);
+        return resourceService.moduleInfoByCode(code);
 
     }
 
@@ -167,7 +167,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean baseCourseAndStage(){
 
-        return baseDataService.baseCourseAndStage();
+        return resourceService.baseCourseAndStage();
 
     }
 
@@ -180,7 +180,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean questionTypeBySubject(@QueryParam("subjectCode") String subjectCode){
 
-        return baseDataService.questionTypeBySubject(subjectCode);
+        return resourceService.questionTypeBySubject(subjectCode);
 
     }
 
@@ -195,7 +195,7 @@ public class BaseDataControllor {
                                 @QueryParam("knowledgeCode") String knowledgeCode,@QueryParam("type") String type,@QueryParam("pageNo") int pageNo,
                                 @QueryParam("pageSize") int pageSize){
 
-        return baseDataService.questions(gradeCode,subjectCode,knowledgeCode,type,pageNo,pageSize);
+        return resourceService.questions(gradeCode,subjectCode,knowledgeCode,type,pageNo,pageSize);
 
     }
     /**
@@ -208,7 +208,7 @@ public class BaseDataControllor {
     public ResultBean knowledgesNew(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode")String subjectCode,
                                     @QueryParam("bookTypeCode") String bookTypeCode){
 
-        return baseDataService.knowledgesNew(gradeCode,subjectCode,bookTypeCode);
+        return resourceService.knowledgesNew(gradeCode,subjectCode,bookTypeCode);
 
     }
 
@@ -221,7 +221,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean questionsinfo(@QueryParam("ids") String ids,@QueryParam("subjectCode") String subjectCode){
 
-        return baseDataService.questionsinfo(ids,subjectCode);
+        return resourceService.questionsinfo(ids,subjectCode);
 
     }
 
@@ -234,7 +234,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getMyFameCourseAndSolutionCount(@QueryParam("teacherId") String teacherId){
 
-        return baseDataService.getMyFameCourseAndSolutionCount(teacherId);
+        return resourceService.getMyFameCourseAndSolutionCount(teacherId);
 
     }
     /**
@@ -247,7 +247,7 @@ public class BaseDataControllor {
     public ResultBean papersOnYjj(@QueryParam("paperId")String paperId,@QueryParam("moduleId")String moduleId,@QueryParam("slaveId") String slaveId,
                                   @QueryParam("type")String type){
 
-        return baseDataService.papersOnYjj(paperId,moduleId,slaveId,type);
+        return resourceService.papersOnYjj(paperId,moduleId,slaveId,type);
 
     }
 
@@ -260,7 +260,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean gradeBySubject(@QueryParam("subjectCode")String subjectCode){
 
-        return baseDataService.gradeBySubject(subjectCode);
+        return resourceService.gradeBySubject(subjectCode);
 
     }
 
@@ -273,7 +273,7 @@ public class BaseDataControllor {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean createExamHead(@HeaderParam("tag")String tag, CreateExamBean createExamBean){
-        return baseDataService.createExamHead(tag,createExamBean);
+        return resourceService.createExamHead(tag,createExamBean);
     }
 
     /**
@@ -284,7 +284,7 @@ public class BaseDataControllor {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean createExamDetail(@HeaderParam("tag")String tag, CreateExamDetailBean createExamDetailBean){
-        return baseDataService.createExamDetail(tag,createExamDetailBean);
+        return resourceService.createExamDetail(tag,createExamDetailBean);
     }
 
     /**
@@ -295,7 +295,7 @@ public class BaseDataControllor {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean smartCreateExam(@HeaderParam("tag")String tag, SmartCreateExamBean smartCreateExamBean){
-        return baseDataService.smartCreateExam(tag,smartCreateExamBean);
+        return resourceService.smartCreateExam(tag,smartCreateExamBean);
     }
 
     /**
@@ -306,7 +306,7 @@ public class BaseDataControllor {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean addQuestions(@HeaderParam("tag")String tag, AddQuestionsBean addQuestionsBean){
-        return baseDataService.addQuestions(tag,addQuestionsBean);
+        return resourceService.addQuestions(tag,addQuestionsBean);
     }
 
 
@@ -318,7 +318,7 @@ public class BaseDataControllor {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean markingPaper(@HeaderParam("tag")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
-        return baseDataService.markingPaper(tag,diagnoseAnswerSubmitBean);
+        return resourceService.markingPaper(tag,diagnoseAnswerSubmitBean);
     }
 
 
@@ -330,8 +330,8 @@ public class BaseDataControllor {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getFromRedis(RedisParam redisParam){
-        baseDataService = new BaseDataServiceImpl();
-        return baseDataService.getFromRedis(redisParam);
+        resourceService = new ResourceServiceImpl();
+        return resourceService.getFromRedis(redisParam);
 
     }
 
@@ -357,7 +357,7 @@ public class BaseDataControllor {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean getToken(@QueryParam("key") String key,@QueryParam("dbNum") int dbNum){
-        baseDataService = new BaseDataServiceImpl();
-        return baseDataService.getToken(key,dbNum);
+        resourceService = new ResourceServiceImpl();
+        return resourceService.getToken(key,dbNum);
     }
 }

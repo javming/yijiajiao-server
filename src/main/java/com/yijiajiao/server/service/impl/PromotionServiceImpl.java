@@ -10,7 +10,6 @@ import com.yijiajiao.server.bean.promotion.PromotionWare;
 import com.yijiajiao.server.bean.promotion.PromotionWareList;
 import com.yijiajiao.server.bean.wares.WaresBean;
 import com.yijiajiao.server.bean.wares.WaresListBean;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.PromotionService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
@@ -24,14 +23,14 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.yijiajiao.server.util.ServerUtil.httpRest;
+import static com.yijiajiao.server.util.ServerUtil.*;
 
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2017-01-05-14:40
  */
 @Service("promotionService")
-public class PromotionServiceImpl extends BaseService implements PromotionService {
+public class PromotionServiceImpl implements PromotionService {
     private static final Logger log = LoggerFactory.getLogger(PromotionService.class);
     @Autowired
     private MemcachedClient memcachedClient;

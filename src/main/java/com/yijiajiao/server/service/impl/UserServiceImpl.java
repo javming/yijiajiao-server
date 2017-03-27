@@ -23,7 +23,6 @@ import com.yijiajiao.server.bean.post.ApplyinterviewtimeBean;
 import com.yijiajiao.server.bean.solution.EaseObUserInfoBean;
 import com.yijiajiao.server.bean.user.*;
 import com.yijiajiao.server.bean.wares.CollectQueryBean;
-import com.yijiajiao.server.service.BaseService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
 import net.rubyeye.xmemcached.MemcachedClient;
@@ -36,13 +35,15 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
+import static com.yijiajiao.server.util.ServerUtil.*;
+
 /**
  * @AUTHOR zhaoming@eduspace
  * @CREATE 2016-12-28-15:03
  */
 
 @Service("userService")
-public class UserServiceImpl extends BaseService implements UserService{
+public class UserServiceImpl implements UserService{
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 

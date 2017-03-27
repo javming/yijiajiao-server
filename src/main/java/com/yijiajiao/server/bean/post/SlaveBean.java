@@ -8,6 +8,15 @@ public class SlaveBean {
 	private String content;
 	private String homework;
 	private String yjjCode;
+	private String slaveId;
+
+	public String getSlaveId() {
+		return slaveId;
+	}
+
+	public void setSlaveId(String slaveId) {
+		this.slaveId = slaveId;
+	}
 
 	public Integer getId() {
 		return id;
