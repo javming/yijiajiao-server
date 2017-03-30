@@ -77,7 +77,7 @@ public class WaresServiceImpl implements WaresService {
                 for (WaresBean waresBean : waresListBean.getList()) {
                     stb.append(waresBean.getTeacherId() + ",");
                 }
-                IdsBean ids = new IdsBean(stb.toString().substring(0, stb.toString().length()));
+                IdsBean ids = new IdsBean(stb.toString().substring(0, stb.toString().length()-1));
                 // 查询到教师的名称
                 ResultBean ur = userService.finduserinfobyid(ids);
                 EasyUserListBean list_user = JSON.parseObject(JSON.toJSONString(ur.getResult()),EasyUserListBean.class);

@@ -18,10 +18,7 @@ import com.yijiajiao.server.util.StringUtil;
 import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -31,27 +28,22 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 
 /**
  * @AUTHOR zhaoming@eduspace
- * @CREATE 2017-01-05-10:21
+ * @CREATE 2017-03-28-9:40
  */
-
 @Service("resourceService")
-public class ResourceServiceImpl implements ResourceService, ApplicationContextAware {
+public class ResourceServiceImpl implements ResourceService{
 
     private static final Logger log = LoggerFactory.getLogger(ResourceServiceImpl.class);
-
     @Autowired
     private MemcachedClient memcachedClient;
-
     @Autowired
     private UserService userService;
-
-    private ApplicationContext applicationContext;
 
     @Override
     public ResultBean knowledges(String subjectCode, String gradeCode, String bookTypeCode) {
 
         String path = Config.getString("wares.knowledges") + "subjectCode=" + subjectCode + "&gradeCode=" + gradeCode
-                                    + "&bookTypeCode=" + bookTypeCode;
+                + "&bookTypeCode=" + bookTypeCode;
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -59,7 +51,7 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
     @Override
     public ResultBean questionByKnowledge(String subject, String grade, String knowledge, int pageNo, int pageSize) {
         String path = Config.getString("wares.questionByKnowledge") + "subject=" + subject + "&grade=" + grade
-                                    + "&knowledge=" + knowledge+ "&pageNo=" + pageNo+ "&pageSize=" + pageSize;
+                + "&knowledge=" + knowledge+ "&pageNo=" + pageNo+ "&pageSize=" + pageSize;
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -68,9 +60,9 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
     public ResultBean examList(String openId,String gradeName,String subjectName,String bookTypeName,int examType,
                                int pageNo,int pageSize) {
         String path = Config.getString("ware.ExamList")+"teacherId="+openId+"&examType="+examType+"&pageNo="+pageNo
-                                +"&pageSize="+pageSize+(StringUtil.isEmpty(gradeName)?"":("&gradeName="+gradeName))
-                                +(StringUtil.isEmpty(subjectName)?"":("&subjectName="+subjectName))
-                                +(StringUtil.isEmpty(bookTypeName)?"":("&bookTypeName="+bookTypeName));
+                +"&pageSize="+pageSize+(StringUtil.isEmpty(gradeName)?"":("&gradeName="+gradeName))
+                +(StringUtil.isEmpty(subjectName)?"":("&subjectName="+subjectName))
+                +(StringUtil.isEmpty(bookTypeName)?"":("&bookTypeName="+bookTypeName));
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -78,9 +70,9 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
     @Override
     public ResultBean searchTeacher(int pageNo, int pageSize, String order, String orderType, String keyword) {
         String path = Config.getString("user.searchteacherbyname")+"pageNo="+pageNo+"&pageSize="+pageSize
-                                + "&orderType="+ (StringUtil.isEmpty(order)?"popularity":order)
-                                +(StringUtil.isEmpty(keyword)?"":("&name=" +keyword))
-                                +(StringUtil.isEmpty(orderType)?"":("&orders="+orderType));
+                + "&orderType="+ (StringUtil.isEmpty(order)?"popularity":order)
+                +(StringUtil.isEmpty(keyword)?"":("&name=" +keyword))
+                +(StringUtil.isEmpty(orderType)?"":("&orders="+orderType));
         String response = ServerUtil.httpRest(USER_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -91,15 +83,15 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
                                   String peakPrice) {
         ResultBean result = new ResultBean();
         String path = Config.getString("wares.wareslist") + "pageNo=" + pageNo + "&pageSize=" + pageSize
-                                    + (curriculumType==null?"":("&curriculumType="+curriculumType) )
-                                    + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode=" + subjectCode))
-                                    + (StringUtil.isEmpty(gradeCode)?"":("&gradeCode=" + gradeCode))
-                                    + (StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode=" + bookTypeCode))
-                                    + (StringUtil.isEmpty(keyword)?"":("&curriculumName="+keyword))
-                                    + (StringUtil.isEmpty(order)?"":("&order=" + order))
-                                    + (StringUtil.isEmpty(orderType)?"":("&orderType=" + orderType))
-                                    + (StringUtil.isEmpty(reservePrice)?"":("&reservePrice="+reservePrice))
-                                    + (StringUtil.isEmpty(peakPrice)?"":("&peakPrice="+peakPrice));
+                + (curriculumType==null?"":("&curriculumType="+curriculumType) )
+                + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode=" + subjectCode))
+                + (StringUtil.isEmpty(gradeCode)?"":("&gradeCode=" + gradeCode))
+                + (StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode=" + bookTypeCode))
+                + (StringUtil.isEmpty(keyword)?"":("&curriculumName="+keyword))
+                + (StringUtil.isEmpty(order)?"":("&order=" + order))
+                + (StringUtil.isEmpty(orderType)?"":("&orderType=" + orderType))
+                + (StringUtil.isEmpty(reservePrice)?"":("&reservePrice="+reservePrice))
+                + (StringUtil.isEmpty(peakPrice)?"":("&peakPrice="+peakPrice));
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
         if (resultBean.getCode() == 200 ) {
@@ -111,7 +103,7 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
                 for (WaresBean waresBean : waresListBean.getList()) {
                     stb.append(waresBean.getTeacherId() + ",");
                 }
-                IdsBean ids = new IdsBean(stb.toString().substring(0, stb.toString().length()));
+                IdsBean ids = new IdsBean(stb.toString().substring(0, stb.toString().length()-1));
 
                 System.out.println(ids);
                 System.out.println(userService);
@@ -215,7 +207,7 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
     public ResultBean getMyFameCourseAndSolutionCount(String openId) {
         ResultBean resultBean = new ResultBean();
         String path= Config.getString("solution.getPackageCount")+"openId="+openId;
-        Map<String,Object> counts = new HashMap<String,Object>();
+        Map<String,Object> counts = new HashMap<>();
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         ResultBean r = JSON.parseObject(response, ResultBean.class);
         if (r.getCode() == 200) {
@@ -232,9 +224,9 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
     @Override
     public ResultBean papersOnYjj(String paperId, String moduleId,String slaveId,String type) {
         String path = Config.getString("wares.papersOnYjj")+"moduleId="+moduleId
-                                        +(StringUtil.isEmpty(paperId)?"":("&paperId="+paperId))
-                                        +(StringUtil.isEmpty(slaveId)?"":("&slaveId="+slaveId))
-                                        +(StringUtil.isEmpty(type)?"":("&type="+type));
+                +(StringUtil.isEmpty(paperId)?"":("&paperId="+paperId))
+                +(StringUtil.isEmpty(slaveId)?"":("&slaveId="+slaveId))
+                +(StringUtil.isEmpty(type)?"":("&type="+type));
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -296,7 +288,7 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
         }
         if (IF_MEM==1) {
             RedisUtil.putRedis(tag, res, 36000);
-            setMemcached(tag,JSON.toJSONString(ResultBean.getSucResult(tag)),memcachedClient,log);
+            setMemcached(tag, JSON.toJSONString(ResultBean.getSucResult(tag)),memcachedClient,log);
         }
         return result;
     }
@@ -323,14 +315,10 @@ public class ResourceServiceImpl implements ResourceService, ApplicationContextA
         String value = RedisUtil.getValue(key, dbNum);
         long ttl = RedisUtil.ttl(key);
         log.info("{token="+value+",ttl="+ttl+"}");
-        Map<String,Object> result = new HashMap<String,Object>();
+        Map<String,Object> result = new HashMap<>();
         result.put("token",value);
         result.put("ttl",ttl);
         return ResultBean.getSucResult(result);
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }

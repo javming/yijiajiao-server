@@ -2,6 +2,7 @@ package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.bean.post.*;
+import com.yijiajiao.server.bean.user.ResetPasswordBean;
 import com.yijiajiao.server.bean.user.UuidBean;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.StringUtil;
@@ -700,6 +701,50 @@ public class UserController {
                                      @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
         return userService.getMyOrderInfo(openId,year,month);
+
+    }
+
+    /**
+     * 新版获取手机验证码 （为重置密码新加）
+     * @param phoneNum
+     * @date 2016-11-17
+     */
+    @GET
+    @Path("/getPhoneVerifyCode")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getPhoneVerifyCode(@QueryParam("phoneNum")String phoneNum){
+
+        return userService.getPhoneVerifyCode(phoneNum);
+    }
+
+    /**
+     *@description		验证验证码是否正确
+     *@date 2016-11-17
+     *@param
+     */
+    @POST
+    @Path("/verifyPhoneCode")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean verifyPhoneCode(ResetPasswordBean verifyPhoneCodeBean){
+
+        return userService.verifyPhoneCode(verifyPhoneCodeBean.getPhoneNum(),verifyPhoneCodeBean.getPhoneCode());
+
+    }
+
+    /**
+     * 重置密码2016-11-17
+     * @param resetPasswordBean
+     * @return
+     */
+    @POST
+    @Path("/resetPassword")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean resetPassword(ResetPasswordBean resetPasswordBean){
+
+        return userService.ResetPassword(resetPasswordBean);
 
     }
 

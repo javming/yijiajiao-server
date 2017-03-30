@@ -3,6 +3,7 @@ package com.yijiajiao.server.service;
 import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.user.IdsBean;
+import com.yijiajiao.server.bean.user.ResetPasswordBean;
 import com.yijiajiao.server.bean.user.UuidBean;
 
 /**
@@ -272,4 +273,12 @@ public interface UserService {
     ResultBean complete(String tag, CompleteInfoBean completeInfoBean);
 
     ResultBean findteacherStore(String teacherId);
+
+    ResultBean getPhoneVerifyCode(String phoneNum);
+
+    ResultBean verifyPhoneCode(String phoneNum, String phoneCode);
+
+    ResultBean ResetPassword(ResetPasswordBean resetPasswordBean);
+
+
 }

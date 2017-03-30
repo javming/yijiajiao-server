@@ -5,12 +5,11 @@ import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.service.OSSService;
 import com.yijiajiao.server.service.ResourceService;
-import com.yijiajiao.server.service.impl.ResourceServiceImpl;
 import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,11 +17,10 @@ import java.net.URLEncoder;
 
 /**
  * @AUTHOR zhaoming@eduspace
- * @CREATE 2017-01-05-10:01
+ * @CREATE 2017-03-28-9:34
  */
-
 @Path("/resource")
-@Component
+@Controller
 public class ResourceController {
 
     private static final Logger log = LoggerFactory.getLogger(ResourceController.class);
@@ -112,7 +110,7 @@ public class ResourceController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean nowledgeByGradeSubjectBooktype(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode")
-                                                String subjectCode,@QueryParam("bookTypeCode")String bookTypeCode){
+            String subjectCode,@QueryParam("bookTypeCode")String bookTypeCode){
 
         return resourceService.nowledgeByGradeSubjectBooktype(gradeCode,subjectCode,bookTypeCode);
 
@@ -330,7 +328,6 @@ public class ResourceController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getFromRedis(RedisParam redisParam){
-        resourceService = new ResourceServiceImpl();
         return resourceService.getFromRedis(redisParam);
 
     }
@@ -340,24 +337,23 @@ public class ResourceController {
      * @param key 获取web-token：key=openId+0  app-token：key=openId+1
      * @param dbNum 数据库编号
      * @return
-    {
-    "requestId": "6f011247e7c845f6974ee06896916f42",
-    "httpCode": "",
-    "code": 200,
-    "message": "success",
-    "result":
-    {
-    "token": "TK002CD4C26504F470",
-    "ttl": 7178（秒）
-    }
-    }
+            {
+                "requestId": "6f011247e7c845f6974ee06896916f42",
+                "httpCode": "",
+                "code": 200,
+                "message": "success",
+                "result":
+                {
+                "token": "TK002CD4C26504F470",
+                "ttl": 7178（秒）
+                }
+            }
      */
     @GET
     @Path("/getToken")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean getToken(@QueryParam("key") String key,@QueryParam("dbNum") int dbNum){
-        resourceService = new ResourceServiceImpl();
         return resourceService.getToken(key,dbNum);
     }
 }

@@ -5,11 +5,17 @@ import com.eeduspace.uuims.api.OauthClient;
 import com.eeduspace.uuims.api.exception.ApiException;
 import com.eeduspace.uuims.api.model.UserModel;
 import com.eeduspace.uuims.api.request.login.LoginRequest;
+import com.eeduspace.uuims.api.request.sms.ResetPwdUserRequest;
+import com.eeduspace.uuims.api.request.sms.SmsUserRequest;
+import com.eeduspace.uuims.api.request.sms.ValidateCodeUserRequest;
 import com.eeduspace.uuims.api.request.user.ActivationUserRequest;
 import com.eeduspace.uuims.api.request.user.CreateUserRequest;
 import com.eeduspace.uuims.api.request.user.EditPasswordUserRequest;
 import com.eeduspace.uuims.api.request.user.ValidateUserRequest;
 import com.eeduspace.uuims.api.response.login.LoginResponse;
+import com.eeduspace.uuims.api.response.sms.ResetPwdUserResponse;
+import com.eeduspace.uuims.api.response.sms.SmsUserResponse;
+import com.eeduspace.uuims.api.response.sms.ValidateCodeUserResponse;
 import com.eeduspace.uuims.api.response.user.ActivationUserResponse;
 import com.eeduspace.uuims.api.response.user.CreateUserResponse;
 import com.eeduspace.uuims.api.response.user.EditPasswordUserResponse;
@@ -493,7 +499,7 @@ public class UserServiceImpl implements UserService{
             }
             log.info("  请求uuims修改密码返回：\n__"+JSON.toJSONString(response));
             if ("200".equals(response.getHttpCode())) {
-                resultBean.setSucResult("密码修改成功！");
+                result.setSucResult("密码修改成功！");
             }else{
                 result.setFailMsg(SystemStatus.UPDATE_PASS_ERROR);
             }
@@ -880,5 +886,79 @@ public class UserServiceImpl implements UserService{
         return dealResult(log,response);
     }
 
+    @Override
+    public ResultBean getPhoneVerifyCode(String phoneNum) {
+        ResultBean result = new ResultBean();
+        OauthClient client = oauthFactory.getInteance();
+        SmsUserRequest request=new SmsUserRequest();
+        request.setPhone(phoneNum);
+        try {
+            SmsUserResponse response = client.execute(request);
+            log.info("getVerifyCode-response: "+ JSON.toJSONString(response));
+            if (!"200".equals(response.getHttpCode())){
+                result.setFailMsg(Integer.parseInt(response.getHttpCode()),"手机号码有误或未注册！");
+                return result;
+            }
+            SmsUserResponse smsUserResponse = JSON.parseObject(JSON.toJSONString(response.getResult()), SmsUserResponse.class);
+            String ticket = smsUserResponse.getTicket();
+            log.info("ticket=="+ticket);
+            RedisUtil.putRedis(phoneNum,ticket,120);
+            result.setSucResult(new ResultObjectBean(1,"短信验证码发送成功！"));
+        } catch (ApiException e) {
+            e.printStackTrace();
+            result.setFailMsg(SystemStatus.SERVER_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultBean verifyPhoneCode(String phoneNum, String phoneCode) {
+        ResultBean result = new ResultBean();
+        OauthClient client = oauthFactory.getInteance();
+        ValidateCodeUserRequest request = new ValidateCodeUserRequest();
+        request.setPhone(phoneNum);
+        request.setCode(phoneCode);
+        request.setTicket(RedisUtil.getValue(phoneNum));
+        try {
+            ValidateCodeUserResponse response = client.execute(request);
+            log.info("response: "+ JSON.toJSONString(response));
+            if (!"200".equals(response.getHttpCode())){
+                result.setFailMsg(Integer.parseInt(response.getHttpCode()),"验证码验证失败！");
+                return result;
+            }
+            ValidateCodeUserResponse validateCodeUserResponse = JSON.parseObject(JSON.toJSONString(response.getResult()),
+                    ValidateCodeUserResponse.class);
+            String ticket = validateCodeUserResponse.getTicket();
+            RedisUtil.putRedis(phoneNum,ticket,120);
+            result.setSucResult(new ResultObjectBean(1,"验证码校验成功！"));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFailMsg(SystemStatus.SERVER_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultBean ResetPassword(ResetPasswordBean resetPasswordBean) {
+        ResultBean result = new ResultBean();
+        OauthClient client = oauthFactory.getInteance();
+        ResetPwdUserRequest request = new ResetPwdUserRequest();
+        request.setPhone(resetPasswordBean.getPhoneNum());
+        request.setPassword(resetPasswordBean.getPassword());
+        request.setTicket(RedisUtil.getValue(resetPasswordBean.getPhoneNum()));
+        try {
+            ResetPwdUserResponse response = client.execute(request);
+            log.info("response :"+ JSON.toJSONString(response));
+            if (!"200".equals(response.getHttpCode())){
+                result.setFailMsg(Integer.parseInt(response.getHttpCode()),"重置密码失败！");
+                return result;
+            }
+            result.setSucResult(new ResultObjectBean(1,"重置密码成功！"));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFailMsg(SystemStatus.SERVER_ERROR);
+        }
+        return result;
+    }
 
 }
