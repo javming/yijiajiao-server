@@ -13,7 +13,7 @@ import com.yijiajiao.server.bean.post.UpdateCouponBean;
 public interface PromotionService {
 
     String getGradeByStage(int stageCode);
-    String waresListByType(String data) throws Exception;
+    String waresListByType(String data);
     String waresInfoById(String redata);
 
     /**

@@ -280,5 +280,5 @@ public interface UserService {
 
     ResultBean ResetPassword(ResetPasswordBean resetPasswordBean);
 
-
+    ResultBean diagnoseSubmitForOnce(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
 }

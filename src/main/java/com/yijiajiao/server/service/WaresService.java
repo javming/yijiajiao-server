@@ -78,7 +78,7 @@ public interface WaresService {
 
     ResultBean examStatistic(int id);
 
-    ResultBean popularity(int waresId, String popType);
+    ResultBean popularity(String waresId, String popType);
 
     ResultBean liveVideoPlayback(int waresId, int slaveId);
 

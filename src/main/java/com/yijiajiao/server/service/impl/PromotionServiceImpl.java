@@ -1,25 +1,26 @@
 package com.yijiajiao.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.AddActivityBean;
 import com.yijiajiao.server.bean.post.AddCouponBean;
 import com.yijiajiao.server.bean.post.UpdateActivityBean;
 import com.yijiajiao.server.bean.post.UpdateCouponBean;
+import com.yijiajiao.server.bean.promotion.CommodityActivityBean;
 import com.yijiajiao.server.bean.promotion.PromotionWare;
-import com.yijiajiao.server.bean.promotion.PromotionWareList;
 import com.yijiajiao.server.bean.wares.WaresBean;
 import com.yijiajiao.server.bean.wares.WaresListBean;
 import com.yijiajiao.server.service.PromotionService;
 import com.yijiajiao.server.util.Config;
+import com.yijiajiao.server.util.DateUtil;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
-import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,9 +32,8 @@ import static com.yijiajiao.server.util.ServerUtil.*;
  */
 @Service("promotionService")
 public class PromotionServiceImpl implements PromotionService {
-    private static final Logger log = LoggerFactory.getLogger(PromotionService.class);
-    @Autowired
-    private MemcachedClient memcachedClient;
+    private static final Logger log = LoggerFactory.getLogger(PromotionServiceImpl.class);
+    
     public String getGradeByStage(int stageCode){
         String path = Config.getString("wares.getGradeByStage") + stageCode;
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
@@ -43,17 +43,36 @@ public class PromotionServiceImpl implements PromotionService {
 
     }
 
-    public String waresListByType(String data) throws Exception {
-        ResultBean r = JSON.parseObject(data, ResultBean.class);
-        if (r.getCode() != 200 ){
+    public String waresListByType(String data){
+        ResultBean waresResult = JSON.parseObject(data, ResultBean.class);
+        if (waresResult.getCode() != 200 ){
             return data;
         }
-        PromotionWareList promotionWareList = (PromotionWareList)r.getResult();
-        for (PromotionWare pw : promotionWareList.getList()){
-            String id = pw.getId();
+        JSONObject promotionWareList = JSON.parseObject(waresResult.getResult().toString());
+        List<PromotionWare> list = JSON.parseArray(promotionWareList.get("list").toString(),PromotionWare.class) ;
+        StringBuilder sids = new StringBuilder("");
+        for (PromotionWare pw : list){
+            sids.append("_"+pw.getId());
         }
-        r.setSucResult(promotionWareList);
-        return JSON.toJSONString(r);
+        String ids = StringUtil.substring(sids.toString(),1);
+        String path = Config.getString("promotion.getActivitiesByCommodityIds")+"courseIds="+ids;
+        String response = ServerUtil.httpRest(PROMOTION_SERVER,path,null,null,"GET");
+        ResultBean activityResult = JSON.parseObject(response,ResultBean.class);
+        List<CommodityActivityBean> commodityActivities = JSON.parseArray(JSON.toJSONString(activityResult.getResult()),
+                CommodityActivityBean.class);
+        if (commodityActivities.size()>0){
+            for (PromotionWare pw : list){
+                for (CommodityActivityBean cab : commodityActivities){
+                    if (!(pw.getId()+"").equals(cab.getCourseId())) continue;
+                    pw.setActivityStatus(1);
+                    pw.setActivityStartTime(cab.getStartDate());
+                    pw.setActivityEndTime(cab.getEndDate());
+                    pw.setDiscount(cab.getValue());
+                }
+            }
+        }
+        promotionWareList.put("list",list);
+        return JSON.toJSONString(ResultBean.getSucResult(promotionWareList));
 
     }
 
@@ -209,11 +228,21 @@ public class PromotionServiceImpl implements PromotionService {
         }
         WaresListBean wares = JSON.parseObject(JSON.toJSONString(resultBean.getResult()), WaresListBean.class);
         if (wares.getList().size()==0) return ResultBean.getSucResult(wares);
+        List<WaresBean> resultWares = new ArrayList<>();
+        for (WaresBean wb : wares.getList()){
+            //过滤已经开课或者下架的课程
+            if(StringUtil.isNotEmpty(wb.getStartTime())
+                    && DateUtil.compareStringDate(wb.getStartTime(),DateUtil.getNowTime())==-1
+                    && !"2".equals(wb.getStatus())){
+
+                resultWares.add(wb);
+            }
+        }
+        wares.setList(resultWares);
         //获取参加活动的课程
-        String ids = null;
         response = ServerUtil.httpRest(PROMOTION_SERVER, wareListByCoupon, null, null, "GET");
         resultBean = JSON.parseObject(response, ResultBean.class);
-        ids = (String) resultBean.getResult();
+        String ids = (String) resultBean.getResult();
         log.info("__[参加活动的课程ids:"+ids+"]");
         if (StringUtil.isEmpty(ids)){
             return ResultBean.getSucResult(wares);
@@ -240,7 +269,7 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean updateActivity(String tag, UpdateActivityBean updateActivityBean) {
         String path = Config.getString("promotion.updateActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateActivityBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(response);
     }
 
@@ -248,7 +277,7 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean addActivity(String tag, AddActivityBean activityBean) {
         String path = Config.getString("promotion.addActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, activityBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(response);
     }
 
@@ -256,7 +285,7 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean updateCoupon(String tag, UpdateCouponBean updateCouponBean) {
         String path = Config.getString("promotion.updateCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateCouponBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(response);
     }
 
@@ -264,7 +293,7 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean addCoupon(String tag, AddCouponBean addCouponBean) {
         String path = Config.getString("promotion.addCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, addCouponBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(response);
     }
 

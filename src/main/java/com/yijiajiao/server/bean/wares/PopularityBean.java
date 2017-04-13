@@ -2,12 +2,12 @@ package com.yijiajiao.server.bean.wares;
 
 public class PopularityBean {
 	private String popType;
-	private int   waresId;
+	private String waresId;
 
 	public PopularityBean() {
 	}
 
-	public PopularityBean(String popType, int waresId) {
+	public PopularityBean(String popType, String waresId) {
 		this.popType = popType;
 		this.waresId = waresId;
 	}
@@ -15,14 +15,16 @@ public class PopularityBean {
 	public String getPopType() {
 		return popType;
 	}
+
 	public void setPopType(String popType) {
 		this.popType = popType;
 	}
-	public int getWaresId() {
+
+	public String getWaresId() {
 		return waresId;
 	}
-	public void setWaresId(int waresId) {
+
+	public void setWaresId(String waresId) {
 		this.waresId = waresId;
 	}
-	
 }

@@ -823,6 +823,21 @@ public class UserController {
     }
 
     /**
+     *  诊断试卷提交答案2(不需要登录验证，单次有效)
+     */
+    @POST
+    @Path("/diagnoseSubmitForOnce")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean diagnoseSubmitForOnce(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+
+        return userService.diagnoseSubmitForOnce(diagnoseAnswerSubmitBean);
+
+    }
+
+
+
+    /**
      *  申请教师
      */
     @POST

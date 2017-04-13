@@ -6,10 +6,8 @@ import com.yijiajiao.server.bean.post.FeedBackBean;
 import com.yijiajiao.server.service.OSSService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
-import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.yijiajiao.server.util.ServerUtil.*;
@@ -23,8 +21,6 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 public class OSSServiceImpl implements OSSService {
 
     private static final Logger log = LoggerFactory.getLogger(OSSServiceImpl.class);
-    @Autowired
-    private MemcachedClient memcachedClient;
 
     @Override
     public ResultBean frontfocus(int belongs, int area) {
@@ -79,7 +75,7 @@ public class OSSServiceImpl implements OSSService {
     public ResultBean feedBack(String tag, FeedBackBean feedBackBean) {
         String path =Config.getString("oss.feedBack");
         String response = ServerUtil.httpRest(OSS_SERVER,path,null,feedBackBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 }

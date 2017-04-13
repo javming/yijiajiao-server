@@ -3,9 +3,6 @@ package com.yijiajiao.server.bean.wares;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ruyage on 2015/12/5.
- */
 public class WaresListBean {
   
   

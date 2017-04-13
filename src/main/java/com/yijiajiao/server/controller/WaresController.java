@@ -338,7 +338,7 @@ public class WaresController {
     @Path("/popularity")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean popularity(@QueryParam("waresId") int waresId,@QueryParam("popType") String popType) {
+    public ResultBean popularity(@QueryParam("waresId") String waresId,@QueryParam("popType") String popType) {
 
         return waresService.popularity(waresId,popType);
 

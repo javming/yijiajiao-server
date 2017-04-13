@@ -163,47 +163,17 @@ public class DateUtil {
 		return (temp / 1000 / 60 / 60); // 大于的时间/毫秒/秒/小时/天/
 	}
 	/**
-	 *@description 比较两个字符串时间的大小(时间降序)
-	 *@date 2016-3-30
-	 *@return int
-	 *@param DATE1
-	 *@param DATE2
-	 *@return
+	 * 比较两个字符串时间的大小
 	 */
-    public static int compare_date0(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+    public static int compareStringDate(String date1, String date2) {
+        DateFormat df = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
         try {
-            Date dt1 = df.parse(DATE1);
-            Date dt2 = df.parse(DATE2);
+            Date dt1 = df.parse(date1);
+            Date dt2 = df.parse(date2);
             if (dt1.getTime() > dt2.getTime()) {
                 return -1;
             } else if (dt1.getTime() < dt2.getTime()) {
                 return 1;
-            } else {
-                return 0;
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return 0;
-    }
-	/**
-	 *@description 比较两个字符串时间的大小(时间升序)
-	 *@date 2016-3-30
-	 *@return int
-	 *@param DATE1
-	 *@param DATE2
-	 *@return
-	 */
-    public static int compare_date1(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-        try {
-            Date dt1 = df.parse(DATE1);
-            Date dt2 = df.parse(DATE2);
-            if (dt1.getTime() > dt2.getTime()) {
-                return 1;
-            } else if (dt1.getTime() < dt2.getTime()) {
-                return -1;
             } else {
                 return 0;
             }
@@ -493,52 +463,8 @@ public class DateUtil {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		/*
-		 * try { DateUtil dateUtil = new DateUtil();
-		 * System.out.println(dateUtil.calcBeginMonth("2007-1-15"));
-		 * System.out.println(dateUtil.calcEndMonth("2007-11-29"));
-		 * System.out.println(dateUtil.getPartDate(new Date(),"yyyy/MM"));
-		 * 
-		 * Calendar c = Calendar.getInstance(); Date date4 = c.getTime();// Wed
-		 * Mar 12 10:11:21 CST 2008
-		 * System.out.println(dateUtil.calcDate(date4,"yyyy-MM-dd
-		 * HH:mm:ss",2,1));
-		 * 
-		 * System.out.println(dateUtil.getNowTime());
-		 * 
-		 * System.out.println("111:"+dateUtil.getNowTime()); //
-		 * System.out.println("222:"+dateUtil.calcDate(dateUtil.getNow(),
-		 * YYYY_MM_DD_HH_MM_SS, 2, 2));
-		 * System.out.println("333:"+dateUtil.calcDate(dateUtil.getNow(),
-		 * YYYY_MM_DD_HH_MM_SS, 10, 2));//小时
-		 * System.out.println("333:"+dateUtil.calcDate(dateUtil.getNow(),
-		 * YYYY_MM_DD_HH_MM_SS, 12, 2));//分
-		 * System.out.println("333:"+dateUtil.calcDate(dateUtil.getNow(),
-		 * YYYY_MM_DD_HH_MM_SS, 13, 2));//秒
-		 * System.out.println("333:"+dateUtil.calcDate(dateUtil.getNow(),
-		 * YYYY_MM_DD_HH_MM_SS, 2, 2));//月
-		 * System.out.println(dateUtil.calculateDate(dateUtil.getNow(),dateUtil.stringTodate(dateUtil.calcDate(dateUtil.getNow(),
-		 * YYYY_MM_DD_HH_MM_SS, 10, 10), YYYY_MM_DD_HH_MM_SS))); } catch
-		 * (ParseException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-
-		try {
-			DateUtil dateUtil = new DateUtil();
-			System.out.println("比较时间大小:"
-					+ dateUtil.calculateDate(dateUtil.getNow(),
-                    dateUtil.stringTodate(dateUtil.calcDate(dateUtil.getNow(),YYYY_MM_DD_HH_MM_SS, 10, 10),YYYY_MM_DD_HH_MM_SS),0));
-			System.out.println("比较时间大小:"
-					+ dateUtil.calculateDate(dateUtil
-							.getNow(dateUtil.YYYY_MM_DD), dateUtil
-							.stringTodate("2012-04-25", "yyyy-MM-dd"), true));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String date1 = "2017-04-15 15:00:00";
+		String date2 = DateUtil.getNowTime();
+		System.out.println(DateUtil.compareStringDate(date1,date2));
 	}
 }
-
-/*
- * 如果是相减使用: DateUtil.calcDate(new Date(),"yyyy-MM-dd",5,-10);
- */

@@ -34,6 +34,42 @@ public class PromotionWare {
     private String startTime;
     private String endTime;
     private String isYjj;
+    private int activityStatus;
+    private String activityStartTime="";
+    private String activityEndTime="";
+    private Double discount;
+
+    public int getActivityStatus() {
+        return activityStatus;
+    }
+
+    public void setActivityStatus(int activityStatus) {
+        this.activityStatus = activityStatus;
+    }
+
+    public String getActivityStartTime() {
+        return activityStartTime;
+    }
+
+    public void setActivityStartTime(String activityStartTime) {
+        this.activityStartTime = activityStartTime;
+    }
+
+    public String getActivityEndTime() {
+        return activityEndTime;
+    }
+
+    public void setActivityEndTime(String activityEndTime) {
+        this.activityEndTime = activityEndTime;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
 
     public String getId() {
         return id;

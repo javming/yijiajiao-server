@@ -6,10 +6,8 @@ import com.yijiajiao.server.bean.post.SetMsgBean;
 import com.yijiajiao.server.service.MsgService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
-import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.yijiajiao.server.util.ServerUtil.*;
@@ -22,8 +20,6 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 public class MsgServiceImpl implements MsgService{
 
     private static final Logger log = LoggerFactory.getLogger(MsgServiceImpl.class);
-    @Autowired
-    private MemcachedClient memcachedClient;
 
 
     @Override
@@ -86,7 +82,7 @@ public class MsgServiceImpl implements MsgService{
     public ResultBean setMsg(String tag, SetMsgBean setMsgBean) {
         String path =Config.getString("msg.setMsg");
         String response = ServerUtil.httpRest(MSG_SERVER,path,null,setMsgBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 }

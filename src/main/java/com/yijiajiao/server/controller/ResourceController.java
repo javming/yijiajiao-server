@@ -5,6 +5,7 @@ import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.service.OSSService;
 import com.yijiajiao.server.service.ResourceService;
+import com.yijiajiao.server.service.WaresService;
 import com.yijiajiao.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ public class ResourceController {
     private ResourceService resourceService;
     @Autowired
     private OSSService ossService;
+    @Autowired
+    private WaresService waresService;
 
     /**
      * 按照学科，学年，教材版本获取知识树
@@ -356,4 +359,17 @@ public class ResourceController {
     public ResultBean getToken(@QueryParam("key") String key,@QueryParam("dbNum") int dbNum){
         return resourceService.getToken(key,dbNum);
     }
+
+
+    /**
+     * 获取试卷信息（不需要登录）
+     */
+    @GET
+    @Path("/getPaperInfoUnLogin")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getPaperInfoUnLogin(@QueryParam("paperId") String paperId){
+        return waresService.getPaperInfo(paperId);
+    }
+
 }

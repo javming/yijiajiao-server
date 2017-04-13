@@ -226,11 +226,12 @@ public class ServerUtil {
         return result;
     }
 
-    public static void setMemcached(String tag, String value, MemcachedClient memcachedClient, Logger log) {
-
+    public static void setMemcached(String tag, String value,Logger log) {
+        MemcachedClient memcachedClient = XMemcachedUtil.getMemcachedClient();
+        log.info("memcacchedClien="+memcachedClient);
         try {
-            log.info("set memcached result is :    " + tag + " = " + value);
-            boolean flag = memcachedClient.set(tag, 0, value);
+            log.info("set memcached  is :    " + tag + " = " + value);
+            boolean flag = memcachedClient.set(tag, 7200, value);
             if (flag) log.info("set memcached success!");
         } catch (Exception e) {
             log.error("set MemcachedClient failed!!");

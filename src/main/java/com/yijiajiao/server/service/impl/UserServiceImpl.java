@@ -31,10 +31,8 @@ import com.yijiajiao.server.bean.user.*;
 import com.yijiajiao.server.bean.wares.CollectQueryBean;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
-import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -52,10 +50,7 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 public class UserServiceImpl implements UserService{
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-
-    @Autowired
-    private MemcachedClient memcachedClient;
-
+    
     private static OauthFactory oauthFactory    = new OauthFactory();
 
     @Override
@@ -811,7 +806,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyPermission(String tag, ApplyPermissionBean applyPermissionBean) {
         String path = Config.getString("user.applyPermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyPermissionBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -819,7 +814,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean passTest(String tag, PassTestBean passTestBean) {
         String path = Config.getString("user.passTest");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,passTestBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -827,7 +822,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean insertAnswerPermission(String tag, UpdateanswerpermissionBean updateanswerpermissionBean) {
         String path = Config.getString("user.insertanswerpermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,updateanswerpermissionBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -835,7 +830,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyInterviewTime(String tag, ApplyinterviewtimeBean applyinterviewtimeBean) {
         String path = Config.getString("user.applyinterviewtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyinterviewtimeBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -843,7 +838,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyFacingTeachTime(String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean) {
         String path = Config.getString("user.applyfacingteachtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyfacingteachtimeBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -851,7 +846,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean diagnoseAnswerSubmit(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
         String path = Config.getString("user.diagnoseAnswerSubmit");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,diagnoseAnswerSubmitBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1 ) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -859,7 +854,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyTeacher(String tag, ApplyTeacherBean applyTeacherBean) {
         String path = Config.getString("user.applyteacher");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,applyTeacherBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -867,7 +862,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean setStore(String tag, SetStoreBean setStoreBean) {
         String path = Config.getString("user.setStore");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,setStoreBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -875,7 +870,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean complete(String tag, CompleteInfoBean completeInfoBean) {
         String path = Config.getString("user.complete");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,completeInfoBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -923,7 +918,7 @@ public class UserServiceImpl implements UserService{
             ValidateCodeUserResponse response = client.execute(request);
             log.info("response: "+ JSON.toJSONString(response));
             if (!"200".equals(response.getHttpCode())){
-                result.setFailMsg(Integer.parseInt(response.getHttpCode()),"验证码验证失败！");
+                result.setFailMsg(Integer.parseInt(response.getHttpCode()),"验证码错误或超时！");
                 return result;
             }
             ValidateCodeUserResponse validateCodeUserResponse = JSON.parseObject(JSON.toJSONString(response.getResult()),
@@ -959,6 +954,13 @@ public class UserServiceImpl implements UserService{
             result.setFailMsg(SystemStatus.SERVER_ERROR);
         }
         return result;
+    }
+
+    @Override
+    public ResultBean diagnoseSubmitForOnce(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+        String path = Config.getString("user.diagnoseSubmitForOnce");
+        String response = ServerUtil.httpRest(TEACH_SERVER,path,null,diagnoseAnswerSubmitBean,"POST");
+        return dealResult(log,response);
     }
 
 }

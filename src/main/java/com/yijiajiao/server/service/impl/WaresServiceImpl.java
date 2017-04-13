@@ -13,7 +13,6 @@ import com.yijiajiao.server.service.WaresService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
-import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,6 @@ public class WaresServiceImpl implements WaresService {
     private static final Logger log = LoggerFactory.getLogger(WaresServiceImpl.class);
     @Autowired
     private UserService userService;
-    @Autowired
-    private MemcachedClient memcachedClient;
 
     @Override
     public ResultBean timeTable(String startDate, String endDate, String openId) {
@@ -283,7 +280,7 @@ public class WaresServiceImpl implements WaresService {
     }
 
     @Override
-    public ResultBean popularity(int waresId, String popType) {
+    public ResultBean popularity(String waresId, String popType) {
         String path = Config.getString("ware.popularity");
         PopularityBean popularityBean = new PopularityBean(popType,waresId);
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, popularityBean, "PUT");
@@ -392,7 +389,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean uploadVideo(String tag, UploadVideoParamBean uploadVideoParamBean) {
         String path = Config.getString("wares.uploadvideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,uploadVideoParamBean , "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -400,7 +397,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean wareLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.warelive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -408,7 +405,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean wareVideo(String tag, WareVideoBean wareVideoBean) {
         String path = Config.getString("wares.warevideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareVideoBean , "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -416,7 +413,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean wareOne2One(String tag, WareOne2OneBean wareOne2OneBean) {
         String path = Config.getString("wares.wareOne2One");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, wareOne2OneBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -424,7 +421,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean commitExam(String tag, CommitExamBean commitExamBean) {
         String path = Config.getString("wares.commitExam");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, commitExamBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -432,7 +429,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean updateWaresLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.updateWaresLive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "PUT");
-        if (IF_MEM==1) setMemcached(tag,response,memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 

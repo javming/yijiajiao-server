@@ -15,7 +15,6 @@ import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.RedisUtil;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
-import net.rubyeye.xmemcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,7 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 public class ResourceServiceImpl implements ResourceService{
 
     private static final Logger log = LoggerFactory.getLogger(ResourceServiceImpl.class);
-    @Autowired
-    private MemcachedClient memcachedClient;
+    
     @Autowired
     private UserService userService;
 
@@ -242,7 +240,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean createExamHead(String tag, CreateExamBean createExamBean) {
         String path = Config.getString("wares.createExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -250,7 +248,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean createExamDetail(String tag, CreateExamDetailBean createExamDetailBean) {
         String path = Config.getString("wares.CreateExamDetail");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamDetailBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -258,7 +256,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean smartCreateExam(String tag, SmartCreateExamBean smartCreateExamBean) {
         String path = Config.getString("wares.SmartCreateExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,smartCreateExamBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -266,7 +264,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean addQuestions(String tag, AddQuestionsBean addQuestionsBean) {
         String path = Config.getString("wares.AddQuestions");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,addQuestionsBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,this.memcachedClient,log);
+        if (IF_MEM==1) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -288,7 +286,7 @@ public class ResourceServiceImpl implements ResourceService{
         }
         if (IF_MEM==1) {
             RedisUtil.putRedis(tag, res, 36000);
-            setMemcached(tag, JSON.toJSONString(ResultBean.getSucResult(tag)),memcachedClient,log);
+            setMemcached(tag, JSON.toJSONString(ResultBean.getSucResult(tag)),log);
         }
         return result;
     }
