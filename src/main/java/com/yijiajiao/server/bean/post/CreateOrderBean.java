@@ -21,6 +21,15 @@ public class CreateOrderBean {
 	private String price;//原价
 	private int sunshine;//1阳光 0易家教
 	private String teacherId;
+	private String studentCode;
+
+	public String getStudentCode() {
+		return studentCode;
+	}
+
+	public void setStudentCode(String studentCode) {
+		this.studentCode = studentCode;
+	}
 
 	public String getOrder_number() {
 		return order_number;

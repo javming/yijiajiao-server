@@ -20,7 +20,7 @@ public class XMemcachedUtil {
     private static MemcachedClient memcachedClient = null;
 
     static {
-        builder = new XMemcachedClientBuilder(AddrUtil.getAddressMap("127.0.0.1:11211"));
+        builder = new XMemcachedClientBuilder(AddrUtil.getAddressMap(Config.getString("memcached_server")));
     }
 
     /**
