@@ -5,6 +5,7 @@ import com.yijiajiao.server.bean.post.AddActivityBean;
 import com.yijiajiao.server.bean.post.AddCouponBean;
 import com.yijiajiao.server.bean.post.UpdateActivityBean;
 import com.yijiajiao.server.bean.post.UpdateCouponBean;
+import com.yijiajiao.server.bean.wares.WaresListBean;
 
 /**
  * @AUTHOR zhaoming@eduspace
@@ -110,4 +111,6 @@ public interface PromotionService {
     ResultBean addCoupon(String tag, AddCouponBean addCouponBean);
 
     ResultBean getActivitiesByCommodityId(String commodityId);
+
+    WaresListBean getWareList(String teacherId, String curriculumType, Integer pageNo, Integer pageSize);
 }

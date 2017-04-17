@@ -211,37 +211,19 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean activityWareList(String openId, int pageNo, int pageSize, int activityId, Integer activeStatus) {
         //参加活动的课程
         if (activeStatus!=null && activeStatus==1 ){
-            String path = Config.getString("promotion.waresListByCoupon")+"activityId="+activityId+"&pageNo="+pageNo
-                    +"&pageSize="+pageSize;
+            String path = Config.getString("promotion.waresListByCoupon")+"activityId="+activityId+"&pageNo=1"
+                    +"&pageSize=100";
             String get = ServerUtil.httpRest(PROMOTION_SERVER, path, null, null, "GET");
             return dealResult(get);
         }
 
-        String wareIist = Config.getString("wares.wareslist") + "teacherId=" + openId;
-        String wareListByCoupon = Config.getString("promotion.wareListByCoupon") + "activityId=" + activityId;
-
         //获取教师所有课程
-        String response = ServerUtil.httpRest(WARES_SERVER, wareIist, null, null, "GET");
-        ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
-        if (resultBean.getCode() != 200) {
-            return ResultBean.getFailResult(resultBean.getCode(), resultBean.getMessage());
-        }
-        WaresListBean wares = JSON.parseObject(JSON.toJSONString(resultBean.getResult()), WaresListBean.class);
-        if (wares.getList().size()==0) return ResultBean.getSucResult(wares);
-        List<WaresBean> resultWares = new ArrayList<>();
-        for (WaresBean wb : wares.getList()){
-            //过滤已经开课或者下架的课程
-            if(StringUtil.isNotEmpty(wb.getStartTime())
-                    && DateUtil.compareStringDate(wb.getStartTime(),DateUtil.getNowTime())==-1
-                    && !"2".equals(wb.getStatus())){
+        WaresListBean wares = getWareList(openId, "0", null, null);
 
-                resultWares.add(wb);
-            }
-        }
-        wares.setList(resultWares);
         //获取参加活动的课程
-        response = ServerUtil.httpRest(PROMOTION_SERVER, wareListByCoupon, null, null, "GET");
-        resultBean = JSON.parseObject(response, ResultBean.class);
+        String wareListByCoupon = Config.getString("promotion.wareListByCoupon") + "activityId=" + activityId;
+        String response = ServerUtil.httpRest(PROMOTION_SERVER, wareListByCoupon, null, null, "GET");
+        ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
         String ids = (String) resultBean.getResult();
         log.info("__[参加活动的课程ids:"+ids+"]");
         if (StringUtil.isEmpty(ids)){
@@ -302,5 +284,34 @@ public class PromotionServiceImpl implements PromotionService {
         String path = Config.getString("promotion.getActivitiesByCommodityId")+"courseId="+commodityId;
         String response = httpRest(PROMOTION_SERVER,path,null,null,"GET");
         return dealResult(response);
+    }
+
+    @Override
+    public WaresListBean getWareList(String teacherId, String curriculumType, Integer pageNo, Integer pageSize) {
+        String wareIist = Config.getString("wares.wareslist") + "teacherId=" + teacherId + "&curriculumType="+curriculumType
+                + "&pageNo="+(pageNo==null?1:pageNo) + "&pageSize="+(pageSize==null?100:pageSize);
+        String response = ServerUtil.httpRest(WARES_SERVER, wareIist, null, null, "GET");
+        ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
+        if (resultBean.getCode() != 200) {
+            throw new RuntimeException(resultBean.getMessage());
+        }
+        WaresListBean wares = JSON.parseObject(JSON.toJSONString(resultBean.getResult()), WaresListBean.class);
+        if (wares.getList().size()==0) return wares;
+        List<WaresBean> resultWares = new ArrayList<>();
+        for (WaresBean wb : wares.getList()){
+            //过滤已经开课或者下架的课程
+            if(StringUtil.isNotEmpty(wb.getStartTime())
+                    && DateUtil.compareStringDate(wb.getStartTime(),DateUtil.getNowTime())==-1
+                    && !"2".equals(wb.getStatus())){
+
+                resultWares.add(wb);
+            }
+            else if (StringUtil.isEmpty(wb.getStartTime()) && wb.getCurriculumType()==6
+                    && !"2".equals(wb.getStatus())){
+                resultWares.add(wb);
+            }
+        }
+        wares.setList(resultWares);
+        return wares;
     }
 }

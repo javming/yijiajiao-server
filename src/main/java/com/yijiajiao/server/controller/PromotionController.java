@@ -5,6 +5,7 @@ import com.yijiajiao.server.bean.post.AddActivityBean;
 import com.yijiajiao.server.bean.post.AddCouponBean;
 import com.yijiajiao.server.bean.post.UpdateActivityBean;
 import com.yijiajiao.server.bean.post.UpdateCouponBean;
+import com.yijiajiao.server.bean.wares.WaresListBean;
 import com.yijiajiao.server.service.PromotionService;
 import com.yijiajiao.server.service.impl.PromotionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -316,5 +317,18 @@ public class PromotionController {
         return promotionService.updateActivity(tag,updateActivityBean);
     }
 
+    /**
+     * 获取教师课程列表（用于添加优惠券）
+     */
+    @GET
+    @Path("wareListForCoupon")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean getWareListForCoupon(@QueryParam("teacherId") String teacherId,@QueryParam("pageNo") Integer pageNo,
+                                           @QueryParam("pageSize") Integer pageSize,@QueryParam("curriculumType") String curriculumType){
+
+        WaresListBean waresListBean = promotionService.getWareList(teacherId, "0", null, null);
+        return ResultBean.getSucResult(waresListBean);
+    }
 
 }
