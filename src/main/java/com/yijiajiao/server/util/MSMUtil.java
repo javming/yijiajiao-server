@@ -120,4 +120,7 @@ public class MSMUtil {
 		return result;
 	}
 
+	public static void main(String[] args) {
+		msmUtil.send1("13520351893",1);
+	}
 }
