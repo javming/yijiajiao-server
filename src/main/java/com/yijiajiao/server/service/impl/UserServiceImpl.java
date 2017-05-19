@@ -366,7 +366,8 @@ public class UserServiceImpl implements UserService{
                     UserRegisterBean userRegisterBean = new UserRegisterBean();
                     userRegisterBean.setUsername(login.getTelephone());
                     userRegisterBean.setInvite_code("");
-                    String selfcode = Digest.md5Digest(login.getTelephone()+new Date().getTime());
+
+                    String selfcode = Digest.md5Digest(login.getTelephone()+new Date().getTime()).substring(8, 16).toUpperCase();
                     userRegisterBean.setInvite_selfcode(selfcode);
                     userRegisterBean.setVersion("1.0");
                     userRegisterBean.setAk(auserModel.getAccessKey());
@@ -745,7 +746,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResultBean getSecondProxyInfoList(String proxyOpenId, String secondProxyOpenId, int pageNo, int pageSize, Integer year, Integer month) {
-        String path = Config.getString("user.getSecondProxyInfoList")+"&pageSize="+pageSize+"openId="+secondProxyOpenId
+        String path = Config.getString("user.getSecondProxyInfoList")+"&pageSize="+pageSize+"&openId="+secondProxyOpenId
                 +"&pageNo="+pageNo+(StringUtil.isEmpty(proxyOpenId)?"":("&proxyOpenId=")+proxyOpenId)
                 +(year==null?"":("&year="+year))+(month==null?"":("&month="+month));
         String response = ServerUtil.httpRest(USER_SERVER,path,null,null,"GET");
