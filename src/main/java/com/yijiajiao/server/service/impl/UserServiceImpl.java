@@ -392,8 +392,10 @@ public class UserServiceImpl implements UserService{
             }
 
             EaseObUserInfoBean euser = userGetEaseobByOpenId(userInfoBean.getUserOpenId());
-            userInfoResultBean.setEaseobPassword(euser.getPassword());
-            userInfoResultBean.setEaseobUserName(euser.getUsername());
+            if (euser != null){
+                userInfoResultBean.setEaseobPassword(euser.getPassword());
+                userInfoResultBean.setEaseobUserName(euser.getUsername());
+            }
             resultBean.setSucResult(userInfoResultBean);
             //缓存登录信息
             TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id());
