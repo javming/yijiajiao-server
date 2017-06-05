@@ -20,7 +20,10 @@ public interface WaresService {
     /**
      * 课程列表
      */
-    ResultBean wareslist(int pageNo, int pageSize, String subjectCode, String gradeCode, String bookTypeCode, Integer curriculumType, String order, String orderType, String stageCode, String reservePrice, String peakPrice, String smallCourseware, String teacherId, String status, String isYjj, String yjjCode);
+    ResultBean wareslist(int pageNo, int pageSize, String subjectCode, String gradeCode, String bookTypeCode,
+                         Integer curriculumType, String order, String orderType, String stageCode, String reservePrice,
+                         String peakPrice, String smallCourseware, String teacherId, String status, String isYjj,
+                         String yjjCode, String month);
 
     /**
      * 课程详情页

@@ -61,15 +61,18 @@ public class WaresController {
     @Path("/wareslist")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareslist(@QueryParam("curriculumType") Integer curriculumType, @QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode,
-                                @QueryParam("bookTypeCode") String bookTypeCode, @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order,
-                                @QueryParam("orderType") String orderType,@QueryParam("stageCode") String stageCode,@QueryParam("reservePrice") String reservePrice,
-                                @QueryParam("peakPrice") String peakPrice,@QueryParam("smallCourseware") String smallCourseware,@QueryParam("teacherId") String teacherId,
-                                @QueryParam("status") String status,@QueryParam("isYjj")String isYjj,@QueryParam("yjjCode")String yjjCode){
+    public ResultBean wareslist(@QueryParam("curriculumType") Integer curriculumType, @QueryParam("subjectCode") String subjectCode,
+                                @QueryParam("gradeCode") String gradeCode, @QueryParam("bookTypeCode") String bookTypeCode,
+                                @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order,
+                                @QueryParam("orderType") String orderType,@QueryParam("stageCode") String stageCode,
+                                @QueryParam("reservePrice") String reservePrice, @QueryParam("peakPrice") String peakPrice,
+                                @QueryParam("smallCourseware") String smallCourseware,@QueryParam("teacherId") String teacherId,
+                                @QueryParam("status") String status,@QueryParam("isYjj")String isYjj,@QueryParam("yjjCode")String yjjCode,
+                                @QueryParam("month") String month){
 
         return waresService.wareslist(pageNo, pageSize, subjectCode, gradeCode,
-                    bookTypeCode, curriculumType, order, orderType,stageCode,reservePrice,
-                    peakPrice,smallCourseware,teacherId,status,isYjj,yjjCode);
+                    bookTypeCode, curriculumType, order, orderType, stageCode, reservePrice,
+                    peakPrice, smallCourseware, teacherId, status, isYjj,yjjCode, month);
 
     }
 
@@ -162,10 +165,11 @@ public class WaresController {
     @Path("/waresListByType")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean waresListByType(@QueryParam("teacherId") String teacherId, @QueryParam("curriculumType") int curriculumType, @QueryParam("status") Integer status,
-                                      @QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize,@QueryParam("isYjj") String isYjj) {
+    public ResultBean waresListByType(@QueryParam("teacherId") String teacherId, @QueryParam("curriculumType") int curriculumType,
+                                      @QueryParam("status") Integer status, @QueryParam("pageNo") int pageNo,
+                                      @QueryParam("pageSize") int pageSize,@QueryParam("isYjj") String isYjj) {
 
-        return waresService.waresListByType(teacherId, curriculumType,status,pageNo,pageSize,isYjj);
+        return waresService.waresListByType(teacherId, curriculumType, status, pageNo, pageSize, isYjj);
 
     }
 

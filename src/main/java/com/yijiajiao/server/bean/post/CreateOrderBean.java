@@ -22,6 +22,24 @@ public class CreateOrderBean {
 	private int sunshine;//1阳光 0易家教
 	private String teacherId;
 	private String studentCode;
+	private String inviteCodeUser;//邀请码（用户）
+	private String inviteCodeCompany;//邀请码（商户）
+
+	public String getInviteCodeUser() {
+		return inviteCodeUser;
+	}
+
+	public void setInviteCodeUser(String inviteCodeUser) {
+		this.inviteCodeUser = inviteCodeUser;
+	}
+
+	public String getInviteCodeCompany() {
+		return inviteCodeCompany;
+	}
+
+	public void setInviteCodeCompany(String inviteCodeCompany) {
+		this.inviteCodeCompany = inviteCodeCompany;
+	}
 
 	public String getStudentCode() {
 		return studentCode;
