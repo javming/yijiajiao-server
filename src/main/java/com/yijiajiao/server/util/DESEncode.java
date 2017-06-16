@@ -3,12 +3,8 @@ package com.yijiajiao.server.util;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.security.Key;
 
 /**
@@ -26,31 +22,6 @@ public class DESEncode {
      * */
     public static final String CIPHER_ALGORITHM = "DESede/ECB/PKCS5Padding";
 
-    /**
-     *
-     * 生成密钥
-     *
-     * @return byte[] 二进制密钥
-     * */
-    public static byte[] initkey() throws Exception {
-
-        // 实例化密钥生成器
-        KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);
-        // 初始化密钥生成器
-        kg.init(168);
-        // 生成密钥
-        SecretKey secretKey = kg.generateKey();
-        // 获取二进制密钥编码形式
-
-        byte[] key = secretKey.getEncoded();
-        BufferedOutputStream keystream =
-                new BufferedOutputStream(new FileOutputStream("DESedeKey.dat"));
-        keystream.write(key, 0, key.length);
-        keystream.flush();
-        keystream.close();
-
-        return key;
-    }
 
     /**
      * 转换密钥
@@ -66,8 +37,7 @@ public class DESEncode {
         SecretKeyFactory keyFactory = SecretKeyFactory
                 .getInstance(KEY_ALGORITHM);
         // 生成密钥
-        SecretKey secretKey = keyFactory.generateSecret(dks);
-        return secretKey;
+        return keyFactory.generateSecret(dks);
     }
 
     /**
@@ -139,5 +109,12 @@ public class DESEncode {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        String encode = encode("13520351893", "6D8F4E85D844E2DD0AE1C133485F5517");
+        System.out.println("encode = " + encode);
+        String decode = decode(encode, "6D8F4E85D844E2DD0AE1C133485F5517");
+        System.out.println("decode = " + decode);
     }
 }

@@ -37,25 +37,26 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
 
     @Override
     public ResultBean loginOrRegister(ThirdPartyLoginBean tdLoginBean) {
-        tdLoginBean.setTelephone(DESEncode.decode(tdLoginBean.getTelephone(),YJKJ_SCREATKEY));
-        tdLoginBean.setThirdPartyUserCode(DESEncode.decode(tdLoginBean.getThirdPartyUserCode(),YJKJ_SCREATKEY));
-        LoginBean loginBean = new LoginBean();
-        loginBean.setVersion(tdLoginBean.getVersion());
-        loginBean.setClient_id(tdLoginBean.getClient_id());
-        loginBean.setTelephone(tdLoginBean.getTelephone());
-        UserModel userModel = validateTel(loginBean.getTelephone());
+        //非阳光保险用户不需要解密
+        String telephone = "2.0".equals(tdLoginBean.getClient_id())?
+                    DESEncode.decode(tdLoginBean.getTelephone(),YJKJ_SCREATKEY):tdLoginBean.getTelephone();
+        String thirdUserCode = "2.0".equals(tdLoginBean.getClient_id())?
+                DESEncode.decode(tdLoginBean.getThirdPartyUserCode(),YJKJ_SCREATKEY):tdLoginBean.getThirdPartyUserCode();
+        //通过手机号获取用户
+        UserModel userModel = validateTel(telephone);
+        LoginBean loginBean = new LoginBean(telephone, null, tdLoginBean.getClient_id(), tdLoginBean.getVersion());
         if(userModel == null) {
             RegisterBean registerBean = new RegisterBean();
-            String pass = Digest.md5Digest(loginBean.getTelephone());
+            String pass = Digest.md5Digest(telephone);
             loginBean.setPassword(pass);
-            registerBean.setTelephone(loginBean.getTelephone());
+            registerBean.setTelephone(telephone);
             registerBean.setPassword(pass);
             registerBean.setClient_id(loginBean.getClient_id());
             registerBean.setVersion(loginBean.getVersion());
             ResultBean register = userService.register(registerBean);
             if (register.getCode() != 200) return register;
             try {
-                MSMUtil.msmUtil.send1(registerBean.getTelephone(),24);
+                MSMUtil.msmUtil.send1(telephone,24);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -65,8 +66,8 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
         //保存第三方code
         String path = Config.getString("user.createthirduser");
         Map<String,String> body = new HashMap<String,String>();
-        body.put("phone",tdLoginBean.getTelephone());
-        body.put("sunShineUserCode",tdLoginBean.getThirdPartyUserCode());
+        body.put("phone", telephone);
+        body.put("sunShineUserCode", thirdUserCode);
         try {
             String response = ServerUtil.httpRest(user_server, path, null, body, "POST");
             ResultBean resultBean = JSON.parseObject(response,ResultBean.class);
@@ -77,7 +78,6 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
             log.error("保存第三方code时出错："+e.getMessage());
         }
         return  userService.login(loginBean);
-
     }
 
     /**

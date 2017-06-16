@@ -240,7 +240,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean createExamHead(String tag, CreateExamBean createExamBean) {
         String path = Config.getString("wares.createExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -248,7 +248,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean createExamDetail(String tag, CreateExamDetailBean createExamDetailBean) {
         String path = Config.getString("wares.CreateExamDetail");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamDetailBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -256,7 +256,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean smartCreateExam(String tag, SmartCreateExamBean smartCreateExamBean) {
         String path = Config.getString("wares.SmartCreateExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,smartCreateExamBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -264,7 +264,7 @@ public class ResourceServiceImpl implements ResourceService{
     public ResultBean addQuestions(String tag, AddQuestionsBean addQuestionsBean) {
         String path = Config.getString("wares.AddQuestions");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,addQuestionsBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -284,7 +284,7 @@ public class ResourceServiceImpl implements ResourceService{
                     (StringUtil.isEmpty(diagnoseAnswerSubmitBean.getWaresSlaveId())?-1:diagnoseAnswerSubmitBean.getWaresSlaveId());
             ServerUtil.httpRest(SALE_SERVER,updateIsHomework,null,null,"PUT");
         }
-        if (IF_MEM==1) {
+        if (IF_MEM==1 && tag!=null && tag!=null) {
             RedisUtil.putRedis(tag, res, 36000);
             setMemcached(tag, JSON.toJSONString(ResultBean.getSucResult(tag)),log);
         }

@@ -14,6 +14,15 @@ public class LoginBean {
   private String client_id;
   private String version;// 1.0亿家教自用户  2.0阳光保险
 
+  public LoginBean() {
+  }
+
+  public LoginBean(String telephone, String password, String client_id, String version) {
+    this.telephone = telephone;
+    this.password = password;
+    this.client_id = client_id;
+    this.version = version;
+  }
 
   public String getTelephone() {
     return telephone;

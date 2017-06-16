@@ -48,7 +48,7 @@ public class FinanceServiceImpl implements FinanceService{
     public ResultBean bindAliPay(String tag, BindAliPayBean bindAliPayBean) {
         String  path = Config.getString("finance.bindAliPay");
         String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, bindAliPayBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log ,response);
     }
 

@@ -322,7 +322,7 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     public ResultBean updateAppraise(String tag, UpdateAppraiseBean updateAppraiseBean) {
         String path = Config.getString("sale.updateAppraise");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -330,7 +330,7 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     public ResultBean createOrder(String tag, CreateOrderBean createOrderBean) {
         String path = Config.getString("sale.createOrder");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createOrderBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -338,7 +338,7 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     public ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean) {
         String path = Config.getString("sale.updateAppraiseReback");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseRebackBean,"PUT");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -346,7 +346,7 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     public ResultBean createRefund(String tag, CreateRefundBean createRefundBean) {
         String path = Config.getString("sale.createRefund");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createRefundBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 }

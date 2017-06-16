@@ -809,7 +809,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyPermission(String tag, ApplyPermissionBean applyPermissionBean) {
         String path = Config.getString("user.applyPermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyPermissionBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -817,7 +817,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean passTest(String tag, PassTestBean passTestBean) {
         String path = Config.getString("user.passTest");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,passTestBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -825,7 +825,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean insertAnswerPermission(String tag, UpdateanswerpermissionBean updateanswerpermissionBean) {
         String path = Config.getString("user.insertanswerpermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,updateanswerpermissionBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -833,7 +833,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyInterviewTime(String tag, ApplyinterviewtimeBean applyinterviewtimeBean) {
         String path = Config.getString("user.applyinterviewtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyinterviewtimeBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -841,7 +841,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyFacingTeachTime(String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean) {
         String path = Config.getString("user.applyfacingteachtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyfacingteachtimeBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -849,7 +849,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean diagnoseAnswerSubmit(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
         String path = Config.getString("user.diagnoseAnswerSubmit");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,diagnoseAnswerSubmitBean,"POST");
-        if (IF_MEM==1 ) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null ) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -857,7 +857,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean applyTeacher(String tag, ApplyTeacherBean applyTeacherBean) {
         String path = Config.getString("user.applyteacher");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,applyTeacherBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -865,7 +865,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean setStore(String tag, SetStoreBean setStoreBean) {
         String path = Config.getString("user.setStore");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,setStoreBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -873,7 +873,7 @@ public class UserServiceImpl implements UserService{
     public ResultBean complete(String tag, CompleteInfoBean completeInfoBean) {
         String path = Config.getString("user.complete");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,completeInfoBean,"POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 

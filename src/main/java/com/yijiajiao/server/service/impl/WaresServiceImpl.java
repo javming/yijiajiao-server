@@ -55,6 +55,7 @@ public class WaresServiceImpl implements WaresService {
                                 Integer curriculumType,String order,String orderType,String stageCode,String reservePrice,
                                 String peakPrice,String smallCourseware,String teacherId,String status,String isYjj,
                                 String yjjCode, String month) {
+        System.out.println("===============month ===" + month);
         String path = Config.getString("wares.wareslist") + "pageNo=" + pageNo + "&pageSize=" + pageSize
                 + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))+(StringUtil.isEmpty(gradeCode)?"":("&gradeCode="+gradeCode))
                 + (StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode="+bookTypeCode))+(StringUtil.isEmpty(order)?"":("&order=" + order))
@@ -62,8 +63,7 @@ public class WaresServiceImpl implements WaresService {
                 + (StringUtil.isEmpty(stageCode)?"":("&stageCode="+stageCode))+(StringUtil.isEmpty(reservePrice)?"":("&reservePrice="+reservePrice))
                 + (StringUtil.isEmpty(peakPrice)?"":("&peakPrice="+peakPrice))+(StringUtil.isEmpty(status)?"":("&status="+status))
                 + (StringUtil.isEmpty(smallCourseware)?"":("&smallCourseware="+smallCourseware))+(StringUtil.isEmpty(isYjj)?"":("&isYjj="+isYjj))
-                + (StringUtil.isEmpty(yjjCode)?"":("&yjjCode="+yjjCode))+(StringUtil.isEmpty(teacherId)?"":("&teacherId="+teacherId)
-                + (StringUtil.isEmpty(month)?"":("&month="+month)));
+                + (StringUtil.isEmpty(yjjCode)?"":("&yjjCode="+yjjCode))+(StringUtil.isEmpty(teacherId)?"":("&teacherId="+teacherId)) + (StringUtil.isEmpty(month)?"":("&month="+month));
         ResultBean result = new ResultBean();
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
@@ -391,7 +391,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean uploadVideo(String tag, UploadVideoParamBean uploadVideoParamBean) {
         String path = Config.getString("wares.uploadvideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,uploadVideoParamBean , "POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -399,7 +399,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean wareLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.warelive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -407,7 +407,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean wareVideo(String tag, WareVideoBean wareVideoBean) {
         String path = Config.getString("wares.warevideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareVideoBean , "POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -415,7 +415,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean wareOne2One(String tag, WareOne2OneBean wareOne2OneBean) {
         String path = Config.getString("wares.wareOne2One");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, wareOne2OneBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -423,7 +423,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean commitExam(String tag, CommitExamBean commitExamBean) {
         String path = Config.getString("wares.commitExam");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, commitExamBean, "POST");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -431,7 +431,7 @@ public class WaresServiceImpl implements WaresService {
     public ResultBean updateWaresLive(String tag, WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.updateWaresLive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "PUT");
-        if (IF_MEM==1) setMemcached(tag,response,log);
+        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
