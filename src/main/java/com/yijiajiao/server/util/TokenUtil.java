@@ -92,7 +92,7 @@ public class TokenUtil {
 	}
 
 	public static void putToken(String openId,String token,String clientId,String server,String url){
-		Map<String,Object> params = new HashMap<String,Object>();
+		Map<String,Object> params = new HashMap<>();
 		params.put("openId",openId);
 		params.put("token", token);
 		if ("E-web".equals(clientId)) {
@@ -101,8 +101,7 @@ public class TokenUtil {
 			params.put("expire",APP_EXPIRE);
 		}
 		params.put("clientId",clientId);
-		String httpRest = ServerUtil.httpRest(server, url+"?requestId="+ServerUtil.randomCode(), null, params, "POST");
-		System.out.println("请求保分项目返回："+httpRest);
+		ServerUtil.httpRest(server, url+"?requestId="+ServerUtil.randomCode(), null, params, "POST");
 	}
 
 	public static EquipmentType getClientType(String a){

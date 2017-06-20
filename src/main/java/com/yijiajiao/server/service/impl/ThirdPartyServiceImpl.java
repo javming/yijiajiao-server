@@ -63,20 +63,24 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
         }else {
             loginBean.setPassword(userModel.getPassword());
         }
-        //保存第三方code
-        String path = Config.getString("user.createthirduser");
-        Map<String,String> body = new HashMap<String,String>();
-        body.put("phone", telephone);
-        body.put("sunShineUserCode", thirdUserCode);
-        try {
-            String response = ServerUtil.httpRest(user_server, path, null, body, "POST");
-            ResultBean resultBean = JSON.parseObject(response,ResultBean.class);
-            if(resultBean.getCode()!=200){
-                log.error("保存第三方code时出错："+resultBean.getMessage());
+
+        if (StringUtil.isNotEmpty(thirdUserCode)){
+            //保存第三方code
+            String path = Config.getString("user.createthirduser");
+            Map<String,String> body = new HashMap<>();
+            body.put("phone", telephone);
+            body.put("sunShineUserCode", thirdUserCode);
+            try {
+                String response = ServerUtil.httpRest(user_server, path, null, body, "POST");
+                ResultBean resultBean = JSON.parseObject(response,ResultBean.class);
+                if(resultBean.getCode()!=200){
+                    log.error("保存第三方code时出错："+resultBean.getMessage());
+                }
+            } catch (Exception e) {
+                log.error("保存第三方code时出错："+e.getMessage());
             }
-        } catch (Exception e) {
-            log.error("保存第三方code时出错："+e.getMessage());
         }
+
         return  userService.login(loginBean);
     }
 

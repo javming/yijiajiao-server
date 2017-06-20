@@ -33,6 +33,8 @@ import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -52,6 +54,9 @@ public class UserServiceImpl implements UserService{
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     
     private static OauthFactory oauthFactory    = new OauthFactory();
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
     public ResultBean validateTel(String tel) {
@@ -404,16 +409,17 @@ public class UserServiceImpl implements UserService{
             final String openId =  userInfoResultBean.getOpenId();
             final String token = userInfoResultBean.getToken();
             final String clientId = login.getClient_id();
-            new Thread(new Runnable() {
+            taskExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     try{
+                        log.info("调用保分计划部分保存登录信息-->>");
                         TokenUtil.putToken(openId, token,clientId, KEEPMARK_SERVER, Config.getString("stuLogin"));
                     } catch (Exception e) {
                         log.error("调用保分计划部分保存登录信息保存出错："+e.getMessage());
                     }
                 }
-            }).start();
+            });
 
         } else {
             resultBean.setFailMsg(SystemStatus.USERNAME_PASSWORD_IS_ERROR);
