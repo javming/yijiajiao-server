@@ -52,7 +52,7 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 public class UserServiceImpl implements UserService{
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-    
+
     private static OauthFactory oauthFactory    = new OauthFactory();
 
     @Autowired
@@ -414,6 +414,7 @@ public class UserServiceImpl implements UserService{
                 public void run() {
                     try{
                         log.info("调用保分计划部分保存登录信息-->>");
+                        log.info("可用线程数量【" + taskExecutor.getActiveCount() + "】");
                         TokenUtil.putToken(openId, token,clientId, KEEPMARK_SERVER, Config.getString("stuLogin"));
                     } catch (Exception e) {
                         log.error("调用保分计划部分保存登录信息保存出错："+e.getMessage());

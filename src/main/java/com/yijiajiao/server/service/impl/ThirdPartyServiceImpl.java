@@ -16,6 +16,7 @@ import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -30,7 +31,8 @@ import java.util.Map;
 public class ThirdPartyServiceImpl implements ThirdPartyService {
     private static final Logger log = LoggerFactory.getLogger(ThirdPartyServiceImpl.class);
     private static OauthFactory oauthFactory    = new OauthFactory();
-    private UserService userService = new UserServiceImpl();
+    @Autowired
+    private UserService userService;
     private static final String user_server = Config.getString("user_server");
     private static final String sale_server = Config.getString("sale_server");
     private static final String YJKJ_SCREATKEY=Config.getString("sun_yjkj_screatKey");

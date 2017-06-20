@@ -5,6 +5,7 @@ import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.BindAliPayBean;
 import com.yijiajiao.server.service.FinanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
@@ -21,6 +22,9 @@ public class FinanceController {
 
     @Autowired
     private FinanceService financeService;
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
 
     /**
      * 获取答疑解答时长
@@ -111,6 +115,33 @@ public class FinanceController {
         return financeService.consumeIOSMoney(iosMoneyBean);
     }
 
+    @GET
+    @Path("/testTask")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void testTask(){
+        for (int i=0; i<10; i++){
+            final int j = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    taskExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                int count = taskExecutor.getActiveCount();
+                                System.out.println("当前活动线程数："+count);
+                                Thread.sleep(5000);
+                                System.out.println("thread-"+j+"处理完成！");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
 
+        }
+    }
 
 }
