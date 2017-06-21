@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-    <!-- spring thread pool executor -->
+    <!-- +++++++++++++spring thread pool executor+++++++++ -->
     <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
         <!-- 线程池维护线程的最少数量 -->
         <property name="corePoolSize" value="5" />
@@ -20,7 +20,7 @@
         </property>
     </bean>
 
-    <!-- Memcached配置 -->
+    <!-- ++++++++++++Memcached配置+++++++++++++ -->
     <bean   id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">
         <constructor-arg>
             <list>
@@ -47,6 +47,43 @@
         <property name="connectionPoolSize" value="15" />
         <property name="failureMode" value="true" />
     </bean>
-    <!-- Use factory bean to build memcached client -->
     <bean id="memcachedClient" factory-bean="memcachedClientBuilder" factory-method="build"  destroy-method="shutdown"/>
+
+    <!-- ++++++++++++  httpclient config ++++++++++-->
+    <!-- 定义连接管理器 -->
+    <bean id="httpClientConnectionManager"
+          class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager"
+          destroy-method="close">
+        <!-- 最大连接数 -->
+        <property name="maxTotal" value="200" />
+        <!-- 设置每个主机地址的并发数 -->
+        <property name="defaultMaxPerRoute" value="50" />
+    </bean>
+    <!-- httpclient对象构建器 -->
+    <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder">
+        <!-- 设置连接管理器 -->
+        <property name="connectionManager" ref="httpClientConnectionManager" />
+    </bean>
+    <!-- 定义Httpclient对象 -->
+    <bean id="httpClient" class="org.apache.http.impl.client.CloseableHttpClient"
+          factory-bean="httpClientBuilder" factory-method="build" scope="prototype">
+    </bean>
+    <!-- 定义清理无效连接 -->
+    <bean class="com.yijiajiao.server.util.IdleConnectionEvictor" destroy-method="shutdown">
+        <constructor-arg index="0" ref="httpClientConnectionManager" />
+    </bean>
+    <bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
+        <!-- 创建连接的最长时间 -->
+        <property name="connectTimeout" value="1000"/>
+        <!-- 从连接池中获取到连接的最长时间 -->
+        <property name="connectionRequestTimeout" value="500"/>
+        <!-- 数据传输的最长时间 -->
+        <property name="socketTimeout" value="10000"/>
+        <!-- 提交请求前测试连接是否可用 -->
+        <property name="staleConnectionCheckEnabled" value="true"/>
+    </bean>
+    <!-- 定义请求参数 -->
+    <bean id="requestConfig" class="org.apache.http.client.config.RequestConfig"
+          factory-bean="requestConfigBuilder" factory-method="build">
+    </bean>
 </beans>
