@@ -5,6 +5,7 @@ import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.solution.CountTimeBean;
 import com.yijiajiao.server.bean.solution.ExitGrabBean;
 import com.yijiajiao.server.bean.solution.ExitSolutionBean;
+import com.yijiajiao.server.bean.solution.Solution;
 import com.yijiajiao.server.service.SolutionService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
@@ -312,4 +313,63 @@ public class SolutionServiceImpl implements SolutionService{
         if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
+
+
+    @Override
+    public ResultBean commitSolution(Solution solution) {
+        String path = Config.getString("solution.commitSolution");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solution, "POST");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean teacherSolutionList(String teacherId, Integer status) {
+        String path = Config.getString("solution.teacherSolutionList") + "teacherId=" + teacherId
+                        + (status == null ? "" : ("&status=" + status));
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean solutionInfoById(int solutionId) {
+        String path = Config.getString("solution.solutionInfoById") + solutionId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean receiveSolution(Solution solution) {
+        String path = Config.getString("solution.receiveSolution");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solution, "PUT");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean rejectSolution(int solutionId) {
+        String path = Config.getString("solution.rejectSolution");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solutionId, "PUT");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean uploadAnswer(Map<String, Object> param) {
+        String path = Config.getString("solution.uploadAnswer");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, param, "POST");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean answerInfo(int solutionId) {
+        String path = Config.getString("solution.answerInfo") + solutionId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean pay(int solutionId) {
+        String path = Config.getString("solution.pay") + solutionId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
 }

@@ -35,11 +35,6 @@
       <artifactId>spring-web</artifactId>
       <version>4.3.7.RELEASE</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>4.3.7.RELEASE</version>
-    </dependency>
     <!--**********************jersey config************************-->
     <dependency>
       <groupId>com.sun.jersey</groupId>
@@ -132,11 +127,6 @@
       <groupId>com.googlecode.xmemcached</groupId>
       <artifactId>xmemcached</artifactId>
       <version>2.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.3</version>
     </dependency>
   </dependencies>
   <build>

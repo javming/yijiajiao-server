@@ -2,6 +2,9 @@ package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
+import com.yijiajiao.server.bean.solution.Solution;
+
+import java.util.Map;
 
 
 public interface SolutionService {
@@ -158,4 +161,20 @@ public interface SolutionService {
     ResultBean solutionAppraise(String tag, AppraiseSolutionBean appraiseSolutionBean);
 
     ResultBean solutionFeedBack(String tag, SolutionFeedBackBean solutionFeedBackBean);
+
+    ResultBean commitSolution(Solution solution);
+
+    ResultBean teacherSolutionList(String teacherId, Integer status);
+
+    ResultBean solutionInfoById(int solutionId);
+
+    ResultBean receiveSolution(Solution solution);
+
+    ResultBean rejectSolution(int solutionId);
+
+    ResultBean uploadAnswer(Map<String, Object> param);
+
+    ResultBean answerInfo(int solutionId);
+
+    ResultBean pay(int solutionId);
 }

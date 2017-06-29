@@ -2,12 +2,14 @@ package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
+import com.yijiajiao.server.bean.solution.Solution;
 import com.yijiajiao.server.service.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 /**
  * @AUTHOR zhaoming@eduspace
@@ -145,7 +147,6 @@ public class SolutionController {
 
     }
 
-
     /**
      * 答疑系数列表
      */
@@ -158,8 +159,6 @@ public class SolutionController {
         return solutionService.ratio();
 
     }
-
-
 
     /**
      * 教师端接单历史列表
@@ -174,8 +173,6 @@ public class SolutionController {
         return solutionService.solutionList(openId,pageNo,pageSize);
 
     }
-
-
 
     /**
      * 教师端接单历史列表
@@ -504,5 +501,125 @@ public class SolutionController {
 
     }
 
+
+    /* --------------------------------vvvvv新版答疑vvvvv--------------------------------------------------- */
+
+
+    /**
+     * 学生提交答疑
+     */
+    @POST
+    @Path( "/commit" )
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean commitSolution(Solution solution){
+
+        return solutionService.commitSolution(solution);
+
+    }
+
+    /**
+     * 老师查看自己的答疑列表
+     *
+     * @param teacherId 老师openId
+     * @param status    答疑状态（是否完成）
+     */
+    @GET
+    @Path("/teacher/solution/list")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean teacherSolutionList( @QueryParam("teacherId") String teacherId, @QueryParam("status") Integer status){
+
+        return solutionService.teacherSolutionList( teacherId, status);
+
+    }
+
+    /**
+     * 查看答疑详情
+     *
+     * @param solutionId solutionId
+     */
+    @GET
+    @Path("/solutionInfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean solutionInfoById(@QueryParam("solutionId") int solutionId) {
+
+        return solutionService.solutionInfoById(solutionId);
+
+    }
+
+    /**
+     * 老师接单
+     *
+     * @param solution 接单参数
+     */
+    @PUT
+    @Path("/receive")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean receiveSolution( Solution solution) {
+
+        return solutionService.receiveSolution(solution);
+
+    }
+
+    /**
+     * 老师拒接
+     */
+    @PUT
+    @Path("/reject")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean rejectSolution( @QueryParam("solutionId") int solutionId) {
+
+        return solutionService.rejectSolution(solutionId);
+
+    }
+
+    /**
+     * 老师回传答案
+     *
+     * @param param 答案信息
+     */
+    @POST
+    @Path("/answer/upload")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean uploadAnswer(Map<String, Object> param) {
+
+        return solutionService.uploadAnswer(param);
+
+    }
+
+    /**
+     * 学生查询答案
+     *
+     * @param solutionId solutionId
+     */
+    @GET
+    @Path("/answer")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean answerInfo(@QueryParam("solutionId") int solutionId) {
+
+        return solutionService.answerInfo(solutionId);
+
+    }
+
+    /**
+     * 学生支付
+     *
+     * @param solutionId solutionId
+     */
+    @PUT
+    @Path("/pay")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean pay(@QueryParam("solutionId") int solutionId) {
+
+        return solutionService.pay(solutionId);
+
+    }
 
 }
