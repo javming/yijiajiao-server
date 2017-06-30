@@ -314,4 +314,11 @@ public class PromotionServiceImpl implements PromotionService {
         wares.setList(resultWares);
         return wares;
     }
+
+    @Override
+    public ResultBean grantCoupon(String openId, Integer couponTriggerId) {
+        String path = Config.getString("promotion.grantCoupon") + "openId=" + openId + "&couponTriggerId=" + couponTriggerId;
+        String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, null, "GET");
+        return dealResult(response);
+    }
 }

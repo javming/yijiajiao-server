@@ -113,4 +113,6 @@ public interface PromotionService {
     ResultBean getActivitiesByCommodityId(String commodityId);
 
     WaresListBean getWareList(String teacherId, String curriculumType, Integer pageNo, Integer pageSize);
+
+    ResultBean grantCoupon(String openId, Integer couponTriggerId);
 }

@@ -331,4 +331,21 @@ public class PromotionController {
         return ResultBean.getSucResult(waresListBean);
     }
 
+
+    /**
+     * 赠送优惠券
+     *
+     * @param couponTriggerId 类型
+     */
+    @GET
+    @Path("/grantCoupon")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean grantCoupon2User( @QueryParam("couponTriggerId") Integer couponTriggerId,
+                                        @QueryParam("openId") String openId){
+
+        return promotionService.grantCoupon(openId, couponTriggerId);
+
+    }
+
 }
