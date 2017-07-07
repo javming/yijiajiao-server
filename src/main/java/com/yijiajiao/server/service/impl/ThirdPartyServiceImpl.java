@@ -40,9 +40,9 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
     @Override
     public ResultBean loginOrRegister(ThirdPartyLoginBean tdLoginBean) {
         //非阳光保险用户不需要解密
-        String telephone = "2.0".equals(tdLoginBean.getClient_id())?
+        String telephone = "2.0".equals(tdLoginBean.getVersion())?
                     DESEncode.decode(tdLoginBean.getTelephone(),YJKJ_SCREATKEY):tdLoginBean.getTelephone();
-        String thirdUserCode = "2.0".equals(tdLoginBean.getClient_id())?
+        String thirdUserCode = "2.0".equals(tdLoginBean.getVersion())?
                 DESEncode.decode(tdLoginBean.getThirdPartyUserCode(),YJKJ_SCREATKEY):tdLoginBean.getThirdPartyUserCode();
         //通过手机号获取用户
         UserModel userModel = validateTel(telephone);

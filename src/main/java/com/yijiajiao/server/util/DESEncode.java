@@ -112,9 +112,12 @@ public class DESEncode {
     }
 
     public static void main(String[] args) {
-        String encode = encode("13520351893", "6D8F4E85D844E2DD0AE1C133485F5517");
-        System.out.println("encode = " + encode);
-        String decode = decode(encode, "6D8F4E85D844E2DD0AE1C133485F5517");
-        System.out.println("decode = " + decode);
+        String phone = encode("13711111111", "6D8F4E85D844E2DD0AE1C133485F5517");
+        String userCode = encode("8d05cbe5d8cbaaf2c561fc4985204d88", "6D8F4E85D844E2DD0AE1C133485F5517");
+        System.out.println("phone = " + phone);
+        System.out.println("userCode = " + userCode);
+
+        System.out.println(decode(phone, "6D8F4E85D844E2DD0AE1C133485F5517"));
+        System.out.println(decode(userCode, "6D8F4E85D844E2DD0AE1C133485F5517"));
     }
 }

@@ -127,9 +127,10 @@ public class SaleController {
     @Path("/studentClassList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean studentClassList(@QueryParam("curriculumType") String curriculumType,@HeaderParam("openId") String openId) {
+    public ResultBean studentClassList(@QueryParam("curriculumType") String curriculumType,@HeaderParam("openId") String openId,
+                                       @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize) {
 
-        return saleService.getStuClassList(openId, curriculumType);
+        return saleService.getStuClassList(openId, curriculumType, pageNo, pageSize);
 
     }
 
@@ -509,5 +510,15 @@ public class SaleController {
         return saleService.createRefund(tag,createRefundBean);
     }
 
+
+    @GET
+    @Path("/getClassByOrderNumer")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getClassByOrderNumer( @QueryParam("orderNum") String orderNum){
+
+        return saleService.getClassByOrderNumer(orderNum);
+
+    }
 
 }

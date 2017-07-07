@@ -327,7 +327,7 @@ public class PromotionController {
     public ResultBean getWareListForCoupon(@QueryParam("teacherId") String teacherId,@QueryParam("pageNo") Integer pageNo,
                                            @QueryParam("pageSize") Integer pageSize,@QueryParam("curriculumType") String curriculumType){
 
-        WaresListBean waresListBean = promotionService.getWareList(teacherId, "0", null, null);
+        WaresListBean waresListBean = promotionService.getWareList(teacherId, curriculumType, null, null);
         return ResultBean.getSucResult(waresListBean);
     }
 

@@ -166,15 +166,19 @@ public interface SolutionService {
 
     ResultBean teacherSolutionList(String teacherId, Integer status);
 
-    ResultBean solutionInfoById(int solutionId);
+    ResultBean solutionInfoById(String solutionId);
 
-    ResultBean receiveSolution(Solution solution);
+    ResultBean receiveSolution(String solutionId, Integer planWaitTime);
 
-    ResultBean rejectSolution(int solutionId);
+    ResultBean rejectSolution(String solutionId, String reasonDescribe);
 
     ResultBean uploadAnswer(Map<String, Object> param);
 
-    ResultBean answerInfo(int solutionId);
+    ResultBean answerInfo(String solutionId);
 
-    ResultBean pay(int solutionId);
+    ResultBean pay(String solutionId);
+
+    ResultBean recharge(Map<String, Object> recharge);
+
+    ResultBean getBalance(String openId);
 }

@@ -86,8 +86,9 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     }
 
     @Override
-    public ResultBean getStuClassList(String openId, String curriculumType) {
-        String path = Config.getString("sale.stuclasses")+"/"+openId+"/"+curriculumType;
+    public ResultBean getStuClassList(String openId, String curriculumType, int pageNo, int pageSize) {
+        String path = Config.getString("sale.stuclasses") + "/" + openId + "/" + curriculumType +
+                "/"+pageNo+"/"+pageSize;
         String response = ServerUtil.httpRest(SALE_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -347,6 +348,13 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
         String path = Config.getString("sale.createRefund");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createRefundBean,"POST");
         if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
+        return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean getClassByOrderNumer(String orderNum) {
+        String path = Config.getString("sale.getClassByOrderNumer") + "orderNumber=" + orderNum;
+        String response = ServerUtil.httpRest(SALE_SERVER,path,null,null,"GET");
         return dealResult(log,response);
     }
 }

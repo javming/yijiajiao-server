@@ -23,7 +23,7 @@ public interface SaleService {
 
     ResultBean stuTimeTableInfo(String date, String openId);
 
-    ResultBean getStuClassList(String openId, String curriculumType);
+    ResultBean getStuClassList(String openId, String curriculumType, int pageNo, int pageSize);
 
     ResultBean getAppraiseList(String curriculumType, String openId, String appraiseType, int pageNo, int pageSize);
 
@@ -78,4 +78,6 @@ public interface SaleService {
     ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean);
 
     ResultBean createRefund(String tag, CreateRefundBean createRefundBean);
+
+    ResultBean getClassByOrderNumer(String orderNum);
 }

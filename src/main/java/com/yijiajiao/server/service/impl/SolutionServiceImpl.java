@@ -331,23 +331,25 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public ResultBean solutionInfoById(int solutionId) {
+    public ResultBean solutionInfoById(String solutionId) {
         String path = Config.getString("solution.solutionInfoById") + solutionId;
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }
 
     @Override
-    public ResultBean receiveSolution(Solution solution) {
-        String path = Config.getString("solution.receiveSolution");
-        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solution, "PUT");
+    public ResultBean receiveSolution(String solutionId, Integer planWaitTime) {
+        String path = Config.getString("solution.receiveSolution") + "solutionId=" + solutionId
+                + "&planWaitTime=" + planWaitTime;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "PUT");
         return dealResult(log, response);
     }
 
     @Override
-    public ResultBean rejectSolution(int solutionId) {
-        String path = Config.getString("solution.rejectSolution");
-        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solutionId, "PUT");
+    public ResultBean rejectSolution(String solutionId, String reasonDescribe) {
+        String path = Config.getString("solution.rejectSolution") + "solutionId=" + solutionId
+                +"&reasonDescribe=" + reasonDescribe;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "PUT");
         return dealResult(log, response);
     }
 
@@ -359,15 +361,29 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public ResultBean answerInfo(int solutionId) {
+    public ResultBean answerInfo(String solutionId) {
         String path = Config.getString("solution.answerInfo") + solutionId;
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }
 
     @Override
-    public ResultBean pay(int solutionId) {
+    public ResultBean pay(String solutionId) {
         String path = Config.getString("solution.pay") + solutionId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "PUT");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean recharge(Map<String, Object> recharge) {
+        String path = Config.getString("solution.recharge");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, recharge, "POST");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean getBalance(String openId) {
+        String path = Config.getString("solution.getBalance") + openId;
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }

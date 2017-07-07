@@ -525,7 +525,7 @@ public class SolutionController {
      * @param status    答疑状态（是否完成）
      */
     @GET
-    @Path("/teacher/solution/list")
+    @Path("/teacher/solutionList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean teacherSolutionList( @QueryParam("teacherId") String teacherId, @QueryParam("status") Integer status){
@@ -540,10 +540,10 @@ public class SolutionController {
      * @param solutionId solutionId
      */
     @GET
-    @Path("/solutionInfo")
+    @Path("/solutionInfoById")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean solutionInfoById(@QueryParam("solutionId") int solutionId) {
+    public ResultBean solutionInfoById(@QueryParam("solutionId") String solutionId) {
 
         return solutionService.solutionInfoById(solutionId);
 
@@ -552,15 +552,16 @@ public class SolutionController {
     /**
      * 老师接单
      *
-     * @param solution 接单参数
+     * @param planWaitTime 预计解答时间 int/分钟
      */
     @PUT
     @Path("/receive")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean receiveSolution( Solution solution) {
+    public ResultBean receiveSolution( @QueryParam("solutionId") String solutionId,
+                                       @QueryParam("planWaitTime") Integer planWaitTime) {
 
-        return solutionService.receiveSolution(solution);
+        return solutionService.receiveSolution(solutionId, planWaitTime);
 
     }
 
@@ -571,16 +572,31 @@ public class SolutionController {
     @Path("/reject")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean rejectSolution( @QueryParam("solutionId") int solutionId) {
+    public ResultBean rejectSolution( @QueryParam("solutionId") String solutionId,
+                                      @QueryParam("reasonDescribe") String reasonDescribe) {
 
-        return solutionService.rejectSolution(solutionId);
+        return solutionService.rejectSolution(solutionId, reasonDescribe);
 
     }
 
     /**
      * 老师回传答案
      *
-     * @param param 答案信息
+     * @param param 参数数据结构
+     * {
+            "solutionId":"18",
+            "description":"这个题我不会",
+            "videoUrl":"http://gaopin-preview.bj.bcebos.com/133104060366.jpg@!420
+
+            ",
+            "videoLength":20,
+            "knowledge":[
+                {
+                "knowledgeCode":"knowledgeCode1",
+                "knowledgeName":"knowledgeName1"
+                }
+            ]
+        }
      */
     @POST
     @Path("/answer/upload")
@@ -601,7 +617,7 @@ public class SolutionController {
     @Path("/answer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean answerInfo(@QueryParam("solutionId") int solutionId) {
+    public ResultBean answerInfo(@QueryParam("solutionId") String solutionId) {
 
         return solutionService.answerInfo(solutionId);
 
@@ -613,13 +629,47 @@ public class SolutionController {
      * @param solutionId solutionId
      */
     @PUT
-    @Path("/pay")
+    @Path("/paySolution")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean pay(@QueryParam("solutionId") int solutionId) {
+    public ResultBean pay(@QueryParam("solutionId") String solutionId) {
 
         return solutionService.pay(solutionId);
 
     }
+
+    /**
+     * 答疑时长充值
+     * @param recharge
+     * {
+            "openId":"st",
+            "orderId":"0000002",
+            "duration":250
+        }
+     */
+    @POST
+    @Path("/durationRecharge")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean recharge(Map<String, Object> recharge){
+
+        return solutionService.recharge(recharge);
+
+    }
+
+    /**
+     * 时长余额
+     *
+     */
+    @GET
+    @Path("/durationBalance")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getBalance(@QueryParam("openId") String openId){
+
+        return solutionService.getBalance(openId);
+
+    }
+
 
 }
