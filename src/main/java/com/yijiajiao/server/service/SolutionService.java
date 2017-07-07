@@ -170,7 +170,7 @@ public interface SolutionService {
 
     ResultBean receiveSolution(String solutionId, Integer planWaitTime);
 
-    ResultBean rejectSolution(String solutionId, String reasonDescribe);
+    ResultBean rejectSolution( Map<String, Object> reject);
 
     ResultBean uploadAnswer(Map<String, Object> param);
 

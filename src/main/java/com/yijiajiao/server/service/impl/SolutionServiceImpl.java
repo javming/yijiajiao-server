@@ -346,9 +346,9 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public ResultBean rejectSolution(String solutionId, String reasonDescribe) {
-        String path = Config.getString("solution.rejectSolution") + "solutionId=" + solutionId
-                +"&reasonDescribe=" + reasonDescribe;
+    public ResultBean rejectSolution( Map<String, Object> reject) {
+        String path = Config.getString("solution.rejectSolution") + "solutionId=" + reject.get("solutionId")
+                +"&reasonDescribe=" + reject.get("reasonDescribe");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "PUT");
         return dealResult(log, response);
     }

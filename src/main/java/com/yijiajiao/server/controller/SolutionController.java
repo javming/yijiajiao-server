@@ -572,10 +572,9 @@ public class SolutionController {
     @Path("/reject")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean rejectSolution( @QueryParam("solutionId") String solutionId,
-                                      @QueryParam("reasonDescribe") String reasonDescribe) {
+    public ResultBean rejectSolution( Map<String, Object> reject) {
 
-        return solutionService.rejectSolution(solutionId, reasonDescribe);
+        return solutionService.rejectSolution(reject);
 
     }
 
