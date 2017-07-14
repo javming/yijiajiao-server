@@ -208,7 +208,7 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public ResultBean activityWareList(String openId, int pageNo, int pageSize, int activityId, Integer activeStatus) {
+    public ResultBean activityWareList(String openId, int pageNo, int pageSize, int activityId, Integer activeStatus, String curriculumType) {
         //参加活动的课程
         if (activeStatus!=null && activeStatus==1 ){
             String path = Config.getString("promotion.waresListByCoupon")+"activityId="+activityId+"&pageNo=1"
@@ -218,7 +218,7 @@ public class PromotionServiceImpl implements PromotionService {
         }
 
         //获取教师所有课程
-        WaresListBean wares = getWareList(openId, "0", null, null);
+        WaresListBean wares = getWareList(openId, curriculumType, null, null);
 
         //获取参加活动的课程
         String wareListByCoupon = Config.getString("promotion.wareListByCoupon") + "activityId=" + activityId;
@@ -288,7 +288,8 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public WaresListBean getWareList(String teacherId, String curriculumType, Integer pageNo, Integer pageSize) {
-        String wareIist = Config.getString("wares.wareslist") + "teacherId=" + teacherId + "&curriculumType="+curriculumType
+        String wareIist = Config.getString("wares.wareslist") + "teacherId=" + teacherId
+                + "&curriculumType=" + (StringUtil.isEmpty(curriculumType)?0:curriculumType)
                 + "&pageNo="+(pageNo==null?1:pageNo) + "&pageSize="+(pageSize==null?100:pageSize);
         String response = ServerUtil.httpRest(WARES_SERVER, wareIist, null, null, "GET");
         ResultBean resultBean = JSON.parseObject(response, ResultBean.class);
@@ -306,8 +307,7 @@ public class PromotionServiceImpl implements PromotionService {
 
                 resultWares.add(wb);
             }
-            else if (StringUtil.isEmpty(wb.getStartTime()) && wb.getCurriculumType()==6
-                    && !"2".equals(wb.getStatus())){
+            else if (wb.getCurriculumType()==6 && !"2".equals(wb.getStatus())){
                 resultWares.add(wb);
             }
         }

@@ -874,4 +874,33 @@ public class UserController {
 
     }
 
+    /**
+     * 查询在线老师
+     */
+    @GET
+    @Path("/teachersOnline")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean teachersOnline( @QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode,
+                                      @QueryParam("pageNo") Integer pageNo,@QueryParam("pageSize") Integer pageSize,
+                                      @QueryParam("name") String name){
+
+        return userService.teachersOnline( subjectCode, gradeCode, pageNo, pageSize, name);
+
+    }
+
+
+    /**
+     * 老师上/下线
+     */
+    @GET
+    @Path("/onOrOffline")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean onOrOffline( @QueryParam("openId") String openId, @QueryParam("status") Integer status){
+
+        return userService.onOrOffline( openId, status );
+
+    }
+
 }

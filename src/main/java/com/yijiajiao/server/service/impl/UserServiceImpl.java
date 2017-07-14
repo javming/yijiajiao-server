@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.yijiajiao.server.util.ServerUtil.*;
@@ -396,11 +397,11 @@ public class UserServiceImpl implements UserService{
                 }
             }
 
-            EaseObUserInfoBean euser = userGetEaseobByOpenId(userInfoBean.getUserOpenId());
+/*            EaseObUserInfoBean euser = userGetEaseobByOpenId(userInfoBean.getUserOpenId());
             if (euser != null){
                 userInfoResultBean.setEaseobPassword(euser.getPassword());
                 userInfoResultBean.setEaseobUserName(euser.getUsername());
-            }
+            }*/
             resultBean.setSucResult(userInfoResultBean);
             //缓存登录信息
             TokenUtil.putToken(userInfoResultBean.getOpenId(), userInfoResultBean.getToken(), login.getClient_id());
@@ -971,6 +972,26 @@ public class UserServiceImpl implements UserService{
         String path = Config.getString("user.diagnoseSubmitForOnce");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,diagnoseAnswerSubmitBean,"POST");
         return dealResult(log,response);
+    }
+
+    @Override
+    public ResultBean teachersOnline(String subjectCode, String gradeCode, Integer pageNo, Integer pageSize, String name) {
+        String path = Config.getString("user.teachersOnline") + "pageNo=" + pageNo + "&pageSize=" + pageSize
+                + (StringUtil.isEmpty(subjectCode)? "" : ("&subjectCode=" + subjectCode))
+                + (StringUtil.isEmpty(gradeCode)? "" : ("&gradeCode=" + gradeCode))
+                + (StringUtil.isEmpty(name)? "": ("&name=" + name));
+        String response = ServerUtil.httpRest(USER_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean onOrOffline(String openId, Integer status) {
+        String path = Config.getString("user.onOrOffline");
+        Map<String, Object> body = new HashMap<>();
+        body.put("userOpenId", openId);
+        body.put("activeStatus", status);
+        String response = ServerUtil.httpRest(USER_SERVER, path, null, body, "POST");
+        return dealResult(log, response);
     }
 
 }

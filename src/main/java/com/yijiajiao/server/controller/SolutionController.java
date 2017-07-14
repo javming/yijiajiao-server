@@ -1,7 +1,7 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.post.*;
+import com.yijiajiao.server.bean.solution.AppraiseSolution;
 import com.yijiajiao.server.bean.solution.Solution;
 import com.yijiajiao.server.service.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,12 @@ public class SolutionController {
     @Autowired
     private SolutionService solutionService;
 
-    /**
+/*
+    */
+/**
      * 前端首页展示焦点图
-     */
+     *//*
+
     @GET
     @Path("/getAnswering")
     @Produces(MediaType.APPLICATION_JSON)
@@ -36,9 +39,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 获取单条待解答记录
-     */
+     *//*
+
     @GET
     @Path("/getAnsweringById")
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,9 +54,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 学生端获取已解答答疑列表
-     */
+     *//*
+
     @GET
     @Path("/getAnswered")
     @Produces(MediaType.APPLICATION_JSON)
@@ -62,9 +69,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 学生端获取自己已解答答疑详情
-     */
+     *//*
+
     @GET
     @Path("/getAnsweredById")
     @Produces(MediaType.APPLICATION_JSON)
@@ -75,9 +84,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 获取某教师的答疑介绍详情
-     */
+     *//*
+
     @GET
     @Path("/getDoubtDetail")
     @Produces(MediaType.APPLICATION_JSON)
@@ -88,9 +99,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 教师端抢单
-     */
+     *//*
+
     @GET
     @Path("/exitGrab")
     @Produces(MediaType.APPLICATION_JSON)
@@ -102,9 +115,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 学生段取消答疑订单
-     */
+     *//*
+
     @GET
     @Path("/exitSolution")
     @Produces(MediaType.APPLICATION_JSON)
@@ -116,9 +131,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * web分页查询答疑教师列表
-     */
+     *//*
+
     @GET
     @Path("/getsolutionteacherList")
     @Produces(MediaType.APPLICATION_JSON)
@@ -133,9 +150,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 学生段提交答疑时长
-     */
+     *//*
+
     @GET
     @Path("/createSolutionCount")
     @Produces(MediaType.APPLICATION_JSON)
@@ -147,9 +166,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 答疑系数列表
-     */
+     *//*
+
     @GET
     @Path("/ratio")
     @Produces(MediaType.APPLICATION_JSON)
@@ -160,9 +181,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 教师端接单历史列表
-     */
+     *//*
+
     @GET
     @Path("/solutionList")
     @Produces(MediaType.APPLICATION_JSON)
@@ -174,9 +197,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 教师端接单历史列表
-     */
+     *//*
+
     @GET
     @Path("/solutionInfo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -186,9 +211,11 @@ public class SolutionController {
         return solutionService.solutionInfo(id);
 
     }
-    /**
+    */
+/**
      *	分页获取教师答疑包
-     */
+     *//*
+
     @GET
     @Path("/getPackageReord")
     @Produces(MediaType.APPLICATION_JSON)
@@ -200,9 +227,11 @@ public class SolutionController {
         return solutionService.getPackageReord(teacherId,pageNo,pageSize,sellStatus,studentId);
 
     }
-    /**
+    */
+/**
      *	根据id获取答疑包信息
-     */
+     *//*
+
     @GET
     @Path("/getPackageById")
     @Produces(MediaType.APPLICATION_JSON)
@@ -213,9 +242,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	获取答疑时长基础数据
-     */
+     *//*
+
     @GET
     @Path("/duration")
     @Produces(MediaType.APPLICATION_JSON)
@@ -226,9 +257,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	答疑包上下架
-     */
+     *//*
+
     @GET
     @Path("/packagePutawayOrDown")
     @Produces(MediaType.APPLICATION_JSON)
@@ -238,9 +271,11 @@ public class SolutionController {
         return solutionService.packagePutawayOrDown(packageId,shelfStatus);
 
     }
-    /**
+    */
+/**
      *	分页获取购买的答疑老师信息
-     */
+     *//*
+
     @GET
     @Path("/getMyDoubtTeachers")
     @Produces(MediaType.APPLICATION_JSON)
@@ -252,9 +287,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	分页查询答疑记录
-     */
+     *//*
+
     @GET
     @Path("/getSolutions")
     @Produces(MediaType.APPLICATION_JSON)
@@ -266,9 +303,11 @@ public class SolutionController {
         return solutionService.getSolutions(teacherId,studentId,pageNo,pageSize,isAnswer,subjectCode);
 
     }
-    /**
+    */
+/**
      *	答疑排行榜
-     */
+     *//*
+
     @GET
     @Path("/getRecDoubtTeachers")
     @Produces(MediaType.APPLICATION_JSON)
@@ -278,9 +317,11 @@ public class SolutionController {
         return solutionService.getRecDoubtTeachers(openId);
 
     }
-    /**
+    */
+/**
      * 学生获取已购买的答疑包列表
-     */
+     *//*
+
     @GET
     @Path("/getMyPackages")
     @Produces(MediaType.APPLICATION_JSON)
@@ -291,9 +332,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	获取答疑记录详情
-     */
+     *//*
+
     @GET
     @Path("/getDetail")
     @Produces(MediaType.APPLICATION_JSON)
@@ -304,9 +347,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	获取反馈答疑的理由
-     */
+     *//*
+
     @GET
     @Path("/getFeedBackReasons")
     @Produces(MediaType.APPLICATION_JSON)
@@ -317,9 +362,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	根据教师openId及学年获取教师答疑包
-     */
+     *//*
+
     @GET
     @Path("/getPackageByGrade")
     @Produces(MediaType.APPLICATION_JSON)
@@ -330,9 +377,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	根据教师openId 学年分组获取教师答疑包
-     */
+     *//*
+
     @GET
     @Path("/getPackagesByOpenId")
     @Produces(MediaType.APPLICATION_JSON)
@@ -343,9 +392,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	根据环信id获取答疑教师头像和答疑图片
-     */
+     *//*
+
     @GET
     @Path("/getEasemobId")
     @Produces(MediaType.APPLICATION_JSON)
@@ -356,9 +407,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *@	教师打电话时提交答疑id
-     */
+     *//*
+
     @GET
     @Path("/getSolId")
     @Produces(MediaType.APPLICATION_JSON)
@@ -369,9 +422,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *	获取答疑近似题
-     */
+     *//*
+
     @GET
     @Path("/getQuestionByRand")
     @Produces(MediaType.APPLICATION_JSON)
@@ -384,9 +439,11 @@ public class SolutionController {
     }
 
 
-    /**
+    */
+/**
      * （学生端）提交答疑
-     */
+     *//*
+
     @POST
     @Path("/ask")
     @Produces(MediaType.APPLICATION_JSON)
@@ -397,9 +454,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      *（教师端）回传解析
-     */
+     *//*
+
     @POST
     @Path("/answer")
     @Produces(MediaType.APPLICATION_JSON)
@@ -410,9 +469,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * Web提交教师答疑介绍信息
-     */
+     *//*
+
     @POST
     @Path("/addDoubt")
     @Produces(MediaType.APPLICATION_JSON)
@@ -423,9 +484,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * Web编辑教师答疑介绍信息
-     */
+     *//*
+
     @POST
     @Path("/updateDoubt")
     @Produces(MediaType.APPLICATION_JSON)
@@ -436,9 +499,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * （学生端）提交答疑投诉
-     */
+     *//*
+
     @POST
     @Path("/addComplain")
     @Produces(MediaType.APPLICATION_JSON)
@@ -449,9 +514,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * （教师端）回复评价
-     */
+     *//*
+
     @POST
     @Path("/reBackComplain")
     @Produces(MediaType.APPLICATION_JSON)
@@ -462,9 +529,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * Web端教师添加时长
-     */
+     *//*
+
     @POST
     @Path("/addTimePakage")
     @Produces(MediaType.APPLICATION_JSON)
@@ -475,9 +544,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 学生评价教师答疑
-     */
+     *//*
+
     @POST
     @Path("/solutionAppraise")
     @Produces(MediaType.APPLICATION_JSON)
@@ -488,9 +559,11 @@ public class SolutionController {
 
     }
 
-    /**
+    */
+/**
      * 教师添加答疑反馈
-     */
+     *//*
+
     @POST
     @Path("/solutionFeedBack")
     @Produces(MediaType.APPLICATION_JSON)
@@ -500,6 +573,7 @@ public class SolutionController {
         return solutionService.solutionFeedBack(tag,solutionFeedBackBean);
 
     }
+*/
 
 
     /* --------------------------------vvvvv新版答疑vvvvv--------------------------------------------------- */
@@ -528,9 +602,10 @@ public class SolutionController {
     @Path("/teacher/solutionList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean teacherSolutionList( @QueryParam("teacherId") String teacherId, @QueryParam("status") Integer status){
+    public ResultBean teacherSolutionList( @QueryParam("teacherId") String teacherId, @QueryParam("status") Integer status,
+                                           @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize){
 
-        return solutionService.teacherSolutionList( teacherId, status);
+        return solutionService.teacherSolutionList( teacherId, status, pageNo, pageSize);
 
     }
 
@@ -627,7 +702,7 @@ public class SolutionController {
      *
      * @param solutionId solutionId
      */
-    @PUT
+    @GET
     @Path("/paySolution")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -670,5 +745,108 @@ public class SolutionController {
 
     }
 
+    /**
+     * 学生答疑列表
+     */
+    @GET
+    @Path("/studentSolutionList")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean studentSolutionList(@QueryParam("studentId") String studentId, @QueryParam("status") Integer status,
+                                          @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize){
+
+        return solutionService.studentSolutionList(studentId, status, pageNo, pageSize);
+
+    }
+
+    /**
+     * 查询学生是否可以发起新的答疑
+     */
+    @GET
+    @Path("/studentCommitCan")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean studentCommitCan( @QueryParam("studentId") String studentId){
+
+        return solutionService.studentCommitCan( studentId );
+
+    }
+
+    /**
+     * 查询时长包列表
+     */
+    @GET
+    @Path("/durations")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean durations( @QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode){
+
+        return solutionService.durations( subjectCode, gradeCode );
+
+    }
+
+    /**
+     * 学生取消答疑
+     */
+    @GET
+    @Path("/studentCancelSolution")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean studentCancelSolution( @QueryParam("solutionId") Integer solutionId){
+
+        return solutionService.studentCancelSolution(solutionId);
+
+    }
+
+    /**
+     * 学生评价答疑
+     */
+    @POST
+    @Path("/appraiseSolution")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean appraiseSolution(AppraiseSolution appraiseSolution){
+
+        return solutionService.appraiseSolution(appraiseSolution);
+
+    }
+
+    /**
+     * 老师回复评价
+     */
+    @PUT
+    @Path("/appraiseReply")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean appraiseReply(){
+        return null;
+    }
+
+    /**
+     * 查询评价信息
+     */
+    @GET
+    @Path("/appraiseInfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean appraiseInfo( @QueryParam("solutionId") Integer solutionId){
+
+        return solutionService.appraiseInfo( solutionId );
+
+    }
+
+    /**
+     * 赠送优惠券
+     */
+    @GET
+    @Path("/teacherEarning")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean teacherEarning( @QueryParam("teacherId") String teacherId,
+                                      @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize){
+
+        return solutionService.teacherEarning( teacherId, pageNo, pageSize);
+
+    }
 
 }

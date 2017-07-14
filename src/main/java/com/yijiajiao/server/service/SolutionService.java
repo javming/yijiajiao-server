@@ -2,6 +2,7 @@ package com.yijiajiao.server.service;
 
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
+import com.yijiajiao.server.bean.solution.AppraiseSolution;
 import com.yijiajiao.server.bean.solution.Solution;
 
 import java.util.Map;
@@ -164,7 +165,7 @@ public interface SolutionService {
 
     ResultBean commitSolution(Solution solution);
 
-    ResultBean teacherSolutionList(String teacherId, Integer status);
+    ResultBean teacherSolutionList(String teacherId, Integer status, Integer pageNo, Integer pageSize);
 
     ResultBean solutionInfoById(String solutionId);
 
@@ -181,4 +182,18 @@ public interface SolutionService {
     ResultBean recharge(Map<String, Object> recharge);
 
     ResultBean getBalance(String openId);
+
+    ResultBean studentSolutionList(String studentId, Integer status, Integer pageNo, Integer pageSize);
+
+    ResultBean studentCommitCan(String studentId);
+
+    ResultBean durations(String subjectCode, String gradeCode);
+
+    ResultBean studentCancelSolution(Integer solutionId);
+
+    ResultBean appraiseSolution(AppraiseSolution appraiseSolution);
+
+    ResultBean appraiseInfo(Integer solutionId);
+
+    ResultBean teacherEarning(String teacherId, Integer pageNo, Integer pageSize);
 }

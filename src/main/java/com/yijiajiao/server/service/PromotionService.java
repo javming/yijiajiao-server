@@ -95,7 +95,7 @@ public interface PromotionService {
     /**
      * 活动课程列表
      */
-    ResultBean activityWareList(String openId, int pageNo, int pageSize, int activityId, Integer activeStatus);
+    ResultBean activityWareList(String openId, int pageNo, int pageSize, int activityId, Integer activeStatus, String curriculumType);
 
     /**
      * 首页抢红包

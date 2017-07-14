@@ -2,10 +2,8 @@ package com.yijiajiao.server.service.impl;
 
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.*;
-import com.yijiajiao.server.bean.solution.CountTimeBean;
-import com.yijiajiao.server.bean.solution.ExitGrabBean;
-import com.yijiajiao.server.bean.solution.ExitSolutionBean;
-import com.yijiajiao.server.bean.solution.Solution;
+import com.yijiajiao.server.bean.post.AppraiseSolutionBean;
+import com.yijiajiao.server.bean.solution.*;
 import com.yijiajiao.server.service.SolutionService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
@@ -323,9 +321,11 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public ResultBean teacherSolutionList(String teacherId, Integer status) {
+    public ResultBean teacherSolutionList(String teacherId, Integer status, Integer pageNo, Integer pageSize) {
         String path = Config.getString("solution.teacherSolutionList") + "teacherId=" + teacherId
-                        + (status == null ? "" : ("&status=" + status));
+                        + (status == null ? "" : ("&status=" + status))
+                        + (pageNo == null ? "" : ("&pageNo=" + pageNo))
+                        + (pageSize == null ? "" : ("&pageSize=" + pageSize));
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }
@@ -384,6 +384,62 @@ public class SolutionServiceImpl implements SolutionService{
     @Override
     public ResultBean getBalance(String openId) {
         String path = Config.getString("solution.getBalance") + openId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean studentSolutionList(String studentId, Integer status, Integer pageNo, Integer pageSize) {
+        String path = Config.getString("solution.studentSolutionList") + "studentId=" + studentId
+                        + (status == null ? "":("&status=" + status))
+                        + (pageNo == null ? "":("&pageNo=" + pageNo))
+                        + (pageSize == null ? "":("&pageSize=" + pageSize));
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean studentCommitCan(String studentId) {
+        String path = Config.getString("solution.studentCommitCan") + studentId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean durations(String subjectCode, String gradeCode) {
+        String path = Config.getString("solution.durations") + "_=111"
+                + (StringUtil.isEmpty(subjectCode)? "" : ("&subjectCode=" + subjectCode))
+                + (StringUtil.isEmpty(gradeCode)? "" : ("&gradeCode=" + gradeCode));
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+
+    @Override
+    public ResultBean studentCancelSolution(Integer solutionId) {
+        String path = Config.getString("solution.studentCancelSolution") +  solutionId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "PUT");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean appraiseSolution(AppraiseSolution appraiseSolution) {
+        String path = Config.getString("solution.appraiseSolution");
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, appraiseSolution, "POST");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean appraiseInfo(Integer solutionId) {
+        String path = Config.getString("solution.appraiseInfo") +  solutionId;
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean teacherEarning(String teacherId, Integer pageNo, Integer pageSize) {
+        String path = Config.getString("solution.teacherEarning") + "teacherId=" + teacherId
+                + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }

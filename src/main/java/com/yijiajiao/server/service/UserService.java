@@ -281,4 +281,8 @@ public interface UserService {
     ResultBean ResetPassword(ResetPasswordBean resetPasswordBean);
 
     ResultBean diagnoseSubmitForOnce(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
+
+    ResultBean teachersOnline(String subjectCode, String gradeCode, Integer pageNo, Integer pageSize, String name);
+
+    ResultBean onOrOffline(String openId, Integer status);
 }

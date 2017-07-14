@@ -238,10 +238,11 @@ public class PromotionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean activityWareList( @HeaderParam("openId")String openId,
-                                       @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
-                                       @QueryParam("activityId") int activityId,@QueryParam("activeStatus") Integer activeStatus){
+                                        @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
+                                        @QueryParam("activityId") int activityId,@QueryParam("activeStatus") Integer activeStatus,
+                                        @QueryParam("curriculumType") String curriculumType){
 
-        return promotionService.activityWareList(openId,pageNo,pageSize,activityId,activeStatus);
+        return promotionService.activityWareList(openId,pageNo,pageSize,activityId,activeStatus,curriculumType);
     }
 
 
