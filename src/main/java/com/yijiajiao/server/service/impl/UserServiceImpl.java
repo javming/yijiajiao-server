@@ -726,15 +726,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResultBean getDiagResult(String openId, String paperId) {
-        String path = Config.getString("user.getDiagResult")+openId+"/"+paperId;
+    public ResultBean getDiagResult(String openId, String paperId, int groupCode) {
+        String path = Config.getString("user.getDiagResult")+openId+"/"+paperId + "/" +groupCode;
         String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean getDiagResultDetail(String openId, String paperId) {
-        String path = Config.getString("user.getDiagResultDetail")+openId+"/"+paperId;
+    public ResultBean getDiagResultDetail(String openId, String paperId, int groupCode) {
+        String path = Config.getString("user.getDiagResultDetail")+openId+"/"+paperId + "/" + groupCode;
         String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -991,6 +991,14 @@ public class UserServiceImpl implements UserService{
         body.put("userOpenId", openId);
         body.put("activeStatus", status);
         String response = ServerUtil.httpRest(USER_SERVER, path, null, body, "POST");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean myDiaglist4FreeStudy(String openId, Integer pageNo, Integer pageSize) {
+        String path = Config.getString("user.myDiaglist4FreeStudy") + "userOpenId=" + openId +
+                "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+        String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }
 

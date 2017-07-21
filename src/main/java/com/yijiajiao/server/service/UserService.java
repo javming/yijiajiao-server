@@ -210,12 +210,12 @@ public interface UserService {
     /**
      *  查询诊断卷分析结果
      */
-    ResultBean getDiagResult(String openId, String paperId);
+    ResultBean getDiagResult(String openId, String paperId, int groupCode);
 
     /**
      *	获取个人诊断卷详情(诊断完毕后)
      */
-    ResultBean getDiagResultDetail(String openId, String paperId);
+    ResultBean getDiagResultDetail(String openId, String paperId, int groupCode);
 
     /**
      *  查看购买诊断享受的折扣
@@ -285,4 +285,6 @@ public interface UserService {
     ResultBean teachersOnline(String subjectCode, String gradeCode, Integer pageNo, Integer pageSize, String name);
 
     ResultBean onOrOffline(String openId, Integer status);
+
+    ResultBean myDiaglist4FreeStudy(String openId, Integer pageNo, Integer pageSize);
 }

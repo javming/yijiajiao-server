@@ -52,10 +52,9 @@ public class WaresServiceImpl implements WaresService {
 
     @Override
     public ResultBean wareslist(int pageNo, int pageSize, String subjectCode, String gradeCode, String bookTypeCode,
-                                Integer curriculumType,String order,String orderType,String stageCode,String reservePrice,
-                                String peakPrice,String smallCourseware,String teacherId,String status,String isYjj,
-                                String yjjCode, String month) {
-        System.out.println("===============month ===" + month);
+                                Integer curriculumType,  String order, String orderType, String stageCode, String reservePrice,
+                                String peakPrice, String smallCourseware, String teacherId, String status, String isYjj,
+                                String yjjCode, String month, String moduleId, Integer isFreeStudy) {
         String path = Config.getString("wares.wareslist") + "pageNo=" + pageNo + "&pageSize=" + pageSize
                 + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))+(StringUtil.isEmpty(gradeCode)?"":("&gradeCode="+gradeCode))
                 + (StringUtil.isEmpty(bookTypeCode)?"":("&bookTypeCode="+bookTypeCode))+(StringUtil.isEmpty(order)?"":("&order=" + order))
@@ -63,7 +62,10 @@ public class WaresServiceImpl implements WaresService {
                 + (StringUtil.isEmpty(stageCode)?"":("&stageCode="+stageCode))+(StringUtil.isEmpty(reservePrice)?"":("&reservePrice="+reservePrice))
                 + (StringUtil.isEmpty(peakPrice)?"":("&peakPrice="+peakPrice))+(StringUtil.isEmpty(status)?"":("&status="+status))
                 + (StringUtil.isEmpty(smallCourseware)?"":("&smallCourseware="+smallCourseware))+(StringUtil.isEmpty(isYjj)?"":("&isYjj="+isYjj))
-                + (StringUtil.isEmpty(yjjCode)?"":("&yjjCode="+yjjCode))+(StringUtil.isEmpty(teacherId)?"":("&teacherId="+teacherId)) + (StringUtil.isEmpty(month)?"":("&month="+month));
+                + (StringUtil.isEmpty(yjjCode)?"":("&yjjCode="+yjjCode))+(StringUtil.isEmpty(teacherId)?"":("&teacherId="+teacherId))
+                + (StringUtil.isEmpty(month)?"":("&month="+month))
+                + (StringUtil.isEmpty(moduleId)?"":("&moduleId=" + moduleId))
+                + (isFreeStudy == null ? "":("&isFreeStudy=" + isFreeStudy));
         ResultBean result = new ResultBean();
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, null, "GET");
         ResultBean resultBean = JSON.parseObject(response, ResultBean.class);

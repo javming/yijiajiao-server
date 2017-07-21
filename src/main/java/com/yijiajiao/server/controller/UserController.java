@@ -584,9 +584,10 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getDiagResult( @HeaderParam("openId") String openId,
-                                    @QueryParam("paperId")String paperId){
+                                     @QueryParam("paperId")String paperId,
+                                     @QueryParam("groupCode") int groupCode ){
 
-        return userService.getDiagResult(openId,paperId);
+        return userService.getDiagResult(openId,paperId, groupCode );
 
     }
 
@@ -598,9 +599,10 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getDiagResultDetail( @HeaderParam("openId") String openId,
-                                          @QueryParam("paperId")String paperId){
+                                           @QueryParam("paperId")String paperId,
+                                           @QueryParam("groupCode") int groupCode){
 
-        return userService.getDiagResultDetail(openId,paperId);
+        return userService.getDiagResultDetail(openId,paperId, groupCode);
 
     }
 
@@ -900,6 +902,20 @@ public class UserController {
     public ResultBean onOrOffline( @QueryParam("openId") String openId, @QueryParam("status") Integer status){
 
         return userService.onOrOffline( openId, status );
+
+    }
+
+    /**
+     * 自由学->学科测评->我的测评
+     */
+    @GET
+    @Path("/freeStudy/myDiaglist")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean myDiaglist4FreeStudy( @QueryParam("openId") String openId,
+                                  @QueryParam("pageNo") Integer pageNo,@QueryParam("pageSize") Integer pageSize){
+
+        return userService.myDiaglist4FreeStudy( openId, pageNo, pageSize);
 
     }
 

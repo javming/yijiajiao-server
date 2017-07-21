@@ -86,7 +86,7 @@ public class AppraiseSolution {
         return star;
     }
 
-    public void setStar(int start) {
+    public void setStar(int star) {
         this.star = star;
     }
 

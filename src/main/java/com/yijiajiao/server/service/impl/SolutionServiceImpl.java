@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -348,7 +349,7 @@ public class SolutionServiceImpl implements SolutionService{
     @Override
     public ResultBean rejectSolution( Map<String, Object> reject) {
         String path = Config.getString("solution.rejectSolution") + "solutionId=" + reject.get("solutionId")
-                +"&reasonDescribe=" + reject.get("reasonDescribe");
+                +"&reasonDescribe=" + URLEncoder.encode(reject.get("reasonDescribe").toString());
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "PUT");
         return dealResult(log, response);
     }
@@ -437,11 +438,24 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public ResultBean teacherEarning(String teacherId, Integer pageNo, Integer pageSize) {
+    public ResultBean teacherEarning(String teacherId, Integer pageNo, Integer pageSize, String startTime, String endTime) {
         String path = Config.getString("solution.teacherEarning") + "teacherId=" + teacherId
-                + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+                + "&pageNo=" + pageNo + "&pageSize=" + pageSize
+                + (StringUtil.isEmpty(startTime)?"":("&startTime=" + URLEncoder.encode(startTime)))
+                + (StringUtil.isEmpty(endTime)?"":("&endTime=" + URLEncoder.encode(endTime)));
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }
+
+    @Override
+    public ResultBean teacherEarningByTime(String teacherId, Integer pageNo, Integer pageSize, String startTime, String endTime) {
+        String path = Config.getString("solution.teacherEarningByTime") + "teacherId=" + teacherId
+                + "&pageNo=" + pageNo + "&pageSize=" + pageSize
+                + (StringUtil.isEmpty(startTime)?"":("&startTime=" + URLEncoder.encode(startTime)))
+                + (StringUtil.isEmpty(endTime)?"":("&endTime=" + URLEncoder.encode(endTime)));
+        String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
 
 }

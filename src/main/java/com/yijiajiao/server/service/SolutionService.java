@@ -195,5 +195,7 @@ public interface SolutionService {
 
     ResultBean appraiseInfo(Integer solutionId);
 
-    ResultBean teacherEarning(String teacherId, Integer pageNo, Integer pageSize);
+    ResultBean teacherEarning(String teacherId, Integer pageNo, Integer pageSize, String startTime, String endTime);
+
+    ResultBean teacherEarningByTime(String teacherId, Integer pageNo, Integer pageSize, String startTime, String endTime);
 }

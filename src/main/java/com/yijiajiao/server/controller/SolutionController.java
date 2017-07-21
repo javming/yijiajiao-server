@@ -836,17 +836,35 @@ public class SolutionController {
     }
 
     /**
-     * 赠送优惠券
+     * 老师收入明细
      */
     @GET
     @Path("/teacherEarning")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean teacherEarning( @QueryParam("teacherId") String teacherId,
-                                      @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize){
+                                      @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize,
+                                      @QueryParam("startTime") String startTime,@QueryParam("endTime") String endTime){
 
-        return solutionService.teacherEarning( teacherId, pageNo, pageSize);
+        return solutionService.teacherEarning( teacherId, pageNo, pageSize, startTime, endTime);
 
     }
+
+
+    /**
+     * 通过月份统计老师收入
+     */
+    @GET
+    @Path("/teacherEarningByTime")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResultBean teacherEarningByTime( @QueryParam("teacherId") String teacherId,
+                                            @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize,
+                                            @QueryParam("startTime") String startTime,@QueryParam("endTime") String endTime){
+
+        return solutionService.teacherEarningByTime(teacherId, pageNo, pageSize, startTime, endTime);
+
+    }
+
 
 }
