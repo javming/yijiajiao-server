@@ -29,6 +29,7 @@ import com.yijiajiao.server.bean.post.ApplyinterviewtimeBean;
 import com.yijiajiao.server.bean.solution.EaseObUserInfoBean;
 import com.yijiajiao.server.bean.user.*;
 import com.yijiajiao.server.bean.wares.CollectQueryBean;
+import com.yijiajiao.server.service.PromotionService;
 import com.yijiajiao.server.service.UserService;
 import com.yijiajiao.server.util.*;
 import org.slf4j.Logger;
@@ -58,6 +59,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
+
+    @Autowired
+    private PromotionService promotionService;
 
     @Override
     public ResultBean validateTel(String tel) {
@@ -100,6 +104,17 @@ public class UserServiceImpl implements UserService{
                     // 注册环信
                     registerEaseob(userModel.getOpenId(),registerBean.getPassword(),registerBean.getTelephone());
                 }
+
+                //注册赠送优惠券
+                final String openId = userModel.getOpenId();
+                taskExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        log.info("---------------注册赠送优惠券啦--------------->>>");
+                        promotionService.grantCoupon(openId, 1);
+                    }
+                });
+
                 result.setSucResult("注册成功");
             } else {
                 log.info("错误信息： " + response.getMessage());
@@ -705,8 +720,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResultBean getUserDiaglist(String openId, int pageNo, int pageSize) {
-        String path = Config.getString("user.getUserDiaglist")+"userOpenId="+openId+"&pageNo="+pageNo+"&pageSize="+pageSize;
+    public ResultBean getUserDiaglist(String openId, int pageNo, int pageSize, String gradeCode, String subjectCode) {
+        String path = Config.getString("user.getUserDiaglist") + "userOpenId=" + openId
+                + "&pageNo=" + pageNo + "&pageSize=" + pageSize
+                + (StringUtil.isEmpty(subjectCode)?"":("&subjectCode="+subjectCode))
+                + (StringUtil.isEmpty(gradeCode)?"":("&gradeCode="+gradeCode));
         String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }
@@ -995,9 +1013,26 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResultBean myDiaglist4FreeStudy(String openId, Integer pageNo, Integer pageSize) {
-        String path = Config.getString("user.myDiaglist4FreeStudy") + "userOpenId=" + openId +
-                "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public ResultBean myDiaglist4FreeStudy(String openId, Integer pageNo, Integer pageSize, String subjectCode,
+                                           String gradeCode, String bookType, String paperName) {
+        String path = Config.getString("user.myDiaglist4FreeStudy") + "userOpenId=" + openId
+                + "&pageNo=" + pageNo + "&pageSize=" + pageSize
+                + (StringUtil.isEmpty(subjectCode)? "" : ("&subjectCode=" + subjectCode))
+                + (StringUtil.isEmpty(gradeCode)? "" : ("&gradeCode=" + gradeCode))
+                + (StringUtil.isEmpty(bookType)? "": ("&bookType=" + bookType))
+                + (StringUtil.isEmpty(paperName)?"":("&paperName=" + paperName));
+        String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
+        return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean freeStudyDiaglist(Integer pageNo, Integer pageSize, String paperName, String subjectCode,
+                                        String gradeCode, String bookType) {
+        String path = Config.getString("user.freeStudyDiaglist") + "pageNo=" + pageNo + "&pageSize=" + pageSize
+                + (StringUtil.isEmpty(paperName)?"":("&paperName=" + paperName))
+                + (StringUtil.isEmpty(subjectCode)? "" : ("&subjectCode=" + subjectCode))
+                + (StringUtil.isEmpty(gradeCode)? "" : ("&gradeCode=" + gradeCode))
+                + (StringUtil.isEmpty(bookType)? "": ("&bookType=" + bookType));
         String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
         return dealResult(log, response);
     }

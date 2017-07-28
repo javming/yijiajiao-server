@@ -86,9 +86,11 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     }
 
     @Override
-    public ResultBean getStuClassList(String openId, String curriculumType, int pageNo, int pageSize) {
-        String path = Config.getString("sale.stuclasses") + "/" + openId + "/" + curriculumType +
-                "/"+pageNo+"/"+pageSize;
+    public ResultBean getStuClassList(String openId, String curriculumType, int pageNo, int pageSize, String subjectCode, String gradeCode) {
+        String path = Config.getString("sale.stuclasses") + "?openId=" + openId + "&curriculumType=" + curriculumType +
+                "&pageNo="+pageNo+"&pageSize="+pageSize
+                + (StringUtil.isEmpty(subjectCode)? "" : ("&subjectCode=" + subjectCode))
+                + (StringUtil.isEmpty(gradeCode)? "" : ("&gradeCode=" + gradeCode));
         String response = ServerUtil.httpRest(SALE_SERVER, path, null, null, "GET");
         return dealResult(log,response);
     }

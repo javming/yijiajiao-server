@@ -195,7 +195,7 @@ public interface UserService {
     /**
      *	查询我的诊断列表
      */
-    ResultBean getUserDiaglist(String openId, int pageNo, int pageSize);
+    ResultBean getUserDiaglist(String openId, int pageNo, int pageSize, String gradeCode, String subjectCode);
 
     /**
      *	通过id查询诊断卷详情
@@ -286,5 +286,9 @@ public interface UserService {
 
     ResultBean onOrOffline(String openId, Integer status);
 
-    ResultBean myDiaglist4FreeStudy(String openId, Integer pageNo, Integer pageSize);
+    ResultBean myDiaglist4FreeStudy(String openId, Integer pageNo, Integer pageSize, String subjectCode,
+                                    String gradeCode, String bookType, String paperName);
+
+    ResultBean freeStudyDiaglist(Integer pageNo, Integer pageSize, String paperName, String subjectCode,
+                                 String gradeCode, String bookType);
 }

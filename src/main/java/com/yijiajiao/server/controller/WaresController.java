@@ -69,11 +69,11 @@ public class WaresController {
                                 @QueryParam("smallCourseware") String smallCourseware,@QueryParam("teacherId") String teacherId,
                                 @QueryParam("status") String status,@QueryParam("isYjj")String isYjj,@QueryParam("yjjCode")String yjjCode,
                                 @QueryParam("month") String month, @QueryParam("moduleId") String moduleId,
-                                @QueryParam("isFreeStudey") Integer isFreeStudy){
+                                @QueryParam("isFreeStudey") Integer isFreeStudy, @QueryParam("curriculumName") String curriculumName){
 
         return waresService.wareslist(pageNo, pageSize, subjectCode, gradeCode,
-                    bookTypeCode, curriculumType, order, orderType, stageCode, reservePrice,
-                    peakPrice, smallCourseware, teacherId, status, isYjj,yjjCode, month, moduleId, isFreeStudy);
+                    bookTypeCode, curriculumType, order, orderType, stageCode, reservePrice,peakPrice, smallCourseware,
+                teacherId, status, isYjj,yjjCode, month, moduleId, isFreeStudy, curriculumName);
 
     }
 

@@ -543,9 +543,10 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getUserDiaglist(@HeaderParam("openId") String openId,
-                                      @QueryParam("pageNo")int pageNo,@QueryParam("pageSize") int pageSize){
+                                      @QueryParam("pageNo")int pageNo,@QueryParam("pageSize") int pageSize,
+                                      @QueryParam("gradeCode") String gradeCode, @QueryParam("subjectCode") String subjectCode){
 
-        return userService.getUserDiaglist(openId,pageNo,pageSize);
+        return userService.getUserDiaglist(openId,pageNo,pageSize, gradeCode, subjectCode);
 
     }
 
@@ -913,9 +914,26 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean myDiaglist4FreeStudy( @QueryParam("openId") String openId,
-                                  @QueryParam("pageNo") Integer pageNo,@QueryParam("pageSize") Integer pageSize){
+                                            @QueryParam("pageNo") Integer pageNo,@QueryParam("pageSize") Integer pageSize,
+                                            @QueryParam("subjectCode")String subjectCode,@QueryParam("paperName") String paperName,
+                                            @QueryParam("gradeCode")String gradeCode,@QueryParam("bookType") String bookType){
 
-        return userService.myDiaglist4FreeStudy( openId, pageNo, pageSize);
+        return userService.myDiaglist4FreeStudy( openId, pageNo, pageSize, subjectCode, gradeCode, bookType, paperName);
+
+    }
+
+    /**
+     * 自由学->学科测评列表
+     */
+    @GET
+    @Path("/freeStudy/diaglist")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean freeStudyDiaglist( @QueryParam("pageNo") Integer pageNo, @QueryParam("pageSize") Integer pageSize,
+                                         @QueryParam("paperName") String paperName, @QueryParam("subjectCode")String subjectCode,
+                                         @QueryParam("gradeCode")String gradeCode,@QueryParam("bookType") String bookType ){
+
+        return userService.freeStudyDiaglist( pageNo, pageSize, paperName, subjectCode, gradeCode, bookType);
 
     }
 

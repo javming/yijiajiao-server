@@ -128,9 +128,10 @@ public class SaleController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean studentClassList(@QueryParam("curriculumType") String curriculumType,@HeaderParam("openId") String openId,
-                                       @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize) {
+                                       @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize,
+                                       @QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode) {
 
-        return saleService.getStuClassList(openId, curriculumType, pageNo, pageSize);
+        return saleService.getStuClassList(openId, curriculumType, pageNo, pageSize, subjectCode, gradeCode);
 
     }
 

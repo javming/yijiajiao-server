@@ -23,7 +23,7 @@ public interface SaleService {
 
     ResultBean stuTimeTableInfo(String date, String openId);
 
-    ResultBean getStuClassList(String openId, String curriculumType, int pageNo, int pageSize);
+    ResultBean getStuClassList(String openId, String curriculumType, int pageNo, int pageSize, String subjectCode, String gradeCode);
 
     ResultBean getAppraiseList(String curriculumType, String openId, String appraiseType, int pageNo, int pageSize);
 
