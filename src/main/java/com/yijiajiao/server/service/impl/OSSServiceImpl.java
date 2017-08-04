@@ -75,7 +75,6 @@ public class OSSServiceImpl implements OSSService {
     public ResultBean feedBack(String tag, FeedBackBean feedBackBean) {
         String path =Config.getString("oss.feedBack");
         String response = ServerUtil.httpRest(OSS_SERVER,path,null,feedBackBean,"POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 }

@@ -251,7 +251,6 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean updateActivity(String tag, UpdateActivityBean updateActivityBean) {
         String path = Config.getString("promotion.updateActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateActivityBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(response);
     }
 
@@ -259,7 +258,6 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean addActivity(String tag, AddActivityBean activityBean) {
         String path = Config.getString("promotion.addActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, activityBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(response);
     }
 
@@ -267,7 +265,6 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean updateCoupon(String tag, UpdateCouponBean updateCouponBean) {
         String path = Config.getString("promotion.updateCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateCouponBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(response);
     }
 
@@ -275,7 +272,6 @@ public class PromotionServiceImpl implements PromotionService {
     public ResultBean addCoupon(String tag, AddCouponBean addCouponBean) {
         String path = Config.getString("promotion.addCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, addCouponBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(response);
     }
 

@@ -245,7 +245,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean updateAsk(String tag, UpdateAskBean updateAskBean) {
         String path = Config.getString("solution.updateAsk");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, updateAskBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -253,7 +252,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean updateAnswer(String tag, UpdateAnswerBean updateAnswerBean) {
         String path = Config.getString("solution.updateAnswer");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, updateAnswerBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -261,7 +259,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean addDoubt(String tag, AddDoubtBean addDoubtBean) {
         String path = Config.getString("solution.addDoubt");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addDoubtBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -269,7 +266,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean updateDoubt(String tag, AddDoubtBean addDoubtBean) {
         String path = Config.getString("solution.updateDoubt");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addDoubtBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -277,7 +273,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean addComplain(String tag, AddComplainBean addComplainBean) {
         String path = Config.getString("solution.addComplain");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addComplainBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -285,7 +280,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean reBackComplain(String tag, ReBackComplainBean reBackComplainBean) {
         String path = Config.getString("solution.reBackComplain");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, reBackComplainBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -293,7 +287,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean addTimePakage(String tag, AddTimePakageBean addTimePakageBean) {
         String path = Config.getString("solution.addtimepakage");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, addTimePakageBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -301,7 +294,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean solutionAppraise(String tag, AppraiseSolutionBean appraiseSolutionBean) {
         String path = Config.getString("solution.solutionAppraise");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, appraiseSolutionBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 
@@ -309,7 +301,6 @@ public class SolutionServiceImpl implements SolutionService{
     public ResultBean solutionFeedBack(String tag, SolutionFeedBackBean solutionFeedBackBean) {
         String path = Config.getString("solution.solutionFeedBack");
         String response = ServerUtil.httpRest(SOLUTION_SERVER, path, null, solutionFeedBackBean, "POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 

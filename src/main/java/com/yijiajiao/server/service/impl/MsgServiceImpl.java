@@ -82,7 +82,6 @@ public class MsgServiceImpl implements MsgService{
     public ResultBean setMsg(String tag, SetMsgBean setMsgBean) {
         String path =Config.getString("msg.setMsg");
         String response = ServerUtil.httpRest(MSG_SERVER,path,null,setMsgBean,"POST");
-        if (IF_MEM==1 && tag!=null) setMemcached(tag,response,log);
         return dealResult(log,response);
     }
 }
