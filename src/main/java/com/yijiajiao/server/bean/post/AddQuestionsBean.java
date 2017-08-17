@@ -1,24 +1,20 @@
 package com.yijiajiao.server.bean.post;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AddQuestionsBean {
+
 	private String paperId;
-	private List<BigQuestionBean> bigQuestions = new ArrayList<BigQuestionBean>();
-
-
-	public String getPaperId() {
-		return paperId;
-	}
-	public void setPaperId(String paperId) {
-		this.paperId = paperId;
-	}
-	public List<BigQuestionBean> getBigQuestions() {
-		return bigQuestions;
-	}
-	public void setBigQuestions(List<BigQuestionBean> bigQuestions) {
-		this.bigQuestions = bigQuestions;
-	}
+	private List<BigQuestionBean> bigQuestions = new ArrayList<>();
 	
 }

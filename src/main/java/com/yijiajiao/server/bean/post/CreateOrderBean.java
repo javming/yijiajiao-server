@@ -1,8 +1,18 @@
 package com.yijiajiao.server.bean.post;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CreateOrderBean {
+
 	private String order_number;
 	private String commodity_id;
 	private double order_price;
@@ -12,7 +22,7 @@ public class CreateOrderBean {
 	private String diagnosisGoodsCode;//诊断商品code
 	private String multiPaperCode;//综合试卷code
 	private String diagnosticRecordsName;//诊断商品名称
-	private List<Slave4OrderBean> slaves;
+	private List<IdBean> slaves;
 	private String used;//(保分计划诊断)
 	private double discountPrice;//折扣后价格
 	private String examStartDate;
@@ -25,173 +35,4 @@ public class CreateOrderBean {
 	private String inviteCodeUser;//邀请码（用户）
 	private String inviteCodeCompany;//邀请码（商户）
 
-	public String getInviteCodeUser() {
-		return inviteCodeUser;
-	}
-
-	public void setInviteCodeUser(String inviteCodeUser) {
-		this.inviteCodeUser = inviteCodeUser;
-	}
-
-	public String getInviteCodeCompany() {
-		return inviteCodeCompany;
-	}
-
-	public void setInviteCodeCompany(String inviteCodeCompany) {
-		this.inviteCodeCompany = inviteCodeCompany;
-	}
-
-	public String getStudentCode() {
-		return studentCode;
-	}
-
-	public void setStudentCode(String studentCode) {
-		this.studentCode = studentCode;
-	}
-
-	public String getOrder_number() {
-		return order_number;
-	}
-
-	public void setOrder_number(String order_number) {
-		this.order_number = order_number;
-	}
-
-	public String getTeacherId() {
-		return teacherId;
-	}
-
-	public void setTeacherId(String teacherId) {
-		this.teacherId = teacherId;
-	}
-
-	public int getSunshine() {
-		return sunshine;
-	}
-
-	public void setSunshine(int sunshine) {
-		this.sunshine = sunshine;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getDiscountYard() {
-		return discountYard;
-	}
-
-	public void setDiscountYard(String discountYard) {
-		this.discountYard = discountYard;
-	}
-
-	public String getExamStartDate() {
-		return examStartDate;
-	}
-
-	public void setExamStartDate(String examStartDate) {
-		this.examStartDate = examStartDate;
-	}
-
-	public String getExamEndDate() {
-		return examEndDate;
-	}
-
-	public void setExamEndDate(String examEndDate) {
-		this.examEndDate = examEndDate;
-	}
-
-	public double getDiscountPrice() {
-		return discountPrice;
-	}
-
-	public void setDiscountPrice(double discountPrice) {
-		this.discountPrice = discountPrice;
-	}
-
-	public String getUsed() {
-		return used;
-	}
-
-	public void setUsed(String used) {
-		this.used = used;
-	}
-
-	public String getDiagnosisGoodsDetailCode() {
-		return diagnosisGoodsDetailCode;
-	}
-
-	public void setDiagnosisGoodsDetailCode(String diagnosisGoodsDetailCode) {
-		this.diagnosisGoodsDetailCode = diagnosisGoodsDetailCode;
-	}
-
-	public String getMultiPaperCode() {
-		return multiPaperCode;
-	}
-
-	public void setMultiPaperCode(String multiPaperCode) {
-		this.multiPaperCode = multiPaperCode;
-	}
-
-	public String getDiagnosticRecordsName() {
-		return diagnosticRecordsName;
-	}
-
-	public void setDiagnosticRecordsName(String diagnosticRecordsName) {
-		this.diagnosticRecordsName = diagnosticRecordsName;
-	}
-
-	public String getCommodity_id() {
-		return commodity_id;
-	}
-
-	public void setCommodity_id(String commodity_id) {
-		this.commodity_id = commodity_id;
-	}
-
-	public double getOrder_price() {
-		return order_price;
-	}
-
-	public void setOrder_price(double order_price) {
-		this.order_price = order_price;
-	}
-
-	public String getOpen_id() {
-		return open_id;
-	}
-
-	public void setOpen_id(String open_id) {
-		this.open_id = open_id;
-	}
-
-	public List<Slave4OrderBean> getSlaves() {
-		return slaves;
-	}
-
-	public void setSlaves(List<Slave4OrderBean> slaves) {
-		this.slaves = slaves;
-	}
-
-	public int getCommodityType() {
-		return commodityType;
-	}
-
-	public void setCommodityType(int commodityType) {
-		this.commodityType = commodityType;
-	}
-
-	public String getDiagnosisGoodsCode() {
-		return diagnosisGoodsCode;
-	}
-
-	public void setDiagnosisGoodsCode(String diagnosisGoodsCode) {
-		this.diagnosisGoodsCode = diagnosisGoodsCode;
-	}
-
-	
 }

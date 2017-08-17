@@ -102,13 +102,13 @@ public interface PromotionService {
      */
     ResultBean grabRedEnvelope(String openId);
 
-    ResultBean updateActivity(String tag, UpdateActivityBean updateActivityBean);
+    ResultBean updateActivity(UpdateActivityBean updateActivityBean);
 
-    ResultBean addActivity(String tag, AddActivityBean activityBean);
+    ResultBean addActivity(AddActivityBean activityBean);
 
-    ResultBean updateCoupon(String tag, UpdateCouponBean updateCouponBean);
+    ResultBean updateCoupon(UpdateCouponBean updateCouponBean);
 
-    ResultBean addCoupon(String tag, AddCouponBean addCouponBean);
+    ResultBean addCoupon(AddCouponBean addCouponBean);
 
     ResultBean getActivitiesByCommodityId(String commodityId);
 

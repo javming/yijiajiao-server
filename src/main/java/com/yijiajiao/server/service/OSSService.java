@@ -41,5 +41,5 @@ public interface OSSService {
      */
     void hotSearch(String searchName,int type);
 
-    ResultBean feedBack(String tag, FeedBackBean feedBackBean);
+    ResultBean feedBack(FeedBackBean feedBackBean);
 }

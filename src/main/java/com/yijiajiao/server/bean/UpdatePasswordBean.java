@@ -1,6 +1,14 @@
 package com.yijiajiao.server.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UpdatePasswordBean {
 
   private String openId;
@@ -8,31 +16,5 @@ public class UpdatePasswordBean {
   private String password;
 
   private String newPassword;
-
-
-  public String getOpenId() {
-    return openId;
-  }
-
-  public void setOpenId(String openId) {
-    this.openId = openId;
-  }
-
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getNewPassword() {
-    return newPassword;
-  }
-
-  public void setNewPassword(String newPassword) {
-    this.newPassword = newPassword;
-  }
 
 }

@@ -1,26 +1,19 @@
 package com.yijiajiao.server.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class IdBean {
+
 	private int msgType;
 	private List<Long> ids;
-
-	public int getMsgType() {
-		return msgType;
-	}
-
-	public void setMsgType(int msgType) {
-		this.msgType = msgType;
-	}
-
-	public List<Long> getIds() {
-		return ids;
-	}
-
-	public void setIds(List<Long> ids) {
-		this.ids = ids;
-	}
-
 
 }

@@ -9,6 +9,7 @@ import com.yijiajiao.server.bean.post.UpdateAppraiseBean;
 import com.yijiajiao.server.bean.post.UpdateAppraiseRebackBean;
 import com.yijiajiao.server.bean.sale.*;
 import com.yijiajiao.server.bean.solution.CountBean;
+import com.yijiajiao.server.service.SaleService;
 import com.yijiajiao.server.util.Config;
 import com.yijiajiao.server.util.ServerUtil;
 import com.yijiajiao.server.util.StringUtil;
@@ -27,7 +28,7 @@ import static com.yijiajiao.server.util.ServerUtil.*;
  * @CREATE 2017-01-16-9:44
  */
 @Service("saleService")
-public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService {
+public class SaleServiceImpl implements SaleService {
 
     private static final Logger log = LoggerFactory.getLogger(SaleServiceImpl.class);
 
@@ -322,28 +323,28 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
     }
 
     @Override
-    public ResultBean updateAppraise(String tag, UpdateAppraiseBean updateAppraiseBean) {
+    public ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean) {
         String path = Config.getString("sale.updateAppraise");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean createOrder(String tag, CreateOrderBean createOrderBean) {
+    public ResultBean createOrder(CreateOrderBean createOrderBean) {
         String path = Config.getString("sale.createOrder");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createOrderBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean) {
+    public ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean) {
         String path = Config.getString("sale.updateAppraiseReback");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,updateAppraiseRebackBean,"PUT");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean createRefund(String tag, CreateRefundBean createRefundBean) {
+    public ResultBean createRefund(CreateRefundBean createRefundBean) {
         String path = Config.getString("sale.createRefund");
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,createRefundBean,"POST");
         return dealResult(log,response);
@@ -355,4 +356,6 @@ public class SaleServiceImpl implements com.yijiajiao.server.service.SaleService
         String response = ServerUtil.httpRest(SALE_SERVER,path,null,null,"GET");
         return dealResult(log,response);
     }
+
+
 }

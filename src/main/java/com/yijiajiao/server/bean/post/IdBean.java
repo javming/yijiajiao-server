@@ -1,4 +1,4 @@
-package com.yijiajiao.server.bean.solution;
+package com.yijiajiao.server.bean.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExitSolutionBean {
+public class IdBean {
 
-    private int id;
-    private int grabStatus;
+	private int id;
 
 }

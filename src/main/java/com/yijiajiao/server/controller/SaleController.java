@@ -39,6 +39,7 @@ public class SaleController {
         return saleService.getOrderSign(openId, orderNo, payType,payMent,returnWapUrl);
 
     }
+
     /**
      * 查询订单列表
      */
@@ -53,6 +54,7 @@ public class SaleController {
         return saleService.getOrderList(openId, pageNo, pageSize, status,curriculumType);
 
     }
+
     /**
      * 根据ID查询订单详情
      */
@@ -86,8 +88,11 @@ public class SaleController {
     @Path("/delOrderById")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean delOrderById(@HeaderParam("openId") String openId,@QueryParam("id") int id, @QueryParam("status") String status,
-                                   @QueryParam("cancel") String cancelReason, @QueryParam("canceldesc") String canceldesc) {
+    public ResultBean delOrderById(@HeaderParam("openId") String openId,
+                                   @QueryParam("id") int id,
+                                   @QueryParam("status") String status,
+                                   @QueryParam("cancel") String cancelReason,
+                                   @QueryParam("canceldesc") String canceldesc) {
 
         return saleService.delOrderById(openId, id, status, cancelReason, canceldesc);
 
@@ -100,7 +105,8 @@ public class SaleController {
     @Path("/stutimetable")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean stuTimeTable(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
+    public ResultBean stuTimeTable(@QueryParam("startDate") String startDate,
+                                   @QueryParam("endDate") String endDate,
                                    @HeaderParam("openId") String openId) {
 
         return saleService.stuTimeTable(startDate, endDate, openId);
@@ -127,9 +133,12 @@ public class SaleController {
     @Path("/studentClassList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean studentClassList(@QueryParam("curriculumType") String curriculumType,@HeaderParam("openId") String openId,
-                                       @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize,
-                                       @QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode) {
+    public ResultBean studentClassList(@QueryParam("curriculumType") String curriculumType,
+                                       @HeaderParam("openId") String openId,
+                                       @QueryParam("pageNo") int pageNo,
+                                       @QueryParam("pageSize") int pageSize,
+                                       @QueryParam("subjectCode") String subjectCode,
+                                       @QueryParam("gradeCode") String gradeCode) {
 
         return saleService.getStuClassList(openId, curriculumType, pageNo, pageSize, subjectCode, gradeCode);
 
@@ -142,11 +151,14 @@ public class SaleController {
     @Path("/appraiselist")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getAppraiseList(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,
-                                      @QueryParam("pageSize") int pageSize, @QueryParam("appraiseType") String appraiseType,
+    public ResultBean getAppraiseList(@HeaderParam("openId") String openId,
+                                      @QueryParam("pageNo") int pageNo,
+                                      @QueryParam("pageSize") int pageSize,
+                                      @QueryParam("appraiseType") String appraiseType,
                                       @QueryParam("curriculumType") String curriculumType) {
 
         return saleService.getAppraiseList(curriculumType, openId, appraiseType, pageNo, pageSize);
+
     }
 
     /**
@@ -156,8 +168,10 @@ public class SaleController {
     @Path("/appraiselist4teacher")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getAppraiseTecaehrList(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,
-                                             @QueryParam("pageSize") int pageSize, @QueryParam("appraiseType") String appraiseType,
+    public ResultBean getAppraiseTecaehrList(@HeaderParam("openId") String openId,
+                                             @QueryParam("pageNo") int pageNo,
+                                             @QueryParam("pageSize") int pageSize,
+                                             @QueryParam("appraiseType") String appraiseType,
                                              @QueryParam("curriculumType") String curriculumType) {
 
         return saleService.getAppraiseTecaehrList(curriculumType, openId, appraiseType, pageNo, pageSize);
@@ -172,8 +186,10 @@ public class SaleController {
     @Path("/appraiseListByCurriculumId")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean AppraiseListByCurriculumId(@QueryParam("curriculumId")int curriculumId,@QueryParam("pageNo")int pageNo,
+    public ResultBean AppraiseListByCurriculumId(@QueryParam("curriculumId")int curriculumId,
+                                                 @QueryParam("pageNo")int pageNo,
                                                  @QueryParam("pageSize") int pageSize) {
+
         return saleService.AppraiseListByCurriculumId(curriculumId, pageNo, pageSize);
 
     }
@@ -198,8 +214,10 @@ public class SaleController {
     @Path("/myStudents")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean myStudents(@HeaderParam("openId") String openId, @QueryParam("curriculumType") int curriculumType,
-                                 @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize) {
+    public ResultBean myStudents(@HeaderParam("openId") String openId,
+                                 @QueryParam("curriculumType") int curriculumType,
+                                 @QueryParam("pageNo") int pageNo,
+                                 @QueryParam("pageSize") int pageSize) {
 
         return saleService.myStudents(openId, curriculumType, pageNo, pageSize);
 
@@ -225,8 +243,10 @@ public class SaleController {
     @Path("/getOrderList4Teacher")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getOrderList4Teacher(@HeaderParam("openId") String openId, @QueryParam("pageSize") int pageSize,
-                                           @QueryParam("orderStatus") int orderStatus, @QueryParam("pageNo") int pageNo,
+    public ResultBean getOrderList4Teacher(@HeaderParam("openId") String openId,
+                                           @QueryParam("pageSize") int pageSize,
+                                           @QueryParam("orderStatus") int orderStatus,
+                                           @QueryParam("pageNo") int pageNo,
                                            @QueryParam("commodityType") int commodityType) {
 
         return saleService.getOrderList4Teacher(openId, commodityType, orderStatus, pageNo, pageSize);
@@ -240,8 +260,10 @@ public class SaleController {
     @Path("/choseReturnOrder")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean choseReturnOrder(@HeaderParam("openId") String openId, @QueryParam("orderNumber") String orderNumber,
-                                       @QueryParam("refundType") int refundType,@QueryParam("objection") String objection ,
+    public ResultBean choseReturnOrder(@HeaderParam("openId") String openId,
+                                       @QueryParam("orderNumber") String orderNumber,
+                                       @QueryParam("refundType") int refundType,
+                                       @QueryParam("objection") String objection ,
                                        @QueryParam("objectionCause") int objectionCause) {
 
         return saleService.choseReturnOrder(openId, orderNumber,refundType,objection,objectionCause);
@@ -289,16 +311,16 @@ public class SaleController {
     }
 
     /**
-     *学生端课程列表
-     * @param
-     * @return
+     *  学生端课程列表
      */
     @GET
     @Path("/studentWaresList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean studentWaresList( @HeaderParam("openId") String openId, @QueryParam("pageNo") int pageNo,
-                                        @QueryParam("curriculumType") int curriculumType, @QueryParam("pageSize") int pageSize) {
+    public ResultBean studentWaresList( @HeaderParam("openId") String openId,
+                                        @QueryParam("pageNo") int pageNo,
+                                        @QueryParam("curriculumType") int curriculumType,
+                                        @QueryParam("pageSize") int pageSize) {
 
         return saleService.studentWaresList(openId,curriculumType,pageNo,pageSize);
 
@@ -311,15 +333,17 @@ public class SaleController {
     @Path("/myStu4List")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean myStu4List(@HeaderParam("openId") String openId, @QueryParam("curriculumType") int curriculumType,
-                                 @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize) {
+    public ResultBean myStu4List(@HeaderParam("openId") String openId,
+                                 @QueryParam("curriculumType") int curriculumType,
+                                 @QueryParam("pageNo") int pageNo,
+                                 @QueryParam("pageSize") int pageSize) {
 
         return saleService.myStu4List(openId,curriculumType,pageNo,pageSize);
 
     }
 
     /**
-     *老师/学生-账户管理-交易记录
+     *  老师/学生-账户管理-交易记录
      */
     @GET
     @Path("/tradingList")
@@ -333,9 +357,7 @@ public class SaleController {
     }
 
     /**
-     *老师-账户管理统计
-     * @param
-     * @return
+     *  老师-账户管理统计
      */
     @GET
     @Path("/countAccount")
@@ -348,9 +370,7 @@ public class SaleController {
     }
 
     /**
-     *老师-账户管理 --课程按类型统计
-     * @param
-     * @return
+     *  老师-账户管理 --课程按类型统计
      */
     @GET
     @Path("/curriculumTypeCount")
@@ -361,6 +381,7 @@ public class SaleController {
         return saleService.curriculumTypeCount(openId);
 
     }
+
     /**
      *  教师发作业
      */
@@ -368,8 +389,10 @@ public class SaleController {
     @Path("/teacherWork")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean teacherWork(@HeaderParam("openId") String openId,@QueryParam("commodityId") int commodityId,
-                                  @QueryParam("slaveId") int slaveId, @QueryParam("homeWorkCode") String homeWorkCode){
+    public ResultBean teacherWork(@HeaderParam("openId") String openId,
+                                  @QueryParam("commodityId") int commodityId,
+                                  @QueryParam("slaveId") int slaveId,
+                                  @QueryParam("homeWorkCode") String homeWorkCode){
         ResultBean result;
         if(slaveId==-1){
             result = waresService.homework(commodityId, "wares",homeWorkCode);
@@ -388,8 +411,10 @@ public class SaleController {
     @Path("/getStudent")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getStudent(@HeaderParam("openId") String openId,@QueryParam("commodityId") String commodityId,
-                                 @QueryParam("teacherId")String teacherId,@QueryParam("pageNo")int pageNo,
+    public ResultBean getStudent(@HeaderParam("openId") String openId,
+                                 @QueryParam("commodityId") String commodityId,
+                                 @QueryParam("teacherId")String teacherId,
+                                 @QueryParam("pageNo")int pageNo,
                                  @QueryParam("pageSize")int pageSize){
 
         return saleService.getStudent(commodityId,teacherId,pageNo,pageSize);
@@ -403,8 +428,10 @@ public class SaleController {
     @Path("/getMyAnswerList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getMyAnswerList(@HeaderParam("openId") String openId, @QueryParam("pageNo") int pageNo,
-                                      @QueryParam("pageSize") int pageSize,@QueryParam("answerId")int answerId){
+    public ResultBean getMyAnswerList(@HeaderParam("openId") String openId,
+                                      @QueryParam("pageNo") int pageNo,
+                                      @QueryParam("pageSize") int pageSize,
+                                      @QueryParam("answerId")int answerId){
 
         return saleService.getMyAnswerList(openId,pageNo,pageSize,answerId);
 
@@ -422,6 +449,7 @@ public class SaleController {
         return saleService.getMyCount(openId);
 
     }
+
     /**
      *	移动端获取某天学生课表
      */
@@ -442,7 +470,9 @@ public class SaleController {
     @Path("/checkTime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean checkTime(@HeaderParam("token") String token, @HeaderParam("openId") String openId, @QueryParam("startTime") String startTime,
+    public ResultBean checkTime(@HeaderParam("token") String token,
+                                @HeaderParam("openId") String openId,
+                                @QueryParam("startTime") String startTime,
                                 @QueryParam("endTime") String endTime){
 
         return saleService.checkTime(openId,startTime, endTime);
@@ -456,8 +486,10 @@ public class SaleController {
     @Path("/myStudentsByCurriculumType")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean myStudentsByCurriculumType(@HeaderParam("openId") String openId, @QueryParam("pageNo")int pageNo,
-                                                 @QueryParam("pageSize")int pageSize, @QueryParam("curriculumType") Integer curriculumType){
+    public ResultBean myStudentsByCurriculumType(@HeaderParam("openId") String openId,
+                                                 @QueryParam("pageNo")int pageNo,
+                                                 @QueryParam("pageSize")int pageSize,
+                                                 @QueryParam("curriculumType") Integer curriculumType){
 
         return saleService.myStudentsByCurriculumType(openId,curriculumType,pageNo,pageSize);
 
@@ -470,9 +502,9 @@ public class SaleController {
     @Path("/updateAppraise")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateAppraise(@HeaderParam("tag") String tag, UpdateAppraiseBean updateAppraiseBean){
+    public ResultBean updateAppraise( UpdateAppraiseBean updateAppraiseBean ){
 
-        return saleService.updateAppraise(tag,updateAppraiseBean);
+        return saleService.updateAppraise( updateAppraiseBean );
     }
 
     /**
@@ -482,9 +514,9 @@ public class SaleController {
     @Path("/createOrder")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createOrder(@HeaderParam("tag") String tag,CreateOrderBean createOrderBean){
+    public ResultBean createOrder( CreateOrderBean createOrderBean ){
 
-        return saleService.createOrder(tag,createOrderBean);
+        return saleService.createOrder( createOrderBean );
     }
 
     /**
@@ -494,9 +526,10 @@ public class SaleController {
     @Path("/updateAppraiseReback")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateAppraiseReback(@HeaderParam("tag") String tag,UpdateAppraiseRebackBean updateAppraiseRebackBean){
+    public ResultBean updateAppraiseReback( UpdateAppraiseRebackBean updateAppraiseRebackBean ){
 
-        return saleService.updateAppraiseReback(tag,updateAppraiseRebackBean);
+        return saleService.updateAppraiseReback( updateAppraiseRebackBean );
+
     }
 
     /**
@@ -506,17 +539,21 @@ public class SaleController {
     @Path("/createRefund")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createRefund(@HeaderParam("tag") String tag,CreateRefundBean createRefundBean){
+    public ResultBean createRefund( CreateRefundBean createRefundBean ){
 
-        return saleService.createRefund(tag,createRefundBean);
+        return saleService.createRefund( createRefundBean );
     }
 
 
+    /**
+     * 我的学习中心 课程详情
+     *@since  2017/8/9 10:33
+     */
     @GET
     @Path("/getClassByOrderNumer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getClassByOrderNumer( @QueryParam("orderNum") String orderNum){
+    public ResultBean getClassByOrderNumer( @QueryParam("orderNum") String orderNum ){
 
         return saleService.getClassByOrderNumer(orderNum);
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 /**
  * @AUTHOR zhaoming@eduspace
@@ -56,7 +57,8 @@ public class MsgControllor {
     @Path("/countByType")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean countByType(@QueryParam("msgType") int msgType,@HeaderParam("openId") String openId,
+    public ResultBean countByType(@HeaderParam("openId") String openId,
+                                  @QueryParam("msgType") int msgType,
                                   @QueryParam("isTeacher") int isTeacher) {
 
         return msgService.countByType(msgType,openId,isTeacher);
@@ -71,7 +73,7 @@ public class MsgControllor {
     @Path("/setRead")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean setRead(IdBean ids,@HeaderParam("openId") String openId) {
+    public ResultBean setRead(IdBean ids) {
 
         return msgService.setRead(ids);
 
@@ -85,7 +87,9 @@ public class MsgControllor {
     @Path("/setDel")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean setDel(@HeaderParam("openId") String openId,@QueryParam("id") int id,@QueryParam("msgType") int msgType ) {
+    public ResultBean setDel(@HeaderParam("openId") String openId,
+                             @QueryParam("id") int id,
+                             @QueryParam("msgType") int msgType ) {
 
         return msgService.setDel(openId,id,msgType);
 
@@ -126,7 +130,7 @@ public class MsgControllor {
     @Path("/getMsgStation")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getMsgStation(@HeaderParam("openId") String openId,@QueryParam("openId")String userOpenId,@QueryParam("isTeacher")int isTeacher){
+    public ResultBean getMsgStation(@QueryParam("openId")String userOpenId,@QueryParam("isTeacher")int isTeacher){
 
         return msgService.getMsgStation(userOpenId,isTeacher);
 
@@ -139,9 +143,23 @@ public class MsgControllor {
     @Path("/setMsg")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean setMsg(@HeaderParam("tag")String tag,SetMsgBean setMsgBean){
+    public ResultBean setMsg(SetMsgBean setMsgBean){
 
-        return msgService.setMsg(tag,setMsgBean);
+        return msgService.setMsg(setMsgBean);
+
+    }
+
+
+    /**
+     *  发送邮件
+     */
+    @POST
+    @Path("/sendMail")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean sendMail(Map<String, Object> mail) throws Exception{
+
+        return msgService.sendMail( mail );
 
     }
 }

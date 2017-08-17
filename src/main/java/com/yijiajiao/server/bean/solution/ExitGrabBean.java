@@ -1,29 +1,17 @@
 package com.yijiajiao.server.bean.solution;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ExitGrabBean {
 
-  private String openId;
-  private int id;
+    private String openId;
+    private int id;
 
-  public ExitGrabBean() {
-  }
-
-  public ExitGrabBean(String openId, int id) {
-    this.openId = openId;
-    this.id = id;
-  }
-
-  public String getOpenId() {
-return openId;
-}
-  public void setOpenId(String openId) {
-this.openId = openId;
-}
-  public int getId() {
-return id;
-}
-  public void setId(int id) {
-this.id = id;
-}
-  
 }

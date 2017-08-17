@@ -1,5 +1,10 @@
 package com.yijiajiao.server.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -8,52 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @XmlRootElement
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LoginBean {
-  private String telephone;
-  private String password;
-  private String client_id;
-  private String version;// 1.0亿家教自用户  2.0阳光保险
 
-  public LoginBean() {
-  }
-
-  public LoginBean(String telephone, String password, String client_id, String version) {
-    this.telephone = telephone;
-    this.password = password;
-    this.client_id = client_id;
-    this.version = version;
-  }
-
-  public String getTelephone() {
-    return telephone;
-  }
-
-  public void setTelephone(String telephone) {
-    this.telephone = telephone;
-  }
-
-  public String getClient_id() {
-    return client_id;
-  }
-
-  public void setClient_id(String client_id) {
-    this.client_id = client_id;
-  }
-
-  public String getVersion() {
-    return version;
-  }
-
-  public void setVersion(String version) {
-    this.version = version;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    private String telephone;
+    private String password;
+    private String client_id;
+    private String version;// 1.0亿家教自用户  2.0阳光保险
 
 }

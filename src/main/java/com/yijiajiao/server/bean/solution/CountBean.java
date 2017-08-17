@@ -1,20 +1,17 @@
 package com.yijiajiao.server.bean.solution;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CountBean {
 
-	private int count = 0;
-	private double total = 0;
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	public double getTotal() {
-		return total;
-	}
-	public void setTotal(double total) {
-		this.total = total;
-	}
-	
+	private int count;
+	private double total;
+
 }

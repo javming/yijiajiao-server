@@ -237,35 +237,35 @@ public class ResourceServiceImpl implements ResourceService{
     }
 
     @Override
-    public ResultBean createExamHead(String tag, CreateExamBean createExamBean) {
+    public ResultBean createExamHead(CreateExamBean createExamBean) {
         String path = Config.getString("wares.createExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean createExamDetail(String tag, CreateExamDetailBean createExamDetailBean) {
+    public ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean) {
         String path = Config.getString("wares.CreateExamDetail");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,createExamDetailBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean smartCreateExam(String tag, SmartCreateExamBean smartCreateExamBean) {
+    public ResultBean smartCreateExam(SmartCreateExamBean smartCreateExamBean) {
         String path = Config.getString("wares.SmartCreateExam");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,smartCreateExamBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean addQuestions(String tag, AddQuestionsBean addQuestionsBean) {
+    public ResultBean addQuestions(AddQuestionsBean addQuestionsBean) {
         String path = Config.getString("wares.AddQuestions");
         String response = ServerUtil.httpRest(WARES_SERVER,path,null,addQuestionsBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean markingPaper(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+    public ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
         String markingPaper = Config.getString("wares.markingPaper");
         String res = ServerUtil.httpRest(WARES_SERVER, markingPaper, null, diagnoseAnswerSubmitBean, "POST");
         log.info("markingPaper  return is " + res);

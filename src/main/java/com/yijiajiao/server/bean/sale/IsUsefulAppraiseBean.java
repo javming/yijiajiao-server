@@ -1,29 +1,17 @@
 package com.yijiajiao.server.bean.sale;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class IsUsefulAppraiseBean {
 
   private String openId;
   private int pid;
 
-  public IsUsefulAppraiseBean() {
-  }
-
-  public IsUsefulAppraiseBean(String openId, int pid) {
-    this.openId = openId;
-    this.pid = pid;
-  }
-
-  public String getOpenId() {
-    return openId;
-  }
-  public void setOpenId(String openId) {
-    this.openId = openId;
-  }
-  public int getPid() {
-    return pid;
-  }
-  public void setPid(int pid) {
-    this.pid = pid;
-  }
-  
 }

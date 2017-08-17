@@ -1,7 +1,16 @@
 package com.yijiajiao.server.bean.post;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AddDoubtBean {
 
 	private List<GradeAndBookTypeBean> gradesAndSubject;
@@ -12,60 +21,5 @@ public class AddDoubtBean {
 	private String provinceCode;// 地区code
 	private String provinceName;//地区名称
 	private String openId;//　　教师openid
-	
-	
-	public String getProvinceName() {
-		return provinceName;
-	}
-	public void setProvinceName(String provinceName) {
-		this.provinceName = provinceName;
-	}
-	public List<GradeAndBookTypeBean> getGradesAndSubject() {
-		return gradesAndSubject;
-	}
-	public void setGradesAndSubject(List<GradeAndBookTypeBean> gradesAndSubject) {
-		this.gradesAndSubject = gradesAndSubject;
-	}
-
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getGoodRange() {
-		return goodRange;
-	}
-	public void setGoodRange(String goodRange) {
-		this.goodRange = goodRange;
-	}
-	public String getOnlineTime() {
-		return onlineTime;
-	}
-	public void setOnlineTime(String onlineTime) {
-		this.onlineTime = onlineTime;
-	}
-	public String getLimitNumber() {
-		return limitNumber;
-	}
-	public void setLimitNumber(String limitNumber) {
-		this.limitNumber = limitNumber;
-	}
-
-	public String getProvinceCode() {
-		return provinceCode;
-	}
-	public void setProvinceCode(String provinceCode) {
-		this.provinceCode = provinceCode;
-	}
-	public String getOpenId() {
-		return openId;
-	}
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
-
-
 
 }

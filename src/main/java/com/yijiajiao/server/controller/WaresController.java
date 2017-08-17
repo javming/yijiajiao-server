@@ -1,13 +1,11 @@
 package com.yijiajiao.server.controller;
 
 import com.yijiajiao.server.bean.ResultBean;
-import com.yijiajiao.server.bean.SystemStatus;
 import com.yijiajiao.server.bean.post.*;
 import com.yijiajiao.server.bean.wares.BackUrlInfoParamBean;
 import com.yijiajiao.server.bean.wares.BackUrlListParamBean;
 import com.yijiajiao.server.bean.wares.M3JoinMtgParam;
 import com.yijiajiao.server.service.WaresService;
-import com.yijiajiao.server.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -34,7 +32,8 @@ public class WaresController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean timeTable(@HeaderParam("openId") String openId,
-                                @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
+                                @QueryParam("startDate") String startDate,
+                                @QueryParam("endDate") String endDate) {
 
         return waresService.timeTable(startDate, endDate, openId);
 
@@ -47,7 +46,8 @@ public class WaresController {
     @Path("/getwaresbydate")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getWaresByDate(@HeaderParam("openId") String teacherId, @QueryParam("classDate") String classDate,
+    public ResultBean getWaresByDate(@HeaderParam("openId") String teacherId,
+                                     @QueryParam("classDate") String classDate,
                                      @QueryParam("waresType") String waresType) {
 
         return waresService.getWaresByDate(classDate, waresType, teacherId);
@@ -111,9 +111,12 @@ public class WaresController {
     @Path("/getViedoByExamination")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getViedoByExamination(@HeaderParam("openId") String openId, @QueryParam("gradeCode") String gradeCode,
-                                            @QueryParam("bookTypeCode") String bookTypeCode, @QueryParam("examination") String examination,
-                                            @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize) {
+    public ResultBean getViedoByExamination(@HeaderParam("openId") String openId,
+                                            @QueryParam("gradeCode") String gradeCode,
+                                            @QueryParam("bookTypeCode") String bookTypeCode,
+                                            @QueryParam("examination") String examination,
+                                            @QueryParam("pageNo") int pageNo,
+                                            @QueryParam("pageSize") int pageSize) {
 
         return waresService.getViedoByExamination(openId, gradeCode, bookTypeCode, examination, pageNo, pageSize);
 
@@ -128,9 +131,7 @@ public class WaresController {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean checkTime(@HeaderParam("openId") String openId, @QueryParam("startTime") String startTime,
                                 @QueryParam("endTime") String endTime) {
-        if (StringUtil.isEmpty(startTime) || StringUtil.isEmpty(endTime)){
-            return ResultBean.getSucResult(SystemStatus.PARAM_IS_NULL);
-        }
+
         return waresService.checkTime(openId,startTime, endTime);
 
     }
@@ -202,8 +203,6 @@ public class WaresController {
 
     /**
      * getSubjectByGrade
-     * @param gradeCode
-     * @return
      */
     @GET
     @Path("/getSubjectByGrade")
@@ -253,8 +252,10 @@ public class WaresController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean mobilWaresInfoByWaresId(@HeaderParam("openId") String openId,
-                                              @QueryParam("waresId") int waresId, @QueryParam("subjectCode") String subjectCode,
-                                              @QueryParam("gradeCode")String gradeCode,@QueryParam("bookTypeCode")String bookTypeCode) {
+                                              @QueryParam("waresId") int waresId,
+                                              @QueryParam("subjectCode") String subjectCode,
+                                              @QueryParam("gradeCode")String gradeCode,
+                                              @QueryParam("bookTypeCode")String bookTypeCode) {
 
         return waresService.mobilWaresInfoByWaresId(openId, waresId,subjectCode,gradeCode,bookTypeCode);
 
@@ -268,7 +269,8 @@ public class WaresController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean releaseStatus(@HeaderParam("openId") String openId,
-                                    @QueryParam("waresId") int waresId,@QueryParam("status") int status) {
+                                    @QueryParam("waresId") int waresId,
+                                    @QueryParam("status") int status) {
 
         return waresService.releaseStatus(openId, waresId,status);
 
@@ -307,7 +309,9 @@ public class WaresController {
     @Path("/examList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean examList(@QueryParam("subjectCode") String subjectCode,@QueryParam("gradeCode") String gradeCode,@QueryParam("bookTypeCode") String bookTypeCode) {
+    public ResultBean examList(@QueryParam("subjectCode") String subjectCode,
+                               @QueryParam("gradeCode") String gradeCode,
+                               @QueryParam("bookTypeCode") String bookTypeCode) {
 
         return waresService.examList(subjectCode,gradeCode,bookTypeCode);
 
@@ -328,14 +332,12 @@ public class WaresController {
 
     /**
      * 试卷分析
-     * @param openId
-     * @return
      */
     @GET
     @Path("/examStatistic")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean examStatistic(@HeaderParam("openId") String openId, @QueryParam("id") int id) {
+    public ResultBean examStatistic( @QueryParam("id") int id) {
 
         return waresService.examStatistic(id);
 
@@ -355,15 +357,14 @@ public class WaresController {
     }
 
     /**
-     *@description		直播回放
-     *@date 2016-6-29
+     *	直播回放
+     *@since  2016-6-29
      */
     @GET
     @Path("/liveVideoPlayback")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean liveVideoPlayback(@HeaderParam("openId") String openId,
-                                        @QueryParam("waresId") int waresId,@QueryParam("slaveId")int slaveId){
+    public ResultBean liveVideoPlayback(@QueryParam("waresId") int waresId,@QueryParam("slaveId")int slaveId){
 
         return waresService.liveVideoPlayback(waresId,slaveId);
 
@@ -418,8 +419,10 @@ public class WaresController {
     @Path("/paperCommitInfoByStudent")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean paperCommitInfoByStudent(@HeaderParam("openId") String openId, @QueryParam("waresId") Integer waresId,
-                                               @QueryParam("waresSlaveId") Integer waresSlaveId, @QueryParam("paperId")String paperId){
+    public ResultBean paperCommitInfoByStudent(@HeaderParam("openId") String openId,
+                                               @QueryParam("waresId") Integer waresId,
+                                               @QueryParam("waresSlaveId") Integer waresSlaveId,
+                                               @QueryParam("paperId")String paperId){
 
         return waresService.paperCommitInfoByStudent(openId,waresId,waresSlaveId,paperId);
 
@@ -433,7 +436,8 @@ public class WaresController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean paperCommitInfoByTeacher(@HeaderParam("openId") String openId, @QueryParam("waresId") String waresId,
-                                               @QueryParam("waresSlaveId") String waresSlaveId,@QueryParam("paperId")String paperId){
+                                               @QueryParam("waresSlaveId") String waresSlaveId,
+                                               @QueryParam("paperId")String paperId){
 
         return waresService.paperCommitInfoByTeacher(waresId,waresSlaveId,paperId);
 
@@ -467,7 +471,7 @@ public class WaresController {
     @Path("/deleteWaresById")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean deleteWaresById(@HeaderParam("openId") String openId, @QueryParam("waresId") int waresId){
+    public ResultBean deleteWaresById( @QueryParam("waresId") int waresId ){
 
         return waresService.deleteWaresById(waresId);
 
@@ -480,7 +484,7 @@ public class WaresController {
     @Path("/liveWebUrl")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean liveWebUrl(@HeaderParam("openId") String openId, M3JoinMtgParam m3JoinMtgParam){
+    public ResultBean liveWebUrl( M3JoinMtgParam m3JoinMtgParam){
 
         return waresService.liveWebUrl(m3JoinMtgParam);
 
@@ -494,7 +498,7 @@ public class WaresController {
     @Path("/backUrlList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean backUrlList(@HeaderParam("openId") String openId, BackUrlListParamBean backUrlListParamBean){
+    public ResultBean backUrlList( BackUrlListParamBean backUrlListParamBean){
 
         return waresService.backUrlList(backUrlListParamBean);
 
@@ -508,7 +512,7 @@ public class WaresController {
     @Path("/backUrlInfo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean backUrlInfo(@HeaderParam("openId") String openId, BackUrlInfoParamBean backUrlInfoParamBean){
+    public ResultBean backUrlInfo( BackUrlInfoParamBean backUrlInfoParamBean){
 
         return waresService.backUrlInfo(backUrlInfoParamBean);
 
@@ -521,7 +525,7 @@ public class WaresController {
     @Path("/appMtgInfo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean appMtgInfo(@HeaderParam("openId") String openId, M3JoinMtgParam m3JoinMtgParam){
+    public ResultBean appMtgInfo( M3JoinMtgParam m3JoinMtgParam){
 
         return waresService.appMtgInfo(m3JoinMtgParam);
 
@@ -534,8 +538,8 @@ public class WaresController {
     @Path("/uploadVideo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean uploadVideo(@HeaderParam("tag")String tag, UploadVideoParamBean uploadVideoParamBean){
-        return waresService.uploadVideo(tag,uploadVideoParamBean);
+    public ResultBean uploadVideo( UploadVideoParamBean uploadVideoParamBean){
+        return waresService.uploadVideo( uploadVideoParamBean );
     }
 
     /**
@@ -545,8 +549,8 @@ public class WaresController {
     @Path("/wareLive")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareLive(@HeaderParam("tag")String tag,WareLiveBean wareLiveBean){
-        return waresService.wareLive(tag,wareLiveBean);
+    public ResultBean wareLive( WareLiveBean wareLiveBean ){
+        return waresService.wareLive( wareLiveBean);
     }
 
     /**
@@ -556,8 +560,8 @@ public class WaresController {
     @Path("/wareVideo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareVideo(@HeaderParam("tag")String tag,WareVideoBean wareVideoBean){
-        return waresService.wareVideo(tag,wareVideoBean);
+    public ResultBean wareVideo( WareVideoBean wareVideoBean){
+        return waresService.wareVideo( wareVideoBean );
     }
 
     /**
@@ -567,8 +571,10 @@ public class WaresController {
     @Path("/wareOne2One")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean wareOne2One(@HeaderParam("tag")String tag,WareOne2OneBean wareOne2OneBean){
-        return waresService.wareOne2One(tag,wareOne2OneBean);
+    public ResultBean wareOne2One( WareOne2OneBean wareOne2OneBean){
+
+        return waresService.wareOne2One( wareOne2OneBean);
+
     }
 
     /**
@@ -578,8 +584,10 @@ public class WaresController {
     @Path("/commitExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean commitExam(@HeaderParam("tag")String tag,CommitExamBean commitExamBean){
-        return waresService.commitExam(tag,commitExamBean);
+    public ResultBean commitExam( CommitExamBean commitExamBean){
+
+        return waresService.commitExam( commitExamBean);
+
     }
 
     /**
@@ -589,8 +597,9 @@ public class WaresController {
     @Path("/updateWaresLive")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updateWaresLive(@HeaderParam("tag")String tag,WareLiveBean wareLiveBean){
-        return waresService.updateWaresLive(tag,wareLiveBean);
+    public ResultBean updateWaresLive( WareLiveBean wareLiveBean){
+
+        return waresService.updateWaresLive( wareLiveBean);
     }
 
     /**
@@ -600,8 +609,10 @@ public class WaresController {
     @Path("/checkPaperCommitByStudent")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean checkPaperCommitByStudent(@HeaderParam("openId")String openId, @QueryParam("waresId") String waresId,
-                                                @QueryParam("paperId")String paperId, @QueryParam("waresSlaveId")String waresSlaveId){
+    public ResultBean checkPaperCommitByStudent(@HeaderParam("openId")String openId,
+                                                @QueryParam("waresId") String waresId,
+                                                @QueryParam("paperId")String paperId,
+                                                @QueryParam("waresSlaveId")String waresSlaveId){
 
         return waresService.checkPaperCommitByStudent(waresId,waresSlaveId,paperId,openId);
     }

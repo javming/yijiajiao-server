@@ -4,6 +4,8 @@ import com.yijiajiao.server.bean.IdBean;
 import com.yijiajiao.server.bean.ResultBean;
 import com.yijiajiao.server.bean.post.SetMsgBean;
 
+import java.util.Map;
+
 
 public interface MsgService {
 
@@ -47,5 +49,7 @@ public interface MsgService {
      */
     ResultBean getMsgStation(String userOpenId, int isTeacher);
 
-    ResultBean setMsg(String tag, SetMsgBean setMsgBean);
+    ResultBean setMsg(SetMsgBean setMsgBean);
+
+    ResultBean sendMail(Map<String, Object> mail) throws Exception;
 }

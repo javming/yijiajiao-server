@@ -60,7 +60,7 @@ public class UserController {
 
     /**
      * 获取手机验证码
-     * @param type：1注册 2修改密码 3老师资格认证 4找回密码 5保分计划用户注册 6绑定支付宝
+     * @param type：1注册 2修改密码 3老师资格认证 4找回密码 5保分计划用户注册 23绑定支付宝
      */
     @GET
     @Path("/get/verifycode")
@@ -79,7 +79,9 @@ public class UserController {
     @Path("/verifycode")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean verifyCode(@QueryParam("tel")String tel,@QueryParam("type") int type,@QueryParam("telcode")String telcode){
+    public ResultBean verifyCode(@QueryParam("tel")String tel,
+                                 @QueryParam("type") int type,
+                                 @QueryParam("telcode")String telcode){
 
         return userService.verifyCode(tel,type,telcode);
 
@@ -93,6 +95,7 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean login(LoginBean loginBean) {
+
         ResultBean result = new ResultBean();
         if(StringUtil.isEmpty(loginBean.getTelephone())){
             result.setFailMsg(SystemStatus.USERNAME_IS_NULL);
@@ -110,7 +113,6 @@ public class UserController {
      * 查询教师列表
      * @param orderType 排序条件 好评storeScore   人气popularity
      * @param orders 升序降序
-     * @return
      */
     @GET
     @Path("/findteacher")
@@ -173,7 +175,8 @@ public class UserController {
     @Path("/applysolutionpermission")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applySolutionPermission(@QueryParam("subjectCode") String subjectCode, @QueryParam("stageCode") String stageCode) {
+    public ResultBean applySolutionPermission(@QueryParam("subjectCode") String subjectCode,
+                                              @QueryParam("stageCode") String stageCode) {
 
         return userService.applySolutionPermission(subjectCode, stageCode);
 
@@ -199,7 +202,9 @@ public class UserController {
     @Path("/updatePass")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean updatePass(@HeaderParam("token") String token, @HeaderParam("openId") String openId,UpdatePasswordBean updatePassBean) {
+    public ResultBean updatePass(@HeaderParam("token") String token,
+                                 @HeaderParam("openId") String openId,
+                                 UpdatePasswordBean updatePassBean) {
 
         return userService.updatePass(token,openId,updatePassBean);
 
@@ -212,7 +217,9 @@ public class UserController {
     @Path("/findinviteuser")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findInviteUser(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize) {
+    public ResultBean findInviteUser(@HeaderParam("openId") String openId,
+                                     @QueryParam("pageNo") int pageNo,
+                                     @QueryParam("pageSize") int pageSize) {
 
         return userService.findInviteUser(openId,pageNo,pageSize);
 
@@ -255,7 +262,9 @@ public class UserController {
     @Path("/collect")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean collect(@HeaderParam("openId") String openId,@QueryParam("waresId") String waresId,@QueryParam("type") int type) {
+    public ResultBean collect(@HeaderParam("openId") String openId,
+                              @QueryParam("waresId") String waresId,
+                              @QueryParam("type") int type) {
 
         return userService.collect(openId,waresId,type);
 
@@ -282,7 +291,10 @@ public class UserController {
     @Path("/findCollectById")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findCollectById(@HeaderParam("openId") String openId,@QueryParam("pageNo") int  pageNo,@QueryParam("pageSize") int  pageSize,@QueryParam("type") Integer  type) {
+    public ResultBean findCollectById(@HeaderParam("openId") String openId,
+                                      @QueryParam("pageNo") int  pageNo,
+                                      @QueryParam("pageSize") int  pageSize,
+                                      @QueryParam("type") Integer  type) {
 
         return userService.findCollectById(openId,pageNo,pageSize,type);
 
@@ -348,18 +360,14 @@ public class UserController {
     @Path("/findAttentionTeach")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findAttentionTeach(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,
+    public ResultBean findAttentionTeach(@HeaderParam("openId") String openId,
+                                         @QueryParam("pageNo") int pageNo,
                                          @QueryParam("pageSize") int pageSize){
-
-
-        System.out.println("userService: " + userService);
-        System.out.println("userController.hashCode() : " + hashCode());
-        System.out.println("userService.hashCode : " + userService.hashCode());
-
 
         return userService.findAttentionTeach(openId,pageNo,pageSize);
 
     }
+
     /**
      *  查询关注我的学生
      */
@@ -367,7 +375,9 @@ public class UserController {
     @Path("/findAttentionStu")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findAttentionStu(@QueryParam("teacherId") String teacherId,@QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize){
+    public ResultBean findAttentionStu(@QueryParam("teacherId") String teacherId,
+                                       @QueryParam("pageNo") int pageNo,
+                                       @QueryParam("pageSize") int pageSize){
 
         return userService.findAttentionStu(teacherId,pageNo,pageSize);
 
@@ -419,7 +429,8 @@ public class UserController {
     @Path("/findfacingteachbytime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findFacingTeachByTime(@HeaderParam("token") String token, @HeaderParam("openId") String openId,@QueryParam("day") String day,@QueryParam("subjectCode")String subjectCode){
+    public ResultBean findFacingTeachByTime(@QueryParam("day") String day,
+                                            @QueryParam("subjectCode") String subjectCode){
 
         return  userService.findFacingTeachByTime(day,subjectCode);
 
@@ -432,9 +443,9 @@ public class UserController {
     @Path("/findInterviewDetail")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findInterviewDetail(@QueryParam("openId") String userOpenId){
+    public ResultBean findInterviewDetail(@QueryParam("openId") String openId){
 
-        return userService.findInterviewDetail(userOpenId);
+        return userService.findInterviewDetail(openId);
 
     }
 
@@ -471,7 +482,9 @@ public class UserController {
     @Path("/findIntegralDetail")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean findIntegralDetail(@HeaderParam("openId") String openId,@QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize){
+    public ResultBean findIntegralDetail(@HeaderParam("openId") String openId,
+                                         @QueryParam("pageNo") int pageNo,
+                                         @QueryParam("pageSize")int pageSize){
 
         return userService.findIntegralDetail(openId,pageNo,pageSize);
 
@@ -485,8 +498,11 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean findSigninList(@HeaderParam("openId") String openId,
-                                     @QueryParam("startDay")String startDay,@QueryParam("endDay")String endDay){
+                                     @QueryParam("startDay")String startDay,
+                                     @QueryParam("endDay")String endDay){
+
         return userService.findSigninList(openId,startDay,endDay);
+
 
     }
 
@@ -642,8 +658,8 @@ public class UserController {
     @Path("/getSecondProxyInfoList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getSecondProxyInfoList(@QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
-                                                     String secondProxyOpenId,
+    public ResultBean getSecondProxyInfoList(@QueryParam("proxyOpenId")String proxyOpenId,
+                                             @QueryParam("secondProxyOpenId") String secondProxyOpenId,
                                              @QueryParam("pageNo")int pageNo,@QueryParam("pageSize")int pageSize,
                                              @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
@@ -679,6 +695,7 @@ public class UserController {
         return userService.getMyProxyInfo(openId,year,month);
 
     }
+
     /**
      *  查询二级代理下的订单量 订单金额,平台分成等信息
      */
@@ -686,13 +703,14 @@ public class UserController {
     @Path("/getSecondProxyInfo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getSecondProxyInfo(@QueryParam("proxyOpenId")String proxyOpenId,@QueryParam("secondProxyOpenId")
-                                                 String secondProxyOpenId,
+    public ResultBean getSecondProxyInfo(@QueryParam("proxyOpenId")String proxyOpenId,
+                                         @QueryParam("secondProxyOpenId") String secondProxyOpenId,
                                          @QueryParam("year")Integer year,@QueryParam("month")Integer month){
 
         return userService.getSecondProxyInfo(proxyOpenId,secondProxyOpenId,year,month);
 
     }
+
     /**
      *  查询一级代理自己订单量，订单金额,平台分成等信息
      */
@@ -701,7 +719,8 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getMyOrderInfo(@HeaderParam("openId") String openId,
-                                     @QueryParam("year")Integer year,@QueryParam("month")Integer month){
+                                     @QueryParam("year")Integer year,
+                                     @QueryParam("month")Integer month){
 
         return userService.getMyOrderInfo(openId,year,month);
 
@@ -709,8 +728,6 @@ public class UserController {
 
     /**
      * 新版获取手机验证码 （为重置密码新加）
-     * @param phoneNum
-     * @date 2016-11-17
      */
     @GET
     @Path("/getPhoneVerifyCode")
@@ -722,9 +739,8 @@ public class UserController {
     }
 
     /**
-     *@description		验证验证码是否正确
-     *@date 2016-11-17
-     *@param
+     *  验证验证码是否正确
+     *@since  2016-11-17
      */
     @POST
     @Path("/verifyPhoneCode")
@@ -738,8 +754,6 @@ public class UserController {
 
     /**
      * 重置密码2016-11-17
-     * @param resetPasswordBean
-     * @return
      */
     @POST
     @Path("/resetPassword")
@@ -758,11 +772,12 @@ public class UserController {
     @Path("/applyPermission")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyPermission(@HeaderParam("tag")String tag, ApplyPermissionBean applyPermissionBean){
+    public ResultBean applyPermission(ApplyPermissionBean applyPermissionBean){
 
-        return userService.applyPermission(tag,applyPermissionBean);
+        return userService.applyPermission( applyPermissionBean );
 
     }
+
     /**
      * 提交基础测试
      */
@@ -770,11 +785,12 @@ public class UserController {
     @Path("/passTest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean passTest(@HeaderParam("tag")String tag, PassTestBean passTestBean){
+    public ResultBean passTest( PassTestBean passTestBean){
 
-        return userService.passTest(tag,passTestBean);
+        return userService.passTest(passTestBean);
 
     }
+
     /**
      * 答疑提交申请
      */
@@ -782,11 +798,12 @@ public class UserController {
     @Path("/insertAnswerPermission")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean insertAnswerPermission(@HeaderParam("tag")String tag, UpdateanswerpermissionBean updateanswerpermissionBean){
+    public ResultBean insertAnswerPermission( UpdateanswerpermissionBean updateanswerpermissionBean){
 
-        return userService.insertAnswerPermission(tag,updateanswerpermissionBean);
+        return userService.insertAnswerPermission( updateanswerpermissionBean );
 
     }
+
     /**
      *  申请免试时间
      */
@@ -794,11 +811,12 @@ public class UserController {
     @Path("/applyInterviewTime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyInterviewTime(@HeaderParam("tag")String tag, ApplyinterviewtimeBean applyinterviewtimeBean){
+    public ResultBean applyInterviewTime( ApplyinterviewtimeBean applyinterviewtimeBean ){
 
-        return userService.applyInterviewTime(tag,applyinterviewtimeBean);
+        return userService.applyInterviewTime( applyinterviewtimeBean );
 
     }
+
     /**
      * 申请面授时间
      */
@@ -806,9 +824,9 @@ public class UserController {
     @Path("/applyFacingTeachTime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyFacingTeachTime(@HeaderParam("tag")String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean){
+    public ResultBean applyFacingTeachTime( ApplyfacingteachtimeBean applyfacingteachtimeBean){
 
-        return userService.applyFacingTeachTime(tag,applyfacingteachtimeBean);
+        return userService.applyFacingTeachTime( applyfacingteachtimeBean );
 
     }
 
@@ -819,9 +837,9 @@ public class UserController {
     @Path("/diagnoseAnswerSubmit")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean diagnoseAnswerSubmit(@HeaderParam("tag")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
+    public ResultBean diagnoseAnswerSubmit( DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean ){
 
-        return userService.diagnoseAnswerSubmit(tag,diagnoseAnswerSubmitBean);
+        return userService.diagnoseAnswerSubmit( diagnoseAnswerSubmitBean );
 
     }
 
@@ -847,11 +865,12 @@ public class UserController {
     @Path("/applyTeacher")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean applyTeacher(@HeaderParam("tag")String tag, ApplyTeacherBean applyTeacherBean){
+    public ResultBean applyTeacher( ApplyTeacherBean applyTeacherBean ){
 
-        return userService.applyTeacher(tag,applyTeacherBean);
+        return userService.applyTeacher( applyTeacherBean );
 
     }
+
     /**
      *  工作室设置
      */
@@ -859,11 +878,12 @@ public class UserController {
     @Path("/setStore")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean setStore(@HeaderParam("tag")String tag,SetStoreBean setStoreBean){
+    public ResultBean setStore( SetStoreBean setStoreBean ){
 
-        return userService.setStore(tag,setStoreBean);
+        return userService.setStore( setStoreBean );
 
     }
+
     /**
      *  完善个人信息
      */
@@ -871,9 +891,9 @@ public class UserController {
     @Path("/complete")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean complete(@HeaderParam("tag")String tag,CompleteInfoBean completeInfoBean){
+    public ResultBean complete( CompleteInfoBean completeInfoBean){
 
-        return userService.complete(tag,completeInfoBean);
+        return userService.complete( completeInfoBean );
 
     }
 

@@ -248,28 +248,28 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public ResultBean updateActivity(String tag, UpdateActivityBean updateActivityBean) {
+    public ResultBean updateActivity(UpdateActivityBean updateActivityBean) {
         String path = Config.getString("promotion.updateActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateActivityBean, "POST");
         return dealResult(response);
     }
 
     @Override
-    public ResultBean addActivity(String tag, AddActivityBean activityBean) {
+    public ResultBean addActivity(AddActivityBean activityBean) {
         String path = Config.getString("promotion.addActivity");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, activityBean, "POST");
         return dealResult(response);
     }
 
     @Override
-    public ResultBean updateCoupon(String tag, UpdateCouponBean updateCouponBean) {
+    public ResultBean updateCoupon(UpdateCouponBean updateCouponBean) {
         String path = Config.getString("promotion.updateCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, updateCouponBean, "POST");
         return dealResult(response);
     }
 
     @Override
-    public ResultBean addCoupon(String tag, AddCouponBean addCouponBean) {
+    public ResultBean addCoupon(AddCouponBean addCouponBean) {
         String path = Config.getString("promotion.addCoupon");
         String response = ServerUtil.httpRest(PROMOTION_SERVER, path, null, addCouponBean, "POST");
         return dealResult(response);

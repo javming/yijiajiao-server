@@ -108,9 +108,9 @@ public class OSSController {
     @Path("/feedBack")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean feedBack(@HeaderParam("tag")String tag,FeedBackBean feedBackBean){
+    public ResultBean feedBack(FeedBackBean feedBackBean){
 
-        return ossService.feedBack(tag,feedBackBean);
+        return ossService.feedBack(feedBackBean);
 
     }
 

@@ -109,15 +109,15 @@ public interface WaresService {
 
     ResultBean homework(int commodityId, String type, String homeWorkCode);
 
-    ResultBean uploadVideo(String tag, UploadVideoParamBean uploadVideoParamBean);
+    ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean);
 
-    ResultBean wareLive(String tag, WareLiveBean wareLiveBean);
+    ResultBean wareLive(WareLiveBean wareLiveBean);
 
-    ResultBean wareVideo(String tag, WareVideoBean wareVideoBean);
+    ResultBean wareVideo(WareVideoBean wareVideoBean);
 
-    ResultBean wareOne2One(String tag, WareOne2OneBean wareOne2OneBean);
+    ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean);
 
-    ResultBean commitExam(String tag, CommitExamBean commitExamBean);
+    ResultBean commitExam(CommitExamBean commitExamBean);
 
-    ResultBean updateWaresLive(String tag, WareLiveBean wareLiveBean);
+    ResultBean updateWaresLive(WareLiveBean wareLiveBean);
 }

@@ -7,7 +7,6 @@ import com.yijiajiao.server.bean.post.UpdateActivityBean;
 import com.yijiajiao.server.bean.post.UpdateCouponBean;
 import com.yijiajiao.server.bean.wares.WaresListBean;
 import com.yijiajiao.server.service.PromotionService;
-import com.yijiajiao.server.service.impl.PromotionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -32,8 +31,8 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean operateCouponState(@HeaderParam("openId")String openId, @QueryParam("couponId") int couponId,
-                                         @QueryParam("state")String state){
+    public ResultBean operateCouponState(@QueryParam("couponId") int couponId,
+                                         @QueryParam("state") String state){
 
         return promotionService.operateCouponState(couponId,state);
 
@@ -46,7 +45,7 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean pageShowCoupon(@HeaderParam("openId")String openId, @QueryParam("couponId") int couponId,
+    public ResultBean pageShowCoupon(@QueryParam("couponId") int couponId,
                                      @QueryParam("display") String display){
 
         return promotionService.pageShowCoupon(couponId,display);
@@ -61,7 +60,7 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean sendCouponCode2Stu(@HeaderParam("openId")String openId, @QueryParam("couponId")int couponId,
+    public ResultBean sendCouponCode2Stu(@QueryParam("couponId")int couponId,
                                          @QueryParam("stuOpenids")String stuOpenids){
 
         return promotionService.sendCouponCode2Stu(couponId,stuOpenids);
@@ -103,8 +102,8 @@ public class PromotionController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean couponInfo(@QueryParam("id") int id ){
 
-        promotionService = new PromotionServiceImpl();
         return promotionService.couponInfo(id);
+
     }
 
     /**
@@ -114,9 +113,12 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean myCoupons4Teacher(@HeaderParam("openId")String openId, @QueryParam("pageNo") int pageNo,
-                                        @QueryParam("pageSize")int pageSize,@QueryParam("state")int state,
-                                 @QueryParam("minValue")Double minValue,@QueryParam("maxValue")Double maxValue){
+    public ResultBean myCoupons4Teacher(@HeaderParam("openId")String openId,
+                                        @QueryParam("pageNo") int pageNo,
+                                        @QueryParam("pageSize")int pageSize,
+                                        @QueryParam("state")int state,
+                                        @QueryParam("minValue")Double minValue,
+                                        @QueryParam("maxValue")Double maxValue){
 
         return promotionService.myCoupons4Teacher(openId,pageNo,pageSize,state,minValue,maxValue);
     }
@@ -130,7 +132,6 @@ public class PromotionController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean coupons(@QueryParam("teacherId") String teacherId){
 
-        promotionService = new PromotionServiceImpl();
         return promotionService.coupons(teacherId);
 
     }
@@ -142,9 +143,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean couponCodePageForShop(@HeaderParam("openId")String openId,
-                                        @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
-                                        @QueryParam("couponId") int couponId,@QueryParam("type") int type){
+    public ResultBean couponCodePageForShop(@QueryParam("pageNo") int pageNo,
+                                            @QueryParam("pageSize")int pageSize,
+                                            @QueryParam("couponId") int couponId,
+                                            @QueryParam("type") int type){
 
         return promotionService.couponCodePageForShop(couponId,pageNo,pageSize,type);
     }
@@ -157,10 +159,12 @@ public class PromotionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean couponCodePageForStu(@HeaderParam("openId")String openId,
-                                        @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
-                                        @QueryParam("state") Integer state){
+                                           @QueryParam("pageNo") int pageNo,
+                                           @QueryParam("pageSize")int pageSize,
+                                           @QueryParam("state") Integer state){
 
         return promotionService.couponCodePageForStu(openId,pageNo,pageSize,state);
+
     }
 
     /**
@@ -171,9 +175,11 @@ public class PromotionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean couponCodeListForStuOrder(@HeaderParam("openId")String openId,
-                                        @QueryParam("teacherId") String teacherId,@QueryParam("wareId") String wareId){
+                                                @QueryParam("teacherId") String teacherId,
+                                                @QueryParam("wareId") String wareId){
 
         return promotionService.couponCodeListForStuOrder(openId,teacherId,wareId);
+
     }
 
     /**
@@ -185,8 +191,8 @@ public class PromotionController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean activityInfoById(@QueryParam("activityId") int activityId){
 
-        promotionService = new PromotionServiceImpl();
         return promotionService.activityInfoById(activityId);
+
     }
 
     /**
@@ -196,8 +202,7 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addActivityCourse(@HeaderParam("openId")String openId,
-                                        @QueryParam("activityId") int activityId,@QueryParam("courseIds")String courseIds){
+    public ResultBean addActivityCourse(@QueryParam("activityId") int activityId,@QueryParam("courseIds")String courseIds){
 
         return promotionService.addActivityCourse(activityId,courseIds);
     }
@@ -209,10 +214,10 @@ public class PromotionController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean setActivityState( @HeaderParam("openId")String openId,
-                                        @QueryParam("activityId") int activityId,@QueryParam("state")String state){
+    public ResultBean setActivityState( @QueryParam("activityId") int activityId,@QueryParam("state")String state){
 
         return promotionService.setActivityState(activityId,state);
+
     }
 
     /**
@@ -223,10 +228,12 @@ public class PromotionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean activities(@HeaderParam("openId")String openId,
-                                 @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
+                                 @QueryParam("pageNo") int pageNo,
+                                 @QueryParam("pageSize")int pageSize,
                                  @QueryParam("state")int state){
 
         return promotionService.activities(openId,pageNo,pageSize,state);
+
     }
 
     /**
@@ -238,11 +245,14 @@ public class PromotionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResultBean activityWareList( @HeaderParam("openId")String openId,
-                                        @QueryParam("pageNo") int pageNo,@QueryParam("pageSize")int pageSize,
-                                        @QueryParam("activityId") int activityId,@QueryParam("activeStatus") Integer activeStatus,
+                                        @QueryParam("pageNo") int pageNo,
+                                        @QueryParam("pageSize")int pageSize,
+                                        @QueryParam("activityId") int activityId,
+                                        @QueryParam("activeStatus") Integer activeStatus,
                                         @QueryParam("curriculumType") String curriculumType){
 
         return promotionService.activityWareList(openId,pageNo,pageSize,activityId,activeStatus,curriculumType);
+
     }
 
 
@@ -268,6 +278,7 @@ public class PromotionController {
     public ResultBean activitiesByCommodityId(@QueryParam("commodityId") String commodityId){
 
         return promotionService.getActivitiesByCommodityId(commodityId);
+
     }
 
     /**
@@ -277,9 +288,10 @@ public class PromotionController {
     @Path("/addCoupon")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addCoupon(@HeaderParam("tag")String tag,AddCouponBean addCouponBean){
+    public ResultBean addCoupon( AddCouponBean addCouponBean ){
 
-        return promotionService.addCoupon(tag,addCouponBean);
+        return promotionService.addCoupon( addCouponBean );
+
     }
 
     /**
@@ -289,9 +301,10 @@ public class PromotionController {
     @Path("/updateCoupon")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean updateCoupon(@HeaderParam("tag")String tag,UpdateCouponBean updateCouponBean){
+    public ResultBean updateCoupon( UpdateCouponBean updateCouponBean ){
 
-        return promotionService.updateCoupon(tag,updateCouponBean);
+        return promotionService.updateCoupon( updateCouponBean );
+
     }
 
     /**
@@ -301,9 +314,9 @@ public class PromotionController {
     @Path("/addActivity")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addActivity(@HeaderParam("tag")String tag,AddActivityBean activityBean){
+    public ResultBean addActivity( AddActivityBean activityBean ){
 
-        return promotionService.addActivity(tag,activityBean);
+        return promotionService.addActivity( activityBean );
     }
 
     /**
@@ -313,9 +326,9 @@ public class PromotionController {
     @Path("/updateActivity")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean updateActivity(@HeaderParam("tag")String tag,UpdateActivityBean updateActivityBean){
+    public ResultBean updateActivity( UpdateActivityBean updateActivityBean ){
 
-        return promotionService.updateActivity(tag,updateActivityBean);
+        return promotionService.updateActivity( updateActivityBean );
     }
 
     /**
@@ -325,11 +338,14 @@ public class PromotionController {
     @Path("wareListForCoupon")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean getWareListForCoupon(@QueryParam("teacherId") String teacherId,@QueryParam("pageNo") Integer pageNo,
-                                           @QueryParam("pageSize") Integer pageSize,@QueryParam("curriculumType") String curriculumType){
+    public ResultBean getWareListForCoupon(@QueryParam("teacherId") String teacherId,
+                                           @QueryParam("pageNo") Integer pageNo,
+                                           @QueryParam("pageSize") Integer pageSize,
+                                           @QueryParam("curriculumType") String curriculumType){
 
         WaresListBean waresListBean = promotionService.getWareList(teacherId, curriculumType, null, null);
         return ResultBean.getSucResult(waresListBean);
+
     }
 
 

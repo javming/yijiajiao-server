@@ -45,7 +45,7 @@ public class FinanceServiceImpl implements FinanceService{
     }
 
     @Override
-    public ResultBean bindAliPay(String tag, BindAliPayBean bindAliPayBean) {
+    public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
         String  path = Config.getString("finance.bindAliPay");
         String response = ServerUtil.httpRest(FINANCE_SERVER, path, null, bindAliPayBean, "POST");
         return dealResult(log ,response);

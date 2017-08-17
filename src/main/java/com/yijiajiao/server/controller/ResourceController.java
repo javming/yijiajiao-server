@@ -33,6 +33,7 @@ public class ResourceController {
     @Autowired
     private WaresService waresService;
 
+
     /**
      * 按照学科，学年，教材版本获取知识树
      */
@@ -40,7 +41,8 @@ public class ResourceController {
     @Path("/knowledges")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean knowledges(@QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode,
+    public ResultBean knowledges(@QueryParam("subjectCode") String subjectCode,
+                                 @QueryParam("gradeCode") String gradeCode,
                                  @QueryParam("bookTypeCode") String bookTypeCode) {
 
         return resourceService.knowledges(subjectCode, gradeCode, bookTypeCode);
@@ -54,13 +56,16 @@ public class ResourceController {
     @Path("/questionByKnowledge")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean knowledges(@QueryParam("subject") String subject, @QueryParam("grade") String grade,
-                                 @QueryParam("knowledge") String knowledge, @QueryParam("pageNo") int pageNo,
+    public ResultBean knowledges(@QueryParam("subject") String subject,
+                                 @QueryParam("grade") String grade,
+                                 @QueryParam("knowledge") String knowledge,
+                                 @QueryParam("pageNo") int pageNo,
                                  @QueryParam("pageSize") int pageSize) {
 
         return resourceService.questionByKnowledge(subject, grade, knowledge,pageNo,pageSize);
 
     }
+
     /**
      * 查询试卷列表
      */
@@ -68,9 +73,12 @@ public class ResourceController {
     @Path("/examListLogin")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean examList(@HeaderParam("openId") String openId, @QueryParam("gradeCode") String gradeName,
-                               @QueryParam("subjectCode") String subjectName, @QueryParam("bookTypeCode ") String bookTypeName,
-                               @QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize ){
+    public ResultBean examList(@HeaderParam("openId") String openId,
+                               @QueryParam("gradeCode") String gradeName,
+                               @QueryParam("subjectCode") String subjectName,
+                               @QueryParam("bookTypeCode ") String bookTypeName,
+                               @QueryParam("pageNo") int pageNo,
+                               @QueryParam("pageSize") int pageSize ){
 
         return resourceService.examList(openId,gradeName,subjectName,bookTypeName,11,pageNo,pageSize);
 
@@ -83,11 +91,18 @@ public class ResourceController {
     @Path("/tosearch")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean toSearchForTeacherOrWares(@QueryParam("pageNo") int pageNo, @QueryParam("pageSize") int pageSize,
-                                                @QueryParam("subjectCode") String subjectCode, @QueryParam("gradeCode") String gradeCode,
-                                                @QueryParam("bookTypeCode") String bookTypeCode,@QueryParam("curriculumType") Integer curriculumType,
-                                                @QueryParam("searchType") int searchType,@QueryParam("keyword") String keyword,@QueryParam("order") String order,
-                                                @QueryParam("orderType") String orderType,@QueryParam("reservePrice")String reservePrice,@QueryParam("peakPrice") String peakPrice){
+    public ResultBean toSearchForTeacherOrWares(@QueryParam("pageNo") int pageNo,
+                                                @QueryParam("pageSize") int pageSize,
+                                                @QueryParam("subjectCode") String subjectCode,
+                                                @QueryParam("gradeCode") String gradeCode,
+                                                @QueryParam("bookTypeCode") String bookTypeCode,
+                                                @QueryParam("curriculumType") Integer curriculumType,
+                                                @QueryParam("searchType") int searchType,
+                                                @QueryParam("keyword") String keyword,
+                                                @QueryParam("order") String order,
+                                                @QueryParam("orderType") String orderType,
+                                                @QueryParam("reservePrice")String reservePrice,
+                                                @QueryParam("peakPrice") String peakPrice){
 
         if(StringUtil.isNotEmpty(keyword)){
             keyword = URLEncoder.encode(keyword);
@@ -112,31 +127,33 @@ public class ResourceController {
     @Path("/nowledgeTree")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean nowledgeByGradeSubjectBooktype(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode")
-            String subjectCode,@QueryParam("bookTypeCode")String bookTypeCode){
+    public ResultBean nowledgeByGradeSubjectBooktype(@QueryParam("gradeCode") String gradeCode,
+                                                     @QueryParam("subjectCode") String subjectCode,
+                                                     @QueryParam("bookTypeCode") String bookTypeCode){
 
         return resourceService.nowledgeByGradeSubjectBooktype(gradeCode,subjectCode,bookTypeCode);
 
     }
 
     /**
-     *@description		小课列表
-     *@date 2016-8-9
+     *	小课列表
      */
     @GET
     @Path("/smallList")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean smallList(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode") String subjectCode,
-                                @QueryParam("bookType") String bookType,@QueryParam("categoriesCode") String categoriesCode){
+    public ResultBean smallList(@QueryParam("gradeCode") String gradeCode,
+                                @QueryParam("subjectCode") String subjectCode,
+                                @QueryParam("bookType") String bookType,
+                                @QueryParam("categoriesCode") String categoriesCode){
 
         return resourceService.getSmallList(gradeCode,subjectCode,bookType,categoriesCode);
 
     }
 
     /**
-     *@description		模块列表
-     *@date 2016-8-9
+     *	模块列表
+     *@since  2016-8-9
      */
     @GET
     @Path("/moduleListBySmall")
@@ -149,8 +166,8 @@ public class ResourceController {
     }
 
     /**
-     *@description		模块详情
-     *@date 2016-8-9
+     *	模块详情
+     *@since  2016-8-9
      */
     @GET
     @Path("/moduleInfoByCode")
@@ -192,13 +209,17 @@ public class ResourceController {
     @Path("/questions")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean questions(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode") String subjectCode,
-                                @QueryParam("knowledgeCode") String knowledgeCode,@QueryParam("type") String type,@QueryParam("pageNo") int pageNo,
+    public ResultBean questions(@QueryParam("gradeCode") String gradeCode,
+                                @QueryParam("subjectCode") String subjectCode,
+                                @QueryParam("knowledgeCode") String knowledgeCode,
+                                @QueryParam("type") String type,
+                                @QueryParam("pageNo") int pageNo,
                                 @QueryParam("pageSize") int pageSize){
 
         return resourceService.questions(gradeCode,subjectCode,knowledgeCode,type,pageNo,pageSize);
 
     }
+
     /**
      * 获取知识点
      */
@@ -206,7 +227,8 @@ public class ResourceController {
     @Path("/knowledgesNew")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean knowledgesNew(@QueryParam("gradeCode") String gradeCode,@QueryParam("subjectCode")String subjectCode,
+    public ResultBean knowledgesNew(@QueryParam("gradeCode") String gradeCode,
+                                    @QueryParam("subjectCode")String subjectCode,
                                     @QueryParam("bookTypeCode") String bookTypeCode){
 
         return resourceService.knowledgesNew(gradeCode,subjectCode,bookTypeCode);
@@ -238,6 +260,7 @@ public class ResourceController {
         return resourceService.getMyFameCourseAndSolutionCount(teacherId);
 
     }
+
     /**
      *教师工作室获取易教体系试卷列表
      */
@@ -245,7 +268,9 @@ public class ResourceController {
     @Path("/papersOnYjj")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean papersOnYjj(@QueryParam("paperId")String paperId,@QueryParam("moduleId")String moduleId,@QueryParam("slaveId") String slaveId,
+    public ResultBean papersOnYjj(@QueryParam("paperId")String paperId,
+                                  @QueryParam("moduleId")String moduleId,
+                                  @QueryParam("slaveId") String slaveId,
                                   @QueryParam("type")String type){
 
         return resourceService.papersOnYjj(paperId,moduleId,slaveId,type);
@@ -273,8 +298,10 @@ public class ResourceController {
     @Path("/createExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createExamHead(@HeaderParam("tag")String tag, CreateExamBean createExamBean){
-        return resourceService.createExamHead(tag,createExamBean);
+    public ResultBean createExamHead( CreateExamBean createExamBean ){
+
+        return resourceService.createExamHead( createExamBean );
+
     }
 
     /**
@@ -284,8 +311,10 @@ public class ResourceController {
     @Path("/createExamDetail")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean createExamDetail(@HeaderParam("tag")String tag, CreateExamDetailBean createExamDetailBean){
-        return resourceService.createExamDetail(tag,createExamDetailBean);
+    public ResultBean createExamDetail( CreateExamDetailBean createExamDetailBean ){
+
+        return resourceService.createExamDetail( createExamDetailBean );
+
     }
 
     /**
@@ -295,8 +324,10 @@ public class ResourceController {
     @Path("/smartCreateExam")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean smartCreateExam(@HeaderParam("tag")String tag, SmartCreateExamBean smartCreateExamBean){
-        return resourceService.smartCreateExam(tag,smartCreateExamBean);
+    public ResultBean smartCreateExam( SmartCreateExamBean smartCreateExamBean ){
+
+        return resourceService.smartCreateExam( smartCreateExamBean );
+
     }
 
     /**
@@ -306,8 +337,10 @@ public class ResourceController {
     @Path("/addQuestions")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean addQuestions(@HeaderParam("tag")String tag, AddQuestionsBean addQuestionsBean){
-        return resourceService.addQuestions(tag,addQuestionsBean);
+    public ResultBean addQuestions( AddQuestionsBean addQuestionsBean ){
+
+        return resourceService.addQuestions( addQuestionsBean );
+
     }
 
 
@@ -318,8 +351,10 @@ public class ResourceController {
     @Path("/markingPaper")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean markingPaper(@HeaderParam("tag")String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean){
-        return resourceService.markingPaper(tag,diagnoseAnswerSubmitBean);
+    public ResultBean markingPaper( DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean ){
+
+        return resourceService.markingPaper( diagnoseAnswerSubmitBean );
+
     }
 
 

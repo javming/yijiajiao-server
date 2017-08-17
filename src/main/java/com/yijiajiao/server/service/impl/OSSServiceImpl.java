@@ -72,7 +72,7 @@ public class OSSServiceImpl implements OSSService {
     }
 
     @Override
-    public ResultBean feedBack(String tag, FeedBackBean feedBackBean) {
+    public ResultBean feedBack(FeedBackBean feedBackBean) {
         String path =Config.getString("oss.feedBack");
         String response = ServerUtil.httpRest(OSS_SERVER,path,null,feedBackBean,"POST");
         return dealResult(log,response);

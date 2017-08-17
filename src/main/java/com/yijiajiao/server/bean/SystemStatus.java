@@ -18,9 +18,10 @@ public  enum SystemStatus {
   PARAM_IS_NULL(50006,"参数为空"),
   UUIMS_ERROR(60001, "请求认证服务器出错"),
   ID_NOT_FOUND(400001, "请求参数不匹配"),
-  TOKEN_TIME_OUT(600002,"登录过期,请重新登录");
+  TOKEN_TIME_OUT(600002,"登录过期,请重新登录"),
+  TIME_CONFLICT(600003, "与已有的课程(包括购买的和教师创建的)时间冲突！");
 
-    SystemStatus(int status, String str) {
+  SystemStatus(int status, String str) {
     setCode(status);
     setStr(str);
   }

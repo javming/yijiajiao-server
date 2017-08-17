@@ -21,6 +21,7 @@ public class FinanceController {
 
     @Autowired
     private FinanceService financeService;
+
     /**
      * 获取答疑解答时长
      */
@@ -28,8 +29,9 @@ public class FinanceController {
     @Path("/getRemainAnswerTime")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean getRemainAnswerTime(@QueryParam("studentId")String studentId, @QueryParam("teacherId")String
-                                            teacherId,@QueryParam("gradeCode")String gradeCode) {
+    public ResultBean getRemainAnswerTime(@QueryParam("studentId")String studentId,
+                                          @QueryParam("teacherId")String teacherId,
+                                          @QueryParam("gradeCode")String gradeCode) {
 
         return financeService.getRemainAnswerTime(studentId,teacherId,gradeCode);
 
@@ -68,9 +70,9 @@ public class FinanceController {
     @Path("/bindAliPay")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultBean bindAliPay(@HeaderParam("tag")String tag, BindAliPayBean bindAliPayBean) {
+    public ResultBean bindAliPay(BindAliPayBean bindAliPayBean) {
 
-        return financeService.bindAliPay(tag,bindAliPayBean);
+        return financeService.bindAliPay(bindAliPayBean);
 
     }
 
@@ -93,7 +95,7 @@ public class FinanceController {
     @Path("/addIOSMoney")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean addIOSMoney(@HeaderParam("openId")String openId, IOSMoneyBean iosMoneyBean){
+    public ResultBean addIOSMoney(IOSMoneyBean iosMoneyBean){
 
         return financeService.addIOSMoney(iosMoneyBean);
     }
@@ -105,7 +107,7 @@ public class FinanceController {
     @Path("/consumeIOSMoney")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultBean consumeIOSMoney(@HeaderParam("openId")String openId, IOSMoneyBean iosMoneyBean){
+    public ResultBean consumeIOSMoney(IOSMoneyBean iosMoneyBean){
 
         return financeService.consumeIOSMoney(iosMoneyBean);
     }

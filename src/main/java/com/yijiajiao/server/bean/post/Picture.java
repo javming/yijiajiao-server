@@ -1,14 +1,16 @@
 package com.yijiajiao.server.bean.post;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Picture {
+
 	private String solPicture;
 
-	public String getSolPicture() {
-		return solPicture;
-	}
-
-	public void setSolPicture(String solPicture) {
-		this.solPicture = solPicture;
-	}
-	
 }

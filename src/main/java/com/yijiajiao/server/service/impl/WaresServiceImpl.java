@@ -391,42 +391,42 @@ public class WaresServiceImpl implements WaresService {
     }
 
     @Override
-    public ResultBean uploadVideo(String tag, UploadVideoParamBean uploadVideoParamBean) {
+    public ResultBean uploadVideo(UploadVideoParamBean uploadVideoParamBean) {
         String path = Config.getString("wares.uploadvideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,uploadVideoParamBean , "POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean wareLive(String tag, WareLiveBean wareLiveBean) {
+    public ResultBean wareLive(WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.warelive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean wareVideo(String tag, WareVideoBean wareVideoBean) {
+    public ResultBean wareVideo(WareVideoBean wareVideoBean) {
         String path = Config.getString("wares.warevideo");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareVideoBean , "POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean wareOne2One(String tag, WareOne2OneBean wareOne2OneBean) {
+    public ResultBean wareOne2One(WareOne2OneBean wareOne2OneBean) {
         String path = Config.getString("wares.wareOne2One");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, wareOne2OneBean, "POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean commitExam(String tag, CommitExamBean commitExamBean) {
+    public ResultBean commitExam(CommitExamBean commitExamBean) {
         String path = Config.getString("wares.commitExam");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null, commitExamBean, "POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean updateWaresLive(String tag, WareLiveBean wareLiveBean) {
+    public ResultBean updateWaresLive(WareLiveBean wareLiveBean) {
         String path = Config.getString("wares.updateWaresLive");
         String response = ServerUtil.httpRest(WARES_SERVER, path, null,wareLiveBean , "PUT");
         return dealResult(log,response);

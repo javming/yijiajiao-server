@@ -29,15 +29,15 @@ public interface ResourceService {
 
     ResultBean nowledgeByGradeSubjectBooktype(String gradeCode, String subjectCode, String bookTypeCode);
 
-    ResultBean createExamHead(String tag, CreateExamBean createExamBean);
+    ResultBean createExamHead(CreateExamBean createExamBean);
 
-    ResultBean createExamDetail(String tag, CreateExamDetailBean createExamDetailBean);
+    ResultBean createExamDetail(CreateExamDetailBean createExamDetailBean);
 
-    ResultBean smartCreateExam(String tag, SmartCreateExamBean createExamDetailBean);
+    ResultBean smartCreateExam(SmartCreateExamBean createExamDetailBean);
 
-    ResultBean addQuestions(String tag, AddQuestionsBean createExamDetailBean);
+    ResultBean addQuestions(AddQuestionsBean createExamDetailBean);
 
-    ResultBean markingPaper(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
+    ResultBean markingPaper(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean);
 
     ResultBean getFromRedis(RedisParam redisParam);
 

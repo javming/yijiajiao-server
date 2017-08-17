@@ -71,13 +71,14 @@ public interface SaleService {
 
     ResultBean myStudentsByCurriculumType(String openId, Integer curriculumType, int pageNo, int pageSize);
 
-    ResultBean updateAppraise(String tag, UpdateAppraiseBean updateAppraiseBean);
+    ResultBean updateAppraise(UpdateAppraiseBean updateAppraiseBean);
 
-    ResultBean createOrder(String tag, CreateOrderBean createOrderBean);
+    ResultBean createOrder(CreateOrderBean createOrderBean);
 
-    ResultBean updateAppraiseReback(String tag, UpdateAppraiseRebackBean updateAppraiseRebackBean);
+    ResultBean updateAppraiseReback(UpdateAppraiseRebackBean updateAppraiseRebackBean);
 
-    ResultBean createRefund(String tag, CreateRefundBean createRefundBean);
+    ResultBean createRefund(CreateRefundBean createRefundBean);
 
     ResultBean getClassByOrderNumer(String orderNum);
+
 }

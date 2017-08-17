@@ -1,30 +1,17 @@
 package com.yijiajiao.server.bean.user;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OpenIdBean{
+
 	private String studentId;
 	private String teacherId;
 
-	public OpenIdBean() {
-	}
-
-	public OpenIdBean(String studentId, String teacherId) {
-		this.studentId = studentId;
-		this.teacherId = teacherId;
-	}
-
-	public String getStudentId() {
-		return studentId;
-	}
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
-	}
-	public String getTeacherId() {
-		return teacherId;
-	}
-	public void setTeacherId(String teacherId) {
-		this.teacherId = teacherId;
-	}
-
-	
 }

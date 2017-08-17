@@ -832,63 +832,63 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResultBean applyPermission(String tag, ApplyPermissionBean applyPermissionBean) {
+    public ResultBean applyPermission(ApplyPermissionBean applyPermissionBean) {
         String path = Config.getString("user.applyPermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyPermissionBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean passTest(String tag, PassTestBean passTestBean) {
+    public ResultBean passTest(PassTestBean passTestBean) {
         String path = Config.getString("user.passTest");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,passTestBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean insertAnswerPermission(String tag, UpdateanswerpermissionBean updateanswerpermissionBean) {
+    public ResultBean insertAnswerPermission(UpdateanswerpermissionBean updateanswerpermissionBean) {
         String path = Config.getString("user.insertanswerpermission");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,updateanswerpermissionBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean applyInterviewTime(String tag, ApplyinterviewtimeBean applyinterviewtimeBean) {
+    public ResultBean applyInterviewTime(ApplyinterviewtimeBean applyinterviewtimeBean) {
         String path = Config.getString("user.applyinterviewtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyinterviewtimeBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean applyFacingTeachTime(String tag, ApplyfacingteachtimeBean applyfacingteachtimeBean) {
+    public ResultBean applyFacingTeachTime(ApplyfacingteachtimeBean applyfacingteachtimeBean) {
         String path = Config.getString("user.applyfacingteachtime");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,applyfacingteachtimeBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean diagnoseAnswerSubmit(String tag, DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
+    public ResultBean diagnoseAnswerSubmit(DiagnoseAnswerSubmitBean diagnoseAnswerSubmitBean) {
         String path = Config.getString("user.diagnoseAnswerSubmit");
         String response = ServerUtil.httpRest(TEACH_SERVER,path,null,diagnoseAnswerSubmitBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean applyTeacher(String tag, ApplyTeacherBean applyTeacherBean) {
+    public ResultBean applyTeacher(ApplyTeacherBean applyTeacherBean) {
         String path = Config.getString("user.applyteacher");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,applyTeacherBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean setStore(String tag, SetStoreBean setStoreBean) {
+    public ResultBean setStore(SetStoreBean setStoreBean) {
         String path = Config.getString("user.setStore");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,setStoreBean,"POST");
         return dealResult(log,response);
     }
 
     @Override
-    public ResultBean complete(String tag, CompleteInfoBean completeInfoBean) {
+    public ResultBean complete(CompleteInfoBean completeInfoBean) {
         String path = Config.getString("user.complete");
         String response = ServerUtil.httpRest(USER_SERVER,path,null,completeInfoBean,"POST");
         return dealResult(log,response);

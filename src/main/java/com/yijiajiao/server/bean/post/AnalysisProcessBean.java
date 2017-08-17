@@ -1,5 +1,6 @@
 package com.yijiajiao.server.bean.post;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReBackComplainBean {
+public class AnalysisProcessBean {
 
-	private int id;
-	private String comReply;
-	private String teaOpenId;
+	private String imgUrl;
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 
 }

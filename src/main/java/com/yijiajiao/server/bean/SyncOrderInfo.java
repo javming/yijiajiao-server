@@ -1,12 +1,18 @@
 package com.yijiajiao.server.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-/**
- * @AUTHOR zhaoming@eduspace
- * @CREATE 2017-02-07-13:32
- */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SyncOrderInfo {
+
     private String userCode; //用户code
     private String orderNum; //订单号
     private String commodityId; // 商品id
@@ -26,170 +32,4 @@ public class SyncOrderInfo {
     private String discountYard;// 优惠码
     private String price;//原价
 
-    public String getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(String orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    public String getUserCode() {
-        return userCode;
-    }
-
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
-    }
-
-    public String getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
-    }
-
-    public double getOrderPrice() {
-        return orderPrice;
-    }
-
-    public void setOrderPrice(double orderPrice) {
-        this.orderPrice = orderPrice;
-    }
-
-    public int getCommodityType() {
-        return commodityType;
-    }
-
-    public void setCommodityType(int commodityType) {
-        this.commodityType = commodityType;
-    }
-
-    public String getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public String getDiagnosisGoodsDetailCode() {
-        return diagnosisGoodsDetailCode;
-    }
-
-    public void setDiagnosisGoodsDetailCode(String diagnosisGoodsDetailCode) {
-        this.diagnosisGoodsDetailCode = diagnosisGoodsDetailCode;
-    }
-
-    public String getDiagnosisGoodsCode() {
-        return diagnosisGoodsCode;
-    }
-
-    public void setDiagnosisGoodsCode(String diagnosisGoodsCode) {
-        this.diagnosisGoodsCode = diagnosisGoodsCode;
-    }
-
-    public String getMultiPaperCode() {
-        return multiPaperCode;
-    }
-
-    public void setMultiPaperCode(String multiPaperCode) {
-        this.multiPaperCode = multiPaperCode;
-    }
-
-    public String getDiagnosticRecordsName() {
-        return diagnosticRecordsName;
-    }
-
-    public void setDiagnosticRecordsName(String diagnosticRecordsName) {
-        this.diagnosticRecordsName = diagnosticRecordsName;
-    }
-
-    public List<SlaveIdBean> getSlaves() {
-        return slaves;
-    }
-
-    public void setSlaves(List<SlaveIdBean> slaves) {
-        this.slaves = slaves;
-    }
-
-    public String getExamStartDate() {
-        return examStartDate;
-    }
-
-    public void setExamStartDate(String examStartDate) {
-        this.examStartDate = examStartDate;
-    }
-
-    public String getExamEndDate() {
-        return examEndDate;
-    }
-
-    public void setExamEndDate(String examEndDate) {
-        this.examEndDate = examEndDate;
-    }
-
-    public int getOrderSource() {
-        return orderSource;
-    }
-
-    public void setOrderSource(int orderSource) {
-        this.orderSource = orderSource;
-    }
-
-    public String getUsed() {
-        return used;
-    }
-
-    public void setUsed(String used) {
-        this.used = used;
-    }
-
-    public Double getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(Double discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    public String getDiscountYard() {
-        return discountYard;
-    }
-
-    public void setDiscountYard(String discountYard) {
-        this.discountYard = discountYard;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "SyncOrderInfo{" +
-                "userCode='" + userCode + '\'' +
-                ", commodityId='" + commodityId + '\'' +
-                ", orderPrice=" + orderPrice +
-                ", commodityType=" + commodityType +
-                ", teacherId='" + teacherId + '\'' +
-                ", diagnosisGoodsDetailCode='" + diagnosisGoodsDetailCode + '\'' +
-                ", diagnosisGoodsCode='" + diagnosisGoodsCode + '\'' +
-                ", multiPaperCode='" + multiPaperCode + '\'' +
-                ", diagnosticRecordsName='" + diagnosticRecordsName + '\'' +
-                ", slaves=" + slaves +
-                ", examStartDate='" + examStartDate + '\'' +
-                ", examEndDate='" + examEndDate + '\'' +
-                ", orderSource=" + orderSource +
-                ", used='" + used + '\'' +
-                ", discountPrice=" + discountPrice +
-                ", discountYard='" + discountYard + '\'' +
-                ", price='" + price + '\'' +
-                '}';
-    }
 }

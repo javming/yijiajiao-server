@@ -1,23 +1,17 @@
 package com.yijiajiao.server.bean.post;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GradeBean {
+
 	private String gradeName;
 	private String gradeCode;
-
-	public String getGradeName() {
-		return gradeName;
-	}
-
-	public void setGradeName(String gradeName) {
-		this.gradeName = gradeName;
-	}
-
-	public String getGradeCode() {
-		return gradeCode;
-	}
-
-	public void setGradeCode(String gradeCode) {
-		this.gradeCode = gradeCode;
-	}
 
 }
