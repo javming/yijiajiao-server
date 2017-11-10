@@ -291,4 +291,8 @@ public interface UserService {
 
     ResultBean freeStudyDiaglist(Integer pageNo, Integer pageSize, String paperName, String subjectCode,
                                  String gradeCode, String bookType);
+
+    ResultBean receiveVerifyCode(String tel, int type, String code);
+
+    ResultBean verifyCodeForResetPass(String tel, String verifyCode);
 }

@@ -14,6 +14,6 @@ public class FeedBackBean {
 
 	private String content;
 	private String openId;
-
+	private String contactWay;
 
 }

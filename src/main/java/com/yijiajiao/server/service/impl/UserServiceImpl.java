@@ -5,27 +5,15 @@ import com.eeduspace.uuims.api.OauthClient;
 import com.eeduspace.uuims.api.exception.ApiException;
 import com.eeduspace.uuims.api.model.UserModel;
 import com.eeduspace.uuims.api.request.login.LoginRequest;
-import com.eeduspace.uuims.api.request.sms.ResetPwdUserRequest;
-import com.eeduspace.uuims.api.request.sms.SmsUserRequest;
-import com.eeduspace.uuims.api.request.sms.ValidateCodeUserRequest;
-import com.eeduspace.uuims.api.request.user.ActivationUserRequest;
-import com.eeduspace.uuims.api.request.user.CreateUserRequest;
-import com.eeduspace.uuims.api.request.user.EditPasswordUserRequest;
-import com.eeduspace.uuims.api.request.user.ValidateUserRequest;
+import com.eeduspace.uuims.api.request.sms.*;
+import com.eeduspace.uuims.api.request.user.*;
 import com.eeduspace.uuims.api.response.login.LoginResponse;
-import com.eeduspace.uuims.api.response.sms.ResetPwdUserResponse;
-import com.eeduspace.uuims.api.response.sms.SmsUserResponse;
-import com.eeduspace.uuims.api.response.sms.ValidateCodeUserResponse;
-import com.eeduspace.uuims.api.response.user.ActivationUserResponse;
-import com.eeduspace.uuims.api.response.user.CreateUserResponse;
-import com.eeduspace.uuims.api.response.user.EditPasswordUserResponse;
-import com.eeduspace.uuims.api.response.user.ValidateUserResponse;
+import com.eeduspace.uuims.api.response.sms.*;
+import com.eeduspace.uuims.api.response.user.*;
 import com.eeduspace.uuims.api.util.Digest;
 import com.eeduspace.uuims.api.util.GsonUtil;
 import com.yijiajiao.server.bean.*;
 import com.yijiajiao.server.bean.post.*;
-import com.yijiajiao.server.bean.post.ApplyfacingteachtimeBean;
-import com.yijiajiao.server.bean.post.ApplyinterviewtimeBean;
 import com.yijiajiao.server.bean.solution.EaseObUserInfoBean;
 import com.yijiajiao.server.bean.user.*;
 import com.yijiajiao.server.bean.wares.CollectQueryBean;
@@ -39,9 +27,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.yijiajiao.server.util.ServerUtil.*;
 
@@ -54,7 +40,7 @@ import static com.yijiajiao.server.util.ServerUtil.*;
 public class UserServiceImpl implements UserService{
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-
+    private static final String verify = "verify-code:";
     private static OauthFactory oauthFactory    = new OauthFactory();
 
     @Autowired
@@ -1026,6 +1012,28 @@ public class UserServiceImpl implements UserService{
                 + (StringUtil.isEmpty(bookType)? "": ("&bookType=" + bookType));
         String response = ServerUtil.httpRest(TEACH_SERVER, path, null, null, "GET");
         return dealResult(log, response);
+    }
+
+    @Override
+    public ResultBean receiveVerifyCode(String tel, int type,String code) {
+        String verifyCode = RedisUtil.getValue(verify + tel);
+        log.info("从redis中获取图片验证码code = "+verifyCode);
+        if (verifyCode==null  || !verifyCode.equals(code)){
+            return ResultBean.getFailResult(SystemStatus.VERIFY_CODE_ERROR);
+        }
+        getVerifyCode(tel,type);
+        return ResultBean.getSucResult("发送成功");
+    }
+
+    @Override
+    public ResultBean verifyCodeForResetPass(String tel, String code) {
+        String verifyCode = RedisUtil.getValue(verify + tel);
+        log.info("从redis中获取图片验证码code = "+verifyCode);
+        if (verifyCode==null  || !verifyCode.equals(code)){
+            return ResultBean.getFailResult(SystemStatus.VERIFY_CODE_ERROR);
+        }
+        getPhoneVerifyCode(tel);
+        return ResultBean.getSucResult("发送成功");
     }
 
 }

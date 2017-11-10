@@ -67,10 +67,25 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getVerifyCode(@QueryParam("tel") String tel,@QueryParam("type") int type) {
-
+        if (StringUtil.isEmpty(tel) || tel.length()!=11){
+            return ResultBean.getFailResult(SystemStatus.PHONE_LENGTH_ERROR);
+        }
         return userService.getVerifyCode(tel,type);
 
     }
+    @GET
+    @Path("/receive/code")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean receiveVerifyCode(@QueryParam("tel") String tel,@QueryParam("type") int type,
+                                 @QueryParam("verifyCode") String verifyCode) {
+        if (StringUtil.isEmpty(tel) || tel.length()!=11){
+            return ResultBean.getFailResult(SystemStatus.PHONE_LENGTH_ERROR);
+        }
+        return userService.receiveVerifyCode(tel,type,verifyCode);
+
+    }
+
 
     /**
      *	验证验证码是否正确
@@ -735,7 +750,22 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     public ResultBean getPhoneVerifyCode(@QueryParam("phoneNum")String phoneNum){
 
+        if (StringUtil.isEmpty(phoneNum) || phoneNum.length()!=11){
+            return ResultBean.getFailResult(SystemStatus.PHONE_LENGTH_ERROR);
+        }
+
         return userService.getPhoneVerifyCode(phoneNum);
+    }
+
+    @GET
+    @Path("/reset/password/code")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultBean getPhoneVerifyCode(@QueryParam("tel")String tel,
+                                         @QueryParam("verifyCode") String verifyCode){
+
+        return userService.verifyCodeForResetPass(tel,verifyCode);
+
     }
 
     /**

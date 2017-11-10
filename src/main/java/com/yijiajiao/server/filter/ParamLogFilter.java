@@ -29,6 +29,7 @@ public class ParamLogFilter implements Filter {
       HttpServletRequest req = (HttpServletRequest) request;
       ServletRequest requestWrapper = new BufferedRequestWrapper(req);
       String body = FilterHelper.getBodyString(requestWrapper);
+      if (req.getRequestURL().toString().contains(".ico")) return;
       log.info("\n __[请求地址:" + req.getRequestURL() + "]\n __[queryParams:?"+req.getQueryString()
               + "]\n __[请求方法:" + req.getMethod() + "]" + (StringUtil.isEmpty(body)?"":("\n __[bodyParams:"+body)));
       Enumeration<String> headerNames = req.getHeaderNames();
