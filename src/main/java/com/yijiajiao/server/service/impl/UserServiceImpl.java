@@ -1021,8 +1021,8 @@ public class UserServiceImpl implements UserService{
         if (verifyCode==null  || !verifyCode.equals(code)){
             return ResultBean.getFailResult(SystemStatus.VERIFY_CODE_ERROR);
         }
-        getVerifyCode(tel,type);
-        return ResultBean.getSucResult("发送成功");
+        return getVerifyCode(tel,type);
+
     }
 
     @Override

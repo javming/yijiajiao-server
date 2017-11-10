@@ -62,7 +62,7 @@ public class UserController {
      * 获取手机验证码
      * @param type：1注册 2修改密码 3老师资格认证 4找回密码 5保分计划用户注册 23绑定支付宝
      */
-    @GET
+/*    @GET
     @Path("/get/verifycode")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -72,7 +72,7 @@ public class UserController {
         }
         return userService.getVerifyCode(tel,type);
 
-    }
+    }*/
     @GET
     @Path("/receive/code")
     @Produces(MediaType.APPLICATION_JSON)
@@ -744,7 +744,7 @@ public class UserController {
     /**
      * 新版获取手机验证码 （为重置密码新加）
      */
-    @GET
+/*    @GET
     @Path("/getPhoneVerifyCode")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -755,7 +755,7 @@ public class UserController {
         }
 
         return userService.getPhoneVerifyCode(phoneNum);
-    }
+    }*/
 
     @GET
     @Path("/reset/password/code")

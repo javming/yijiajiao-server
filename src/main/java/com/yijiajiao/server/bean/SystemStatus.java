@@ -20,7 +20,7 @@ public  enum SystemStatus {
   ID_NOT_FOUND(400001, "请求参数不匹配"),
   TOKEN_TIME_OUT(600002,"登录过期,请重新登录"),
   TIME_CONFLICT(600003, "与已有的课程(包括购买的和教师创建的)时间冲突！"),
-  VERIFY_CODE_ERROR(600004,"短信验证码错误"),
+  VERIFY_CODE_ERROR(600004,"验证码错误"),
   PHONE_LENGTH_ERROR(600005,"手机号格式错误");
 
   SystemStatus(int status, String str) {
